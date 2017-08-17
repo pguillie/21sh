@@ -16,8 +16,8 @@ char	**sh_envdup(char *env[])
 		if (!(new[i] = ft_strdup(env[i])))
 		{
 			while (i--)
-				ft_strdel(&new[i])
-			ft_memdel(&new);
+				ft_strdel(&new[i]);
+			ft_memdel((void**)&new);
 			return (NULL);
 		}
 		i++;

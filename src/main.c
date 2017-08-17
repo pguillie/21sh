@@ -2,20 +2,22 @@
 
 int		main(int ac, char *av[])
 {
-	t_super	*super_struct;
+	t_tc	termcaps;
+	t_token	*lexer;
 
-	if (init())
+	(void)ac;
+	(void)av;
+	if (sh_init(&termcaps))
 		return (1);
-/*
+	lexer = NULL;
 	while (1)
 	{
-		if (hci())
+		if (!(lexer = sh_hci(termcaps)))
 			return (1);
-		if (lexer_parser())
-			return (1);
-		if (execution())
-			return (1);
+	//	if (lexer_parser())
+	//		return (1);
+	//	if (execution())
+	//		return (1);
 	}
-*/
-	return (1);
+	return (0);
 }

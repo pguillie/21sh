@@ -6,15 +6,15 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/07/23 18:08:59 by pguillie         ###   ########.fr        #
+#    Updated: 2017/08/17 16:22:12 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= 42sh
+NAME	= 21sh
 CC		= gcc
 FLAGS	= -Wall -Werror -Wextra
 INCPATH	= includes/
-HEADERS	= $(addprefix $(INCPATH), shell.h snake.h)
+HEADERS	= $(addprefix $(INCPATH), shell.h)
 LIBPATH	= libft/
 LIB		= $(LIBPATH)libft.a
 TERMCAP	= -ltermcap
@@ -46,7 +46,9 @@ obj/%.o: src/%.c $(HEADERS)
 	$(CC) $(FLAGS) -I $(INCPATH) -o $@ -c $<
 
 obj:
-	mkdir -p ./obj
+	mkdir -p ./obj/environment
+	mkdir -p ./obj/hci/history
+	mkdir -p ./obj/initialization
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
 $(LIB):

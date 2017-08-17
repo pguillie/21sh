@@ -1,0 +1,21 @@
+#include "shell.h"
+
+int		sh_init(t_tc *init)
+{
+	int		success;
+
+	success = sh_init_env();
+	if (success < 0)
+		return (ft_error("Unable to duplicate environment", NULL, NULL));
+	else if (success == 0)
+		ft_error("Warning",
+				"Some environment variables could not get set.", NULL);
+	if (sh_init_termcaps(init))
+	{
+		ft_error("Warning", "Line edition will stay simplistic.", NULL);//
+		init->on = 0;
+	}
+	else
+		init->on = 1;
+	return (0);
+}
