@@ -14,7 +14,8 @@ typedef struct	s_tc
 	int		on;
 	char	data[2048];
 	char	buff[2048];
-	char	*XX;
+	char	*nd;
+	char	*le;
 }				t_tc;
 
 typedef struct	s_line
@@ -61,7 +62,7 @@ char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 **	HCI	EDITION
 */
 
-char	*sh_raw_edit(t_line *line, t_tc termcaps);
+char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
 
 /*
@@ -70,7 +71,8 @@ char	*sh_cooked_edit(void);
 
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
-int		sh_hist_write(char *line);
+int		sh_hist_write(char *line, char *last);
+void	sh_hist_del(t_line **hist);
 
 /*
 **	INITIALIZATION

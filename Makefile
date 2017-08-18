@@ -6,12 +6,13 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/17 16:22:12 by pguillie         ###   ########.fr        #
+#    Updated: 2017/08/18 13:06:15 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 CC		= gcc
+#LEAKS	= -fsanitize=address -g3
 FLAGS	= -Wall -Werror -Wextra
 INCPATH	= includes/
 HEADERS	= $(addprefix $(INCPATH), shell.h)
@@ -47,6 +48,7 @@ obj/%.o: src/%.c $(HEADERS)
 
 obj:
 	mkdir -p ./obj/environment
+	mkdir -p ./obj/hci/edition
 	mkdir -p ./obj/hci/history
 	mkdir -p ./obj/initialization
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"

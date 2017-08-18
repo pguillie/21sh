@@ -61,13 +61,17 @@ t_line	*sh_hist_read(void)
 {
 	t_line	*hist;
 	t_line	*new;
+	char	*path;
 	int		fd;
 
-	if ((fd = open(HIST_FILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0)
+	path = ft_strcjoin(getenv("HOME"), HIST_FILE, '/');
+	fd = open(path, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+	ft_strdel(&path);
+	if (fd < 0)
 		return (NULL);
 	hist = sh_hist_gnl(fd);
 	close(fd);
-	if (!(new = sh_hline_new("", hist)) || 1)
+	if (!(new = sh_hline_new("", hist)))
 		return (NULL);
 	if (hist)
 	{

@@ -13,7 +13,9 @@ int		sh_init_termcaps(t_tc *init)
 	else if (success == 0)
 		return (ft_error(termtype, "Terminal type not defined", NULL));
 	ft_bzero(init->buff, 2048);
-	if (!(init->XX = tgetstr("XX", (char**)&(init->buff))))
-		return (ft_error("XX", "termcap not provided by terminal", NULL));
+	if (!(init->nd = tgetstr("nd", (char**)&(init->buff))))
+		return (ft_error("nd", "termcap not provided by terminal", NULL));
+	if (!(init->le = tgetstr("le", (char**)&(init->buff))))
+		return (ft_error("le", "termcap not provided by terminal", NULL));
 	return (0);
 }
