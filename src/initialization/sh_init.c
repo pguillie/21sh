@@ -9,10 +9,10 @@ int		sh_init(t_tc *init)
 		return (ft_error("Unable to duplicate environment", NULL, NULL));
 	else if (success == 0)
 		ft_error("Warning",
-				"Some environment variables could not get set.", NULL);
+				"Some environment variables could not get set", NULL);
 	if (sh_init_termcaps(init))
 	{
-		ft_error("Warning", "Line edition will stay simplistic.", NULL);//
+		ft_error("Warning", "Line edition can't switch to advanced mode", NULL);//
 		init->on = 0;
 	}
 	else

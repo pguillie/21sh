@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:06:30 by pguillie          #+#    #+#             */
-/*   Updated: 2017/05/23 17:39:49 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/08/18 09:25:52 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_error(char *m, char *s, char *g)
 				ft_putstr_fd(g, 2);
 			}
 		}
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd(".\n", 2);
 		return (1);
 	}
 	return (-1);

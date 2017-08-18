@@ -21,7 +21,7 @@ t_line	*sh_hist_create(t_line *hist, char **line)
 	t_line	*new;
 
 	if (!(new = sh_hline_new(*line, hist)))
-		ft_error("Warning", "History not totally recovered.", NULL);
+		ft_error("Warning", "History not totally recovered", NULL);
 	ft_strdel(line);
 	if (hist)
 	{
@@ -53,7 +53,7 @@ t_line	*sh_hist_gnl(int fd)
 		}
 	}
 	if (ret < 0)
-		ft_error("Warning", "History not totally recovered.", NULL);
+		ft_error("Warning", "History not totally recovered", NULL);
 	return (hist);
 }
 
@@ -67,7 +67,7 @@ t_line	*sh_hist_read(void)
 		return (NULL);
 	hist = sh_hist_gnl(fd);
 	close(fd);
-	if (!(new = sh_hline_new("", hist)))
+	if (!(new = sh_hline_new("", hist)) || 1)
 		return (NULL);
 	if (hist)
 	{

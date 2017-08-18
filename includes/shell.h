@@ -1,10 +1,13 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+# include <termios.h>
 # include <termcap.h>
 # include "../libft/includes/libft.h"
 
 # define HIST_FILE ".21sh_history"
+
+typedef struct	termios t_termios;
 
 typedef struct	s_tc
 {
@@ -55,11 +58,19 @@ char	*sh_cooked_edition(void);
 char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 
 /*
+**	HCI	EDITION
+*/
+
+char	*sh_raw_edit(t_line *line, t_tc termcaps);
+char	*sh_cooked_edit(void);
+
+/*
 **	HCI	HISTORY
 */
 
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
+int		sh_hist_write(char *line);
 
 /*
 **	INITIALIZATION
