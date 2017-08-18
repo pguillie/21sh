@@ -6,7 +6,7 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/18 13:06:15 by pguillie         ###   ########.fr        #
+#    Updated: 2017/08/18 15:18:26 by lcordier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ obj/%.o: src/%.c $(HEADERS)
 
 obj:
 	mkdir -p ./obj/environment
+	mkdir -p ./obj/hci/cur_motion
 	mkdir -p ./obj/hci/edition
 	mkdir -p ./obj/hci/history
 	mkdir -p ./obj/initialization

@@ -7,15 +7,25 @@
 
 # define HIST_FILE ".21sh_history"
 
-typedef struct	termios t_termios;
+# define K_RIGHT 4448697
+# define K_LEFT 4514746
+# define K_UP 4316599
+# define K_DOWN 4382648
+# define ESC 27
+# define K_DEL_L 127
+# define K_DEL_R 214219063
+# define K_HOME 4778942
+# define K_END 4646844
 
 typedef struct	s_tc
 {
 	int		on;
 	char	data[2048];
 	char	buff[2048];
-	char	*nd;
+	char	*ce;
+	char	*dc;
 	char	*le;
+	char	*nd;
 }				t_tc;
 
 typedef struct	s_line
@@ -51,7 +61,7 @@ char	**sh_envvarsplit(char *name, char *env[]);
 char	*sh_getenv(char *name, char *env[]);
 
 /*
-**	Human-Computer Interface
+**	Human-Computer Interaction
 */
 
 t_token	*sh_hci(t_tc termcaps);
@@ -59,11 +69,23 @@ char	*sh_cooked_edition(void);
 char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 
 /*
+**	HCI	CUR_MOTION
+*/
+
+size_t	sh_cur_motion(size_t origin, size_t dest, t_tc tc);
+
+/*
 **	HCI	EDITION
 */
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
+int		sh_line_edit(t_line *line, t_tc termcaps);
+t_line	*sh_line_hist(t_line *line, t_line *new, t_tc tc);
+int		sh_ins_char(t_line *line, t_tc tc, char c);
+void	sh_del_char(t_line *line, t_tc tc, long value);
+int		sh_prompt(void);
+int		termput(int c);
 
 /*
 **	HCI	HISTORY
