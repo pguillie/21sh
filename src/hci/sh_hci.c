@@ -24,12 +24,12 @@ t_token		*sh_hci(t_tc tc)
 			sh_hist_del(&hist);
 		}
 	}
-/*	if (!tc.on || failure)
-		str = sh_cooked_edit();
+	if (!tc.on || failure)
+		failure = 1;//str = sh_cooked_edit();
 	if (str == NULL)
 	{
 		ft_error("retour null", NULL, NULL);
 		return (NULL);
 	}
-*/	return (lexer);
+	return (lexer);
 }

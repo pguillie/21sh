@@ -4,18 +4,9 @@
 # include <termios.h>
 # include <termcap.h>
 # include "../libft/includes/libft.h"
+# include "key.h"
 
 # define HIST_FILE ".21sh_history"
-
-# define K_RIGHT 4448697
-# define K_LEFT 4514746
-# define K_UP 4316599
-# define K_DOWN 4382648
-# define ESC 27
-# define K_DEL_L 127
-# define K_DEL_R 214219063
-# define K_HOME 4778942
-# define K_END 4646844
 
 typedef struct	s_tc
 {
