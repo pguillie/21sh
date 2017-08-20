@@ -1,6 +1,7 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+# include <sys/ioctl.h>
 # include <termios.h>
 # include <termcap.h>
 # include "../libft/includes/libft.h"
@@ -15,16 +16,17 @@ typedef struct	s_tc
 	char	buff[2048];
 	char	*ce;
 	char	*dc;
+	char	*dn;
 	char	*le;
 	char	*nd;
+	char	*up;
 }				t_tc;
 
 typedef struct	s_line
 {
 	char			*str;
-//	int				*pos[2]; //contient les coordonees (x;y) de chaque char de str -- (0;0) est le debut du prompt
 	size_t			cur;
-	size_t			used; // = ft_strlen(str) -> utile ? 
+	size_t			used;
 	size_t			capacity;
 	struct s_line	*prev;
 	struct s_line	*next;
@@ -63,7 +65,8 @@ char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 **	HCI	CUR_MOTION
 */
 
-size_t	sh_cur_motion(size_t origin, size_t dest, t_tc tc);
+int		sh_cur_motion(long input, t_line *line, size_t *pos);
+size_t	sh_move_cur(size_t origin, size_t dest, t_tc tc);
 
 /*
 **	HCI	EDITION
@@ -71,11 +74,11 @@ size_t	sh_cur_motion(size_t origin, size_t dest, t_tc tc);
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
-int		sh_line_edit(t_line *line, t_tc termcaps);
+int		sh_line_edit(t_line *line, int prompt_len, t_tc termcaps);
 t_line	*sh_line_hist(t_line *line, t_line *new, t_tc tc);
 int		sh_ins_char(t_line *line, t_tc tc, char c);
-void	sh_del_char(t_line *line, t_tc tc, long value);
-int		sh_prompt(void);
+void	sh_del_char(t_line *line, t_tc tc, long input);
+int		sh_prompt(int mode);
 int		termput(int c);
 
 /*

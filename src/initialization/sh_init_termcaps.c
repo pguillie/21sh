@@ -17,9 +17,13 @@ int		sh_init_termcaps(t_tc *init)
 		return (ft_error("ce", "termcap not provided by terminal", NULL));
 	if (!(init->dc = tgetstr("dc", (char**)&(init->buff))))
 		return (ft_error("dc", "termcap not provided by terminal", NULL));
+	if (!(init->dn = tgetstr("do", (char**)&(init->buff))))
+		return (ft_error("do", "termcap not provided by terminal", NULL));
 	if (!(init->le = tgetstr("le", (char**)&(init->buff))))
 		return (ft_error("le", "termcap not provided by terminal", NULL));
 	if (!(init->nd = tgetstr("nd", (char**)&(init->buff))))
 		return (ft_error("nd", "termcap not provided by terminal", NULL));
+	if (!(init->up = tgetstr("up", (char**)&(init->buff))))
+		return (ft_error("up", "termcap not provided by terminal", NULL));
 	return (0);
 }

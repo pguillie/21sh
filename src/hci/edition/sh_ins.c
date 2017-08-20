@@ -13,6 +13,6 @@ int		sh_ins_char(t_line *line, t_tc tc, char c)
 			ft_strlen(line->str + line->cur));
 	line->str[line->cur] = c;
 	ft_putstr(line->str + line->cur);
-	line->cur = sh_cur_motion(++line->used, line->cur + 1, tc);
+	line->cur = sh_move_cur(++line->used, line->cur + 1, tc);
 	return (0);
 }

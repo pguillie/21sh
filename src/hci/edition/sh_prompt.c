@@ -1,7 +1,19 @@
 #include "shell.h"
 
-int		sh_prompt(void)
+int		sh_prompt(int mode)
 {
-	ft_putstr("prompt $ ");
-	return (0);
+	int		len;
+
+	len = -1;
+	if (mode == 1)
+	{
+		ft_putstr("prompt $ ");
+		len = 9;
+	}
+	else if (mode == 2)
+	{
+		ft_putstr("> ");
+		len = 2;
+	}
+	return (len);
 }

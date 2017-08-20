@@ -3,11 +3,12 @@
 char	*sh_raw_edit(t_line *line, char *last, t_tc tc)
 {
 	struct termios	backup;
+	int				prompt;
 
 	if (term_raw(&backup, 0, 1))
 		return (NULL);
-	sh_prompt();
-	sh_line_edit(line, tc);
+	prompt = sh_prompt(1);
+	sh_line_edit(line, prompt, tc);
 	if (tcsetattr(0, TCSANOW, &backup) < 0)
 	{
 		ft_error("Unable to restore termios structure", NULL, NULL);

@@ -1,14 +1,16 @@
 #include "shell.h"
 
-size_t	sh_cur_motion(size_t origin, size_t dest, t_tc tc)
+int		sh_cur_motion(long input, t_line *line, size_t *dest)
 {
-	int		move;
-
-	move = dest - origin;
-	while (move)
-	{
-		tputs(move > 0 ? tc.nd : tc.le, 0, termput);
-		move += move > 0 ? -1 : 1;
-	}
-	return (dest);
+	if (input == K_RIGHT && line->str[line->cur])
+		*dest = line->cur + 1;
+	else if (input == K_LEFT && line->cur)
+		*dest = line->cur - 1;
+	else if (input == K_HOME)
+		*dest = 0;
+	else if (input == K_END)
+		*dest = line->used;
+	else
+		return (0);
+	return (1);
 }
