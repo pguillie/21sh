@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_ins_char(t_line *line, t_tc tc, char c)
+int		sh_ins_char(t_line *line, t_tc tc, t_coord *coord, char c)
 {
 	if (line->used == line->capacity - 1)
 	{
@@ -13,6 +13,9 @@ int		sh_ins_char(t_line *line, t_tc tc, char c)
 			ft_strlen(line->str + line->cur));
 	line->str[line->cur] = c;
 	ft_putstr(line->str + line->cur);
-	line->cur = sh_move_cur(++line->used, line->cur + 1, tc);
+	// usleep(300000);
+	line->used += 1;
+	coord = sh_create_coord(line, tc.prompt);
+	line->cur = sh_move_cur(line->used, line->cur + 1, coord, tc);
 	return (0);
 }

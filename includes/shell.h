@@ -12,6 +12,7 @@
 typedef struct	s_tc
 {
 	int		on;
+	int		prompt;
 	char	data[2048];
 	char	buff[2048];
 	char	*ce;
@@ -31,6 +32,12 @@ typedef struct	s_line
 	struct s_line	*prev;
 	struct s_line	*next;
 }				t_line;
+
+typedef struct	s_coord
+{
+	int	x;
+	int	y;
+}				t_coord;
 
 typedef struct	s_cpypst
 {
@@ -66,7 +73,8 @@ char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 */
 
 int		sh_cur_motion(long input, t_line *line, size_t *pos);
-size_t	sh_move_cur(size_t origin, size_t dest, t_tc tc);
+size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
+t_coord	*sh_create_coord(t_line *line, int prompt);
 
 /*
 **	HCI	EDITION
@@ -74,10 +82,10 @@ size_t	sh_move_cur(size_t origin, size_t dest, t_tc tc);
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
-int		sh_line_edit(t_line *line, int prompt_len, t_tc termcaps);
-t_line	*sh_line_hist(t_line *line, t_line *new, t_tc tc);
-int		sh_ins_char(t_line *line, t_tc tc, char c);
-void	sh_del_char(t_line *line, t_tc tc, long input);
+int		sh_line_edit(t_line *line, t_tc termcaps);
+t_line	*sh_line_hist(t_line *line, t_line *new, t_coord *coord, t_tc tc);
+int		sh_ins_char(t_line *line, t_tc tc, t_coord *coord, char c);
+void	sh_del_char(t_line *line, t_tc tc, t_coord *coord, long input);
 int		sh_prompt(int mode);
 int		termput(int c);
 

@@ -1,5 +1,5 @@
 #include "shell.h"
-
+/*
 int		sh_ckd_edit(void)
 {
 	char	*line[3];
@@ -18,13 +18,14 @@ int		sh_ckd_edit(void)
 		if (!success[1])
 		{
 			line[0] ? ft_strdel(&line[0]) : 0;
-	//		return (ft_error(term->prg, "Unable to append new line", NULL));
+			return (ft_error(term->prg, "Unable to append new line", NULL));
 		}
 		if ((success[0] = sh_lexer(term->prg, line[0], &lexer)) < 0)
 			return (sh_token_del(&lexer) - 1);
 	}
 	if (sh_hist_nl(line[0], term))
-	//	ft_printf("%s: Unable to append new line to history file\n", term->prg);
+		ft_printf("%s: Unable to append new line to history file\n", term->prg);
 	ft_strdel(&line[0]);
 	return (0);
 }
+*/
