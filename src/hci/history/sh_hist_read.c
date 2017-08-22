@@ -65,7 +65,7 @@ t_line	*sh_hist_read(void)
 	int		fd;
 
 	path = ft_strcjoin(getenv("HOME"), HIST_FILE, '/');
-	fd = open(path, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+	fd = open(path ? path : HIST_FILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	ft_strdel(&path);
 	if (fd < 0)
 		return (NULL);
