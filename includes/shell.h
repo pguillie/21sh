@@ -13,7 +13,7 @@
 # define K_DOWN 4382648
 # define ESC 27
 # define K_DEL_L 127
-# define K_DEL_R 214219063
+# define K_DEL_R 2142190631
 # define K_HOME 4778942
 # define K_END 4646844
 
@@ -33,7 +33,7 @@ typedef struct	s_line
 	char			*str;
 //	int				*pos[2]; //contient les coordonees (x;y) de chaque char de str -- (0;0) est le debut du prompt
 	size_t			cur;
-	size_t			used; // = ft_strlen(str) -> utile ? 
+	size_t			used; // = ft_strlen(str) -> utile ?
 	size_t			capacity;
 	struct s_line	*prev;
 	struct s_line	*next;
