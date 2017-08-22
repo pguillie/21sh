@@ -22,9 +22,8 @@ typedef struct	s_tc
 typedef struct	s_line
 {
 	char			*str;
-//	int				*pos[2]; //contient les coordonees (x;y) de chaque char de str -- (0;0) est le debut du prompt
 	size_t			cur;
-	size_t			used; // = ft_strlen(str) -> utile ? 
+	size_t			used;
 	size_t			capacity;
 	struct s_line	*prev;
 	struct s_line	*next;
