@@ -1,0 +1,171 @@
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: -1
+ dest:0 pos:1move x: 11
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: -1
+ dest:0 pos:1move x: 8
+
+move y: 0
+ dest:0 pos:0move x: 1
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: -1
+ dest:0 pos:1move x: 9
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: -1
+ dest:0 pos:1move x: 9
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: -1
+ dest:0 pos:1move x: 11
+
+move y: -1
+ dest:0 pos:1move x: 10
+
+move y: 1
+ dest:1 pos:0move x: -11
+
+move y: 0
+ dest:1 pos:1move x: 1
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: -1
+ dest:0 pos:1move x: 11
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 1
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 1
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 1
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: 0
+
+move y: 0
+ dest:0 pos:0move x: -1
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: 0
+ dest:1 pos:1move x: -1
+
+move y: 0
+ dest:1 pos:1move x: 0
+
+move y: -1
+ dest:0 pos:1move x: 11
+
+move y: 1
+ dest:1 pos:0move x: -11
+
+move y: -1
+ dest:0 pos:1move x: 11
+
+move y: 1
+ dest:1 pos:0move x: -11
