@@ -2,6 +2,10 @@
 
 void    sh_del_char(t_line *line, t_tc tc, t_coord *coord, long value)
 {
+	struct winsize	w;
+
+	if (ioctl(0, TIOCGWINSZ, &w) < 0)
+		return ;
 	if (value == K_DEL_L)
 		line->cur = sh_move_cur(line->cur, line->cur - 1, coord, tc);
 	ft_memmove(line->str + line->cur, line->str + line->cur + 1,
@@ -10,5 +14,8 @@ void    sh_del_char(t_line *line, t_tc tc, t_coord *coord, long value)
 	tputs(tc.dc, 0, termput);
 	line->used -= 1;
 	coord = sh_create_coord(line, tc.prompt);
+	if ((line->cur + tc.prompt) % (w.ws_col - 1) == 0)
+	
+
 	line->cur = sh_move_cur(line->used, line->cur, coord, tc);
 }
