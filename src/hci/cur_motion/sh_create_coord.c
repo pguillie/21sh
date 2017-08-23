@@ -9,7 +9,7 @@ t_coord		*sh_create_coord(t_line *line, int prompt)
 
 	if (ioctl(0, TIOCGWINSZ, &w) < 0)
 		return (NULL);
-	if (!(new = (t_coord*)ft_memalloc(sizeof(t_coord) * line->used)))
+	if (!(new = (t_coord*)ft_memalloc(sizeof(t_coord) * (line->used + 1))))
 		return (NULL);
 	i = 0;
 	cur.x = prompt;
