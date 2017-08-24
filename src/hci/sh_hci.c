@@ -19,7 +19,7 @@ t_token		*sh_hci(t_tc tc)
 		else
 		{
 			last = hist->prev ? ft_strjoin(hist->prev->str, "\n") : NULL;
-			str = sh_raw_edit(hist, last, tc);
+			str = ft_strdup(sh_raw_edit(hist, last, tc));
 			if (last)
 				ft_strdel(&last);
 			sh_hist_del(&hist);

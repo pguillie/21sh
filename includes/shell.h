@@ -82,7 +82,7 @@ t_coord	*sh_create_coord(t_line *line, int prompt);
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
-int		sh_line_edit(t_line *line, t_tc termcaps);
+int		sh_line_edit(t_line **line, t_tc termcaps);
 t_line	*sh_line_hist(t_line *line, t_line *new, t_coord **coord, t_tc tc);
 int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c);
 void	sh_del_char(t_line *line, t_tc tc, t_coord **coord, long input);
