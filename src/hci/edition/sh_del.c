@@ -32,5 +32,7 @@ void    sh_del_char(t_line *line, t_tc tc, t_coord **coord, long value)
 	line->used -= 1;
 	free(*coord);
 	*coord = sh_create_coord(line, tc.prompt);
+	if ((*coord)[line->used].x == 0 && line->cur != line->used)
+		ft_putstr("\n");
 	line->cur = sh_move_cur(line->used, line->cur, *coord, tc);
 }

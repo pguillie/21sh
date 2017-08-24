@@ -9,6 +9,7 @@ t_token		*sh_hci(t_tc tc)
 	int		failure;
 
 	(void)tc;
+	str = NULL;
 	lexer = NULL;///////
 	failure = 0;
 	if (tc.on)
