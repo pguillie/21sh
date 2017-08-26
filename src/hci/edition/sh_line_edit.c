@@ -22,7 +22,7 @@ int		sh_line_edit(t_line **line, t_tc tc)
 	while ((input = key_input()) != '\n')
 	{
 	//	dispcoord(coord, line->used + 1);
-		if (sh_cur_motion(input, *line, &pos))
+		if (sh_cur_motion(input, *line, &pos, coord))
 			(*line)->cur = sh_move_cur((*line)->cur, pos, coord, tc);
 		else if ((input == K_DEL_L && (*line)->cur) || (input == K_DEL_R &&
 			(*line)->str[(*line)->cur]))

@@ -12,7 +12,7 @@ void	sh_del_after(t_line *line, t_tc tc, t_coord *coord)
 	{
 		if (coord[line->cur + browse].x == 0)
 		{
-			ft_putstr("\n\r");
+			ft_putstr("\n");
 			tputs(tc.cd, 0, termput);
 			last = line->cur + browse;
 		}
@@ -28,11 +28,8 @@ void    sh_del_char(t_line *line, t_tc tc, t_coord **coord, long value)
 	ft_memmove(line->str + line->cur, line->str + line->cur + 1,
 			ft_strlen(line->str + line->cur));
 	sh_del_after(line, tc, *coord);
-	ft_putstr(line->str + line->cur);
 	line->used -= 1;
 	free(*coord);
 	*coord = sh_create_coord(line, tc.prompt);
-	if ((*coord)[line->used].x == 0 && line->cur != line->used)
-		ft_putstr("\n");
-	line->cur = sh_move_cur(line->used, line->cur, *coord, tc);
+	sh_disp_line(line, *coord, tc);
 }

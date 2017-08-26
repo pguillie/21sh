@@ -13,6 +13,8 @@ typedef struct	s_tc
 {
 	int		on;
 	int		prompt;
+	int		select[2];
+	char	*clipboard;
 	char	data[2048];
 	char	buff[2048];
 	char	*cd;
@@ -38,12 +40,6 @@ typedef struct	s_coord
 	int	x;
 	int	y;
 }				t_coord;
-
-typedef struct	s_cpypst
-{
-	int		select[2];
-	char	*clipboard;
-}				t_cpypst;
 
 typedef struct	s_token
 {
@@ -72,9 +68,11 @@ char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 **	HCI	CUR_MOTION
 */
 
-int		sh_cur_motion(long input, t_line *line, size_t *pos);
+int		sh_cur_motion(long input, t_line *line, size_t *pos, t_coord *coord);
 size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
-t_coord	*sh_create_coord(t_line *line, int prompt);
+size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret);
+size_t	sh_move_word(long input, t_line *line);
+t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 /*
 **	HCI	EDITION
@@ -82,6 +80,7 @@ t_coord	*sh_create_coord(t_line *line, int prompt);
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
 char	*sh_cooked_edit(void);
+void	sh_disp_line(t_line *line, t_coord *coord, t_tc termcaps);
 int		sh_line_edit(t_line **line, t_tc termcaps);
 t_line	*sh_line_hist(t_line *line, t_line *new, t_coord **coord, t_tc tc);
 int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c);
