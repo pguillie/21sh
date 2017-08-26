@@ -2,36 +2,22 @@
 
 size_t	sh_move_cur(size_t pos, size_t dest, t_coord *coord, t_tc tc)
 {
-	struct termios	term;
-	int				move;
+	int		vmove;
+	int		hmove;
 
-	int		fd;
-
-	fd = open("./test", O_WRONLY | O_APPEND | O_CREAT,
-				S_IRUSR | S_IWUSR);
-	if (tcgetattr(0, &term) < 0)
-		return (ft_error("Unable to get the termios structure", NULL, NULL));
-	term.c_oflag &= ~OPOST;
-	if (tcsetattr(0, TCSANOW, &term) < 0)
-		return (ft_error("Unable to set raw termios structure", NULL, NULL));
-	move = coord[dest].y - coord[pos].y;
-	dprintf(fd,"\nmove y: %d\n dest:%d pos:%d", move, coord[dest].y, coord[pos].y);
-	while (move)
+	vmove = coord[dest].y - coord[pos].y;
+	hmove = vmove > 0 ? coord[dest].x : coord[dest].x - coord[pos].x;
+	while (vmove)
 	{
-		tputs(move > 0 ? tc.dn : tc.up, 0, termput);
-		move += move < 0 ? 1 : -1;
-		// usleep(100000);
+		tputs(vmove > 0 ? tc.dn : tc.up, 0, termput);
+		vmove += vmove < 0 ? 1 : -1;
+//		usleep(100000);
 	}
-	move = coord[dest].x - coord[pos].x;
-	dprintf(fd,"move x: %d\n", move);
-	while (move)
+	while (hmove)
 	{
-		tputs(move > 0 ? tc.nd : tc.le, 0, termput);
-		move += move < 0 ? 1 : -1;
-		// usleep(100000);
+		tputs(hmove > 0 ? tc.nd : tc.le, 0, termput);
+		hmove += hmove < 0 ? 1 : -1;
+//		usleep(100000);
 	}
-	term.c_oflag |= OPOST;
-	if (tcsetattr(0, TCSANOW, &term) < 0)
-		return (ft_error("Unable to set raw termios structure", NULL, NULL));
 	return (dest);
 }
