@@ -25,5 +25,7 @@ int		sh_init_termcaps(t_tc *init)
 		return (ft_error("nd", "termcap not provided by terminal", NULL));
 	if (!(init->up = tgetstr("up", (char**)&(init->buff))))
 		return (ft_error("up", "termcap not provided by terminal", NULL));
+	init->vi = tgetstr("vi", (char**)&(init->buff));
+	init->ve = tgetstr("ve", (char**)&(init->buff));
 	return (0);
 }

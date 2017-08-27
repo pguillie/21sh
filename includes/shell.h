@@ -23,6 +23,8 @@ typedef struct	s_tc
 	char	*le;
 	char	*nd;
 	char	*up;
+	char	*vi;
+	char	*ve;
 }				t_tc;
 
 typedef struct	s_line
