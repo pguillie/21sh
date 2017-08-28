@@ -1,5 +1,14 @@
 #include "shell.h"
 
+static void	disp(t_token *lexer)
+{
+	while (lexer)
+	{
+		ft_printf("category:%2d -- lexeme:%s\n", lexer->category, lexer->lexeme);
+		lexer = lexer->next;
+	}
+}
+
 t_token		*sh_hci(t_tc tc)
 {
 	t_line	*hist;
@@ -26,7 +35,8 @@ t_token		*sh_hci(t_tc tc)
 		}
 	}
 	if (!tc.on || failure)
-		failure = 1;//str = sh_cooked_edit();
+		sh_ckd_edit(&lexer);
+	disp(lexer);
 	if (str == NULL)
 	{
 		ft_error("retour null", NULL, NULL);

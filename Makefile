@@ -6,13 +6,13 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/18 15:18:26 by lcordier         ###   ########.fr        #
+#    Updated: 2017/08/28 16:49:59 by mdescamp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 CC		= gcc
-#LEAKS	= -fsanitize=address -g3
+LEAKS	= -fsanitize=address -g3
 FLAGS	= -Wall -Werror -Wextra
 INCPATH	= includes/
 HEADERS	= $(addprefix $(INCPATH), shell.h)
@@ -40,7 +40,7 @@ $(NAME): obj $(LIB) $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LIB) $(TERMCAP)
 	@ echo "$(GREEN)[$@]: binary successfully created !$(EOC)"
 
-obj/%.o: src/%.c $(HEADERS)
+obj/%.o: src/%.c $(HEADERS) Makefile
 	$(eval FILE=$(shell echo $$(($(FILE) + 1))))
 	$(eval PERCENT=$(shell echo $$(($(FILE) * 100 / $(NB)))))
 	@ echo "[$(NAME)]: $(PERCENT)% ($(FILE)/$(NB))\r\c"
@@ -51,6 +51,7 @@ obj:
 	mkdir -p ./obj/hci/cur_motion
 	mkdir -p ./obj/hci/edition
 	mkdir -p ./obj/hci/history
+	mkdir -p ./obj/hci/lexer
 	mkdir -p ./obj/initialization
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 

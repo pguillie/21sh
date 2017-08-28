@@ -6,6 +6,7 @@
 # include <termcap.h>
 # include "../libft/includes/libft.h"
 # include "key.h"
+# include "category.h"
 
 # define HIST_FILE ".21sh_history"
 
@@ -63,7 +64,7 @@ char	*sh_getenv(char *name, char *env[]);
 */
 
 t_token	*sh_hci(t_tc termcaps);
-char	*sh_cooked_edition(void);
+int		sh_ckd_edit(t_token **begin);
 char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 
 /*
@@ -81,7 +82,6 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 */
 
 char	*sh_raw_edit(t_line *line, char *last, t_tc termcaps);
-char	*sh_cooked_edit(void);
 void	sh_disp_line(t_line *line, t_coord *coord, t_tc termcaps);
 int		sh_line_edit(t_line **line, t_tc termcaps);
 t_line	*sh_line_hist(t_line *line, t_line *new, t_coord **coord, t_tc tc);
@@ -99,6 +99,19 @@ t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
 int		sh_hist_write(char *line, char *last);
 void	sh_hist_del(t_line **hist);
+
+/*
+**	HCI	LEXER
+*/
+
+int		sh_lexer(char *str, t_token **begin);
+int		sh_lex_word(char *str);
+int		sh_metachar(char c);
+int		sh_ctrl_op(char *str);
+int		sh_rdir_op(char *str);
+t_token	*sh_token_del(t_token **begin);
+t_token	*sh_token_new(char *str, size_t *i);
+int		sh_category(char *str);
 
 /*
 **	INITIALIZATION
