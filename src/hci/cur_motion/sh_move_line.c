@@ -6,7 +6,7 @@ size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret)
 	size_t	end;
 
 	i = 0;
-	if ((input == K_UP && coord[line->cur].y == 0) 
+	if ((input == K_UP && coord[line->cur].y == coord[0].y)
 			|| (input == K_DOWN && coord[line->cur].y == coord[line->used].y))
 	{
 		*ret = 0;

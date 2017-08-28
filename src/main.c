@@ -7,6 +7,7 @@ int		main(int ac, char *av[])
 
 	(void)ac;
 	(void)av;
+
 	if (sh_init(&termcaps))
 		return (1);
 	lexer = NULL;
