@@ -29,10 +29,10 @@ int		sh_line_edit(t_line **line, t_tc tc)
 			sh_del_char(*line, tc, &coord, input);
 		else if (input >= ' ' && input < 127)
 			sh_ins_char(*line, tc, &coord, input);
-		else if ((input == K_UP && (*line)->prev) || (input == K_DOWN &&
-			(*line)->next))
-			*line = sh_line_hist(*line, input == K_UP ? (*line)->prev :
-			(*line)->next, &coord, tc);
+		else if (((input == K_UP || input == K_P_UP) && (*line)->prev) ||
+				((input == K_DOWN || input == K_P_DOWN) && (*line)->next))
+			*line = sh_line_hist(*line, (input == K_UP || input == K_P_UP) ?
+					(*line)->prev : (*line)->next, &coord, tc);
 	}
 	sh_ins_char(*line, tc, &coord, '\n');
 	return (0);
