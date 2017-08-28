@@ -60,7 +60,7 @@ char	**sh_envvarsplit(char *name, char *env[]);
 char	*sh_getenv(char *name, char *env[]);
 
 /*
-**	Human-Computer Interaction
+**	HCI	(Human-Computer Interaction)
 */
 
 t_token	*sh_hci(t_tc termcaps);
@@ -112,6 +112,18 @@ int		sh_rdir_op(char *str);
 t_token	*sh_token_del(t_token **begin);
 t_token	*sh_token_new(char *str, size_t *i);
 int		sh_category(char *str);
+
+/*
+**	HCI	PROMPT
+*/
+
+int		sh_prompt(int mode);
+int		sh_print_prompt(char *ps);
+int		sh_prompt_conv(char c);
+int		sh_prompt_dollar(void);
+int		sh_prompt_host(void);
+int		sh_prompt_user(void);
+int		sh_prompt_workdir(void);
 
 /*
 **	INITIALIZATION

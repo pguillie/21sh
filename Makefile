@@ -52,6 +52,7 @@ obj:
 	mkdir -p ./obj/hci/edition
 	mkdir -p ./obj/hci/history
 	mkdir -p ./obj/hci/lexer
+	mkdir -p ./obj/hci/prompt
 	mkdir -p ./obj/initialization
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
