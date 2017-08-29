@@ -68,6 +68,14 @@ int		sh_ckd_edit(t_token **begin);
 char	*sh_raw_edition(t_line *hist, t_tc termcaps);
 
 /*
+**	HCI	CONVERTIONS
+*/
+
+char	sh_conv(char *str);
+char	sh_conv_oct(char *str);
+char	sh_conv_hex(char *str);
+
+/*
 **	HCI	CUR_MOTION
 */
 
@@ -119,7 +127,7 @@ int		sh_category(char *str, int *status);
 
 int		sh_prompt(int mode);
 int		sh_print_prompt(char *ps);
-int		sh_prompt_conv(char c);
+int		sh_prompt_conv(char *str);
 int		sh_prompt_dollar(void);
 int		sh_prompt_host(void);
 int		sh_prompt_user(void);

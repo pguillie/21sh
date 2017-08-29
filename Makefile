@@ -6,7 +6,7 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/28 16:49:59 by mdescamp         ###   ########.fr        #
+#    Updated: 2017/08/29 12:05:50 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ obj/%.o: src/%.c $(HEADERS) Makefile
 
 obj:
 	mkdir -p ./obj/environment
+	mkdir -p ./obj/hci/conversions
 	mkdir -p ./obj/hci/cur_motion
 	mkdir -p ./obj/hci/edition
 	mkdir -p ./obj/hci/history

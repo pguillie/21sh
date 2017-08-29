@@ -1,14 +1,18 @@
 #include "shell.h"
 
-int		sh_prompt_conv(char c)
+int		sh_prompt_conv(char *str)
 {
-	if (c == 'u')
+	char	c;
+
+	if (str[0] == 'u')
 		return (sh_prompt_user());
-	if (c == 'h')
+	if (str[0] == 'h')
 		return (sh_prompt_host());
-	if (c == 'w')
+	if (str[0] == 'w')
 		return (sh_prompt_workdir());
-	if (c == '$')
+	if (str[0] == '$')
 		return (sh_prompt_dollar());
+	c = sh_conv(str);
+	ft_putchar(c);
 	return (0);
 }
