@@ -23,12 +23,9 @@ t_token		*sh_hci(t_tc tc)
 	t_line	*hist;
 	t_token	*lexer;
 	char	*last;
-	char	*str;//tmp
 	int		failure;
 
-	(void)tc;
-	str = NULL;
-	lexer = NULL;///////
+	lexer = NULL;
 	failure = 0;
 	if (tc.on)
 	{
@@ -36,9 +33,9 @@ t_token		*sh_hci(t_tc tc)
 			failure = ft_error("Warning", "An error occured while preparing history", "you will be redirect to basic edition");
 		else
 		{
-			disphist(hist);
+	//		disphist(hist);
 			last = hist->prev ? ft_strjoin(hist->prev->str, "\n") : NULL;
-			str = ft_strdup(sh_raw_edit(hist, last, tc));
+			sh_raw_edit(hist, last, &lexer, tc);
 			if (last)
 				ft_strdel(&last);
 			sh_hist_del(&hist);
@@ -47,10 +44,5 @@ t_token		*sh_hci(t_tc tc)
 	if (!tc.on || failure)
 		sh_ckd_edit(&lexer);
 	displex(lexer);
-	if (str == NULL)
-	{
-		ft_error("retour null", NULL, NULL);
-		return (NULL);
-	}
 	return (lexer);
 }

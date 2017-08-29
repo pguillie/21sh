@@ -34,6 +34,8 @@ int				sh_lexer(char *str, t_token **begin)
 	size_t		i[2];
 	int			status;
 
+	if (!str || !str[0])
+		return (0);
 	i[0] = 0;
 	sh_token_del(begin);
 	cur = NULL;

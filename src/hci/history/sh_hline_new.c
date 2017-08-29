@@ -12,7 +12,7 @@ t_line	*sh_hline_new(char *str, t_line *prev)
 		ft_memdel((void**)new);
 		return (NULL);
 	}
-	ft_strcat(new->str, str);
+	ft_strcat(new->st, str);
 	new->used = ft_strlen(str);
 	new->cur = 0;
 	new->prev = prev;

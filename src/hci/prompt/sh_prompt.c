@@ -14,6 +14,5 @@ int		sh_prompt(int mode)
 	ps[1] = ft_strdup("> ");
 	ps[2] = NULL;
 	ps[3] = NULL;
-	ft_putendl(ps[0]);
 	return (sh_print_prompt(ps[mode - 1]));
 }
