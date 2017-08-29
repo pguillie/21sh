@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_prompt_user(void)
+int		sh_prt_user(void)
 {
 	char	*user;
 
