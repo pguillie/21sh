@@ -1,6 +1,6 @@
 #include "shell.h"
 
-t_token	*sh_token_del(t_token **begin)
+int		sh_token_del(t_token **begin)
 {
 	t_token	*tmp;
 
@@ -11,5 +11,5 @@ t_token	*sh_token_del(t_token **begin)
 		ft_memdel((void**)begin);
 		*begin = tmp;
 	}
-	return (NULL);
+	return (1);
 }

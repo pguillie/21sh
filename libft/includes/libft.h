@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 16:04:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/07/11 19:38:05 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/08/29 19:24:15 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char				*ft_strinsert(char *dest, char *src, size_t pos);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strjoinf(char *s1, char const *s2);
 char				*ft_strcjoin(char const *s1, char const *s2, char c);
+char				*ft_strjoin3(char const *s1, char const *s2,
+						char const *s3);
 char				*ft_strchrapp(char const *s1, char c);
 char				*ft_strpaste(char *dest, const char *src);
 char				*ft_strstr(const char *big, const char *little);

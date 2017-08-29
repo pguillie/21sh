@@ -14,7 +14,10 @@ static t_token	*sh_lex_token(char *lexeme, int *status, t_token **begin, t_token
 	t_token		*new;
 
 	if (!(new = sh_token_new(lexeme, status)))
-		return (sh_token_del(begin));
+	{
+		sh_token_del(begin);
+		return (NULL);
+	}
 	if (!*begin)
 	{
 		*begin = new;
@@ -34,7 +37,9 @@ int				sh_lexer(char *str, t_token **begin)
 	size_t		i[2];
 	int			status;
 
-	if (!str || !str[0])
+	if (!str)
+		return (-1);
+	if (!str[0])
 		return (0);
 	i[0] = 0;
 	sh_token_del(begin);

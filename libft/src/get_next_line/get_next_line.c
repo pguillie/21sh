@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 15:56:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/08/28 14:57:29 by mdescamp         ###   ########.fr       */
+/*   Updated: 2017/08/29 19:11:52 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		get_next_line(const int fd, char **line)
 	}
 	while (str[i] && str[i] != '\n')
 		i++;
-	*line = ft_strsub(str, 0, str[i] == '\n' ? i + 1 : i);
+	*line = ft_strsub(str, 0, i);
 	ft_memmove(str, str + i + 1, ft_strlen(str) - (i > 1 ? 1 : 0));
 	return (1);
 }

@@ -11,7 +11,7 @@ int		sh_print_prompt(char *ps)
 	{
 		if (ps[i] == '\\')
 		{
-			len += sh_prompt_conv(ps + ++i);
+			len += sh_prompt_conv(ps[++i]);
 			if (ps[i])
 				i++;
 		}
