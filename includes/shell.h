@@ -120,10 +120,12 @@ int		sh_category(char *str);
 int		sh_prompt(int mode);
 int		sh_print_prompt(char *ps);
 int		sh_prompt_conv(char c);
-int		sh_prompt_dollar(void);
-int		sh_prompt_host(void);
-int		sh_prompt_user(void);
-int		sh_prompt_workdir(void);
+int		sh_prt_date(void);
+int		sh_prt_host(char c);
+int		sh_prt_time(char c);
+int		sh_prt_user(void);
+int		sh_prt_wdir(char c);
+int		sh_prt_end(void);
 
 /*
 **	INITIALIZATION

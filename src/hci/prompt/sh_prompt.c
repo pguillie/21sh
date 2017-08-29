@@ -10,8 +10,9 @@ int		sh_prompt(int mode)
 {
 	char	*ps[4];
 
-	ps[0] = ft_strdup("\\u@\\h \\w \\$ ");
-	ps[1] = ft_strdup("> \\$ ");
+//	ps[0] = ft_strdup("\\e[32;01m\\u@\\h \\e[34;01m\\w \\$\\e[0m ");
+	ps[0] = ft_strdup("\\t\\n\\T\\n\\@\\n\\A \\$ ");
+	ps[1] = ft_strdup("> ");
 	ps[2] = NULL;
 	ps[3] = NULL;
 	return (sh_print_prompt(ps[mode - 1]));
