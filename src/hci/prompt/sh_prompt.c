@@ -11,7 +11,7 @@ int		sh_prompt(int mode)
 	char	*ps[4];
 
 	ps[0] = ft_strdup("\\u@\\h \\w \\$ ");
-	ps[1] = ft_strdup("> \\$ ");
+	ps[1] = ft_strdup("> ");
 	ps[2] = NULL;
 	ps[3] = NULL;
 	return (sh_print_prompt(ps[mode - 1]));

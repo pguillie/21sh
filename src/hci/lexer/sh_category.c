@@ -13,28 +13,27 @@ static int	sh_cat_sep(char *str)
 	return (0);
 }
 
-int			sh_category(char *str)
+int			sh_category(char *str, int *status)
 {
-	static int	status = CMD;
 	int			sep;
 
 	if ((sep = sh_cat_sep(str)))
 	{
-		status = CMD;
+		*status = CMD;
 		return (sep);
 	}
 	if (sh_rdir_op(str))
 		return (REDIRECTION);
-	if (status == CMD)
-		return (status--);
-	if (status == OPT)
+	if (*status == CMD)
+		return ((*status)--);
+	if (*status == OPT)
 	{
 		if (ft_strnequ(str, "--", 2))
-			return (status--);
+			return ((*status)--);
 		if (str[0] == '-')
-			return (status);
+			return (*status);
 		else
-			status = ARG;
+			*status = ARG;
 	}
-	return (status);
+	return (*status);
 }

@@ -1,11 +1,20 @@
 #include "shell.h"
 
-static void	disp(t_token *lexer)
+static void	displex(t_token *lexer)
 {
 	while (lexer)
 	{
 		ft_printf("category:%2d -- lexeme:%s\n", lexer->category, lexer->lexeme);
 		lexer = lexer->next;
+	}
+}
+
+void disphist(t_line *line)
+{
+	while (line)
+	{
+		ft_printf("hist: '%s'\n", line->str);
+		line = line->prev;
 	}
 }
 
@@ -27,6 +36,7 @@ t_token		*sh_hci(t_tc tc)
 			failure = ft_error("Warning", "An error occured while preparing history", "you will be redirect to basic edition");
 		else
 		{
+			disphist(hist);
 			last = hist->prev ? ft_strjoin(hist->prev->str, "\n") : NULL;
 			str = ft_strdup(sh_raw_edit(hist, last, tc));
 			if (last)
@@ -36,7 +46,7 @@ t_token		*sh_hci(t_tc tc)
 	}
 	if (!tc.on || failure)
 		sh_ckd_edit(&lexer);
-	disp(lexer);
+	displex(lexer);
 	if (str == NULL)
 	{
 		ft_error("retour null", NULL, NULL);

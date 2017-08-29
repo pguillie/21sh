@@ -1,13 +1,15 @@
 #include "shell.h"
 
-t_token		*sh_token_new(char *str, size_t *i)
+t_token		*sh_token_new(char *lexeme, int *status)
 {
 	t_token *new;
 
+	if (!lexeme)
+		return (NULL);
 	if (!(new = ft_memalloc(sizeof(t_token))))
 		return (NULL);
-	new->lexeme = ft_strsub(str, i[0], i[1]);
-	new->category = sh_category(new->lexeme);
+	new->lexeme = lexeme;
+	new->category = sh_category(lexeme, status);
 	new->next = NULL;
 	return (new);
 }
