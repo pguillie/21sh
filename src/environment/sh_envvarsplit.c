@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sh_envvarsplit.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/14 11:45:07 by pguillie          #+#    #+#             */
-/*   Updated: 2017/08/17 10:56:41 by pguillie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static char	**sh_splitalloc(char *value)
@@ -49,29 +37,27 @@ char		**sh_envvarsplit(char *name, char *env[])
 {
 	char	**new;
 	char	*value;
-	size_t	i;
-	size_t	j;
-	size_t	l;
+	size_t	i[3];
 
 	value = sh_getenv(name, env);
 	if (!(new = sh_splitalloc(value)))
 		return (NULL);
-	i = 0;
-	j = 0;
+	i[0] = 0;
+	i[1] = 0;
 	if (value)
 	{
-		if (value[i] == ':')
-			i++;
-		while (value[i])
+		if (value[i[0]] == ':')
+			i[0]++;
+		while (value[i[0]])
 		{
-			l = 0;
-			while (value[i + l] && value[i + l] != ':')
-				l++;
-			if (!(new[j++] = sh_splitnew(value, i, l)))
+			i[2] = 0;
+			while (value[i[0] + i[2]] && value[i[0] + i[2]] != ':')
+				i[2]++;
+			if (!(new[i[1]++] = sh_splitnew(value, i[0], i[1])))
 				return (sh_splitexit(new));
-			i += value[i + l] ? l + 1 : l;
+			i[0] += value[i[0] + i[2]] ? i[2] + 1 : i[2];
 		}
 	}
-	new[j] = ft_strdup(".");
+	new[i[1]] = ft_strdup(".");
 	return (new);
 }

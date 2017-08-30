@@ -5,10 +5,9 @@ int		sh_prt_time(char c)
 	struct tm	*tm;
 	time_t		t;
 	int			hour;
-	
-	if (time(&t) < 0)
+
+	if (time(&t) < 0 || !(tm = localtime(&t)))
 		return (0);
-	tm = localtime(&t);//secu ?
 	hour = tm->tm_hour % 12;
 	hour = hour ? hour : 12;
 	if (c == 't')

@@ -8,7 +8,8 @@ int		sh_token_del(t_token **begin)
 	{
 		tmp = (*begin)->next;
 		ft_strdel(&(*begin)->lexeme);
-		ft_memdel((void**)begin);
+		free(*begin);
+		*begin = NULL;
 		*begin = tmp;
 	}
 	return (1);

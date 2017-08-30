@@ -51,6 +51,11 @@ typedef struct	s_token
 	struct s_token	*next;
 }				t_token;
 
+////////////////
+void displex(t_token *lexer);
+void disphist(t_line *line);
+////////////////
+
 /*
 **	ENVIRONMENT
 */
