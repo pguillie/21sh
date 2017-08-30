@@ -23,7 +23,7 @@ int		sh_raw_edit(t_line *line, char *last, t_token **lexer, t_tc tc)
 		ft_error("Unable to restore termios structure", NULL, NULL);
 		return (-1);
 	}
-	if (sh_hist_write(line->str, last))
+	if (sh_hist_write(save, last))
 		ft_error("Unable to write line in history", NULL, NULL);
 	return (0);
 }

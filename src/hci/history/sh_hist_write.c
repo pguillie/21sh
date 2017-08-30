@@ -1,5 +1,18 @@
 #include "shell.h"
 
+static void	sh_hwrite(char *line, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\n' && line[i + 1])
+			ft_putchar_fd('\\', fd);
+		ft_putchar_fd(line[i++], fd);
+	}
+}
+
 int		sh_hist_write(char *line, char *last)
 {
 	char	*hist;
@@ -18,7 +31,7 @@ int		sh_hist_write(char *line, char *last)
 			ft_strdel(&hist);
 			return (1);
 		}
-		write(fd, line, ft_strlen(line));
+		sh_hwrite(line, fd);
 		close(fd);
 	}
 	ft_strdel(&hist);
