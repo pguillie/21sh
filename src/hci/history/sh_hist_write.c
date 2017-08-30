@@ -13,12 +13,12 @@ static void	sh_hwrite(char *line, int fd)
 	}
 }
 
-int		sh_hist_write(char *line, char *last)
+int			sh_hist_write(char *line, char *last)
 {
 	char	*hist;
 	int		fd;
 	int		i;
-	
+
 	hist = ft_strcjoin(getenv("HOME"), HIST_FILE, '/');
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
