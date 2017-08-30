@@ -9,5 +9,6 @@
 # define CMD			-1
 # define OPT			-2
 # define ARG			-3
+# define FILDES			-4
 
 #endif

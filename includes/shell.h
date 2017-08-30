@@ -122,8 +122,8 @@ int		sh_metachar(char c);
 int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);
 int		sh_token_del(t_token **begin);
-t_token	*sh_token_new(char *lexeme, int *status);
-int		sh_category(char *str, int *status);
+t_token	*sh_token_new(char *lexeme, size_t *i, int *status);
+int		sh_category(char *str, size_t *i, int *status);
 
 /*
 **	HCI	PROMPT

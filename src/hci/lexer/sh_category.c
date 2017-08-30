@@ -13,27 +13,31 @@ static int	sh_cat_sep(char *str)
 	return (0);
 }
 
-int			sh_category(char *str, int *status)
+int			sh_category(char *str, size_t *i, int *status)
 {
 	int			sep;
 
-	if ((sep = sh_cat_sep(str)))
+	if ((sep = sh_cat_sep(str + i[0])))
 	{
-		*status = CMD;
+		status[0] = CMD;
 		return (sep);
 	}
-	if (sh_rdir_op(str))
+	if (sh_rdir_op(str + i[0]))
 		return (REDIRECTION);
-	if (*status == CMD)
-		return ((*status)--);
-	if (*status == OPT)
+	if ((i[1] == 1 && str[i[0]] >= '0' && str[i[0]] <= '9'
+			&& sh_rdir_op(str + i[0] + i[1]))
+			|| (str[i[0]] != '-' && status[1]))
+		return (FILDES);
+	if (status[0] == CMD)
+		return (status[0]--);
+	if (status[0] == OPT)
 	{
-		if (ft_strnequ(str, "--", 2))
-			return ((*status)--);
-		if (str[0] == '-')
-			return (*status);
+		if (ft_strnequ(str + i[0], "--", i[1] > 2 ? i[1] : 2))
+			return (status[0]--);
+		if (str[i[0]] == '-')
+			return (status[0]);
 		else
-			*status = ARG;
+			status[0] = ARG;
 	}
-	return (*status);
+	return (status[0]);
 }
