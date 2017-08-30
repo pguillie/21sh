@@ -17,21 +17,22 @@ int		sh_line_edit(t_line **line, char **save, t_token **lexer, t_tc tc)
 			(*line)->cur = sh_move_cur((*line)->cur, pos, coord, tc);
 		else if ((input == K_DEL_L && (*line)->cur) || (input == K_DEL_R &&
 			(*line)->str[(*line)->cur]))
-			sh_del_char(*line, tc, &coord, input);
+			sh_del_char(*line, tc, &coord, input);//secu
 		else if (input >= ' ' && input < 127)
-			sh_ins_char(*line, tc, &coord, input);
+			sh_ins_char(*line, tc, &coord, input);//secu
 		else if (((input == K_UP || input == K_P_UP) && (*line)->prev) ||
 				((input == K_DOWN || input == K_P_DOWN) && (*line)->next))
 			*line = sh_line_hist(*line, (input == K_UP || input == K_P_UP) ?
-					(*line)->prev : (*line)->next, &coord, tc);
-		full = ft_strjoin(*save, (*line)->str);
-		ret = sh_lexer(full, lexer);
+					(*line)->prev : (*line)->next, &coord, tc);//secu
+		full = ft_strjoin(*save, (*line)->str);//secu
+		ret = sh_lexer(full, lexer);//secu
+//		displex(*lexer);//
 		ft_strdel(&full);
 	}
 	(*line)->cur = sh_move_cur((*line)->cur, (*line)->used, coord, tc);
-	sh_ins_char(*line, tc, &coord, '\n');
-	full = ft_strjoin(*save, (*line)->str);
-	ret = sh_lexer(full, lexer);
+	sh_ins_char(*line, tc, &coord, '\n');//secu
+	full = ft_strjoin(*save, (*line)->str);//secu
+	ret = sh_lexer(full, lexer);//secu
 	if (*save)
 		ft_strdel(save);
 	*save = full;

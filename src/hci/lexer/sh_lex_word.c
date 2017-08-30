@@ -15,7 +15,8 @@ int		sh_lex_word(char *str)
 		{
 			if (str[i] == quote)
 				quote = 0;
-			else if ((str[i] == '\"' || str[i] == '\'' || str[i] == '`') && !quote)
+			else if ((str[i] == '\"' || str[i] == '\'' || str[i] == '`')
+					&& !quote)
 				quote = str[i];
 		}
 		i++;

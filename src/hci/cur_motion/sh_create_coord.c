@@ -1,9 +1,27 @@
 #include "shell.h"
 
+static void	sh_coord_prompt(struct winsize w, t_coord *cur, size_t prompt)
+{
+	size_t	i;
+
+	cur->x = 0;
+	cur->y = 0;
+	i = 0;
+	while (i < prompt)
+	{
+		if (++(cur->x) == w.ws_col)
+		{
+			cur->x = 0;
+			cur->y += 1;
+		}
+		i++;
+	}
+}
+
 t_coord		*sh_create_coord(t_line *line, size_t prompt)
 {
 	struct winsize	w;
-	t_coord 		*new;
+	t_coord			*new;
 	t_coord			cur;
 	size_t			i;
 
@@ -11,18 +29,7 @@ t_coord		*sh_create_coord(t_line *line, size_t prompt)
 		return (NULL);
 	if (!(new = (t_coord*)ft_memalloc(sizeof(t_coord) * (line->used + 2))))
 		return (NULL);
-	i = 0;
-	cur.x = 0;
-	cur.y = 0;
-	while (i < prompt)
-	{
-		if (++cur.x == w.ws_col)
-		{
-			cur.x = 0;
-			cur.y += 1;
-		}
-		i++;
-	}
+	sh_coord_prompt(w, &cur, prompt);
 	i = 0;
 	while (i <= line->used)
 	{

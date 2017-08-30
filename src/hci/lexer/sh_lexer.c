@@ -9,58 +9,69 @@
 **	 2	syntax error (lexer ou parser?)
 */
 
-static t_token	*sh_lex_token(char *lexeme, int *status, t_token **begin, t_token *cur)
+static int	sh_lex_token(char *lexeme, int *status, t_token **begin)
 {
 	t_token		*new;
+	t_token		*browse;
 
+	browse = *begin;
 	if (!(new = sh_token_new(lexeme, status)))
 	{
 		sh_token_del(begin);
-		return (NULL);
+		return (-1);
 	}
-	if (!*begin)
+	if (!browse)
 	{
 		*begin = new;
-		cur = new;
+		return (0);
 	}
-	else
-	{
-		cur->next = new;
-		cur = cur->next;
-	}
-	return (cur);
+	while (browse->next)
+		browse = browse->next;
+	browse->next = new;
+	return (0);
 }
 
-int				sh_lexer(char *str, t_token **begin)
+static int	sh_lex_loop(char *str, size_t *i, int *status, t_token **begin)
 {
-	t_token		*cur;
-	size_t		i[2];
+	int		l;
+
+	l = 0;
+	if (!sh_metachar(str[*i]))
+		l = sh_lex_word(str + *i);
+	else if (!(l = sh_ctrl_op(str + *i) + sh_rdir_op(str + *i)))
+		*i += 1;
+	if (l)
+	{
+		if (sh_lex_token(ft_strsub(str, *i, l), status, begin) == -1)
+			return (-1);
+		*i += l;
+	}
+	return (0);
+}
+
+int			sh_lexer(char *str, t_token **begin)
+{
+	t_token		*last;
+	size_t		i;
 	int			status;
 
 	if (!str)
 		return (-1);
-	if (!str[0])
-		return (0);
-	i[0] = 0;
 	sh_token_del(begin);
-	cur = NULL;
 	status = CMD;
-	while (str[i[0]])
-	{
-		i[1] = 0;
-		if (!sh_metachar(str[i[0]]))
-			i[1] = sh_lex_word(str + i[0]);
-		else if (!(i[1] = sh_ctrl_op(str + i[0]) + sh_rdir_op(str + i[0])))
-			i[0] += 1;
-		if (i[1])
-		{
-			if (!(cur = sh_lex_token(ft_strsub(str, i[0], i[1]),
-						&status, begin, cur)))
+	i = 0;
+	if (str)
+		while (str[i])
+			if (sh_lex_loop(str, &i, &status, begin) < 0)
 				return (-1);
-			i[0] += i[1];
-		}
-	}
-	if (cur->category == NEWLINE)
+	last = *begin;
+	if (last)
+		while (last->next)
+			last = last->next;
+	if (last && last->category == NEWLINE)
 		return (0);
+	if ((i == 0 || sh_metachar(str[i - 1]))
+				&& (sh_lex_token(ft_strdup(""), &status, begin) != -1))
+		return (-1);
 	return (1);
 }

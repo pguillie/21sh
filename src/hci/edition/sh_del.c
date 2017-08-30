@@ -21,7 +21,7 @@ void	sh_del_after(t_line *line, t_tc tc, t_coord *coord)
 	sh_move_cur(last, line->cur, coord, tc);
 }
 
-void    sh_del_char(t_line *line, t_tc tc, t_coord **coord, long value)
+void	sh_del_char(t_line *line, t_tc tc, t_coord **coord, long value)
 {
 	if (value == K_DEL_L)
 		line->cur = sh_move_cur(line->cur, line->cur - 1, *coord, tc);

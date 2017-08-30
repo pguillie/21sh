@@ -1,7 +1,8 @@
 #include "shell.h"
 
-static void	displex(t_token *lexer)
+void	displex(t_token *lexer)
 {
+	ft_putendl("\n=== DISPLEX ===\n");
 	while (lexer)
 	{
 		ft_printf("category:%2d -- lexeme:%s\n", lexer->category, lexer->lexeme);
