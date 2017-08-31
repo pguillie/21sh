@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/*
+**	RETURN STATUS:
+**
+**	0	ok
+**	1	ko
+*/
+
 int		sh_ckd_edit(t_token **begin)
 {
 	char	*line[3];
@@ -15,6 +22,12 @@ int		sh_ckd_edit(t_token **begin)
 			&& (line[0] = ft_strjoin3(line[2], line[1], "\n"));
 		line[1] ? ft_strdel(&line[1]) : 0;
 		line[2] ? ft_strdel(&line[2]) : 0;
+		if (!success[1] || (success[0] = sh_lexer(line[0], begin)) < 0)
+		{
+			line[0] ? ft_strdel(&line[0]) : 0;
+			return (sh_token_del(begin));
+		}
+/*
 		if (!success[1])
 		{
 			line[0] ? ft_strdel(&line[0]) : 0;
@@ -22,6 +35,7 @@ int		sh_ckd_edit(t_token **begin)
 		}
 		if ((success[0] = sh_lexer(line[0], begin)) < 0)
 			return (sh_token_del(begin));
+*/
 	}
 	if (sh_hist_write(line[0], NULL))
 		ft_error("Unable to append new line to history file", NULL, NULL);

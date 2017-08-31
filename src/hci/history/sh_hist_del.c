@@ -7,7 +7,7 @@ void	sh_hist_del(t_line **hist)
 	while (*hist)
 	{
 		tmp = *hist;
-		*hist = (*hist)->prev;
+		*hist = (*hist)->up;
 		ft_strdel(&tmp->str);
 		ft_memdel((void**)&tmp);
 	}

@@ -9,6 +9,7 @@
 # include "category.h"
 
 # define HIST_FILE ".21sh_history"
+# define ERROR_MAX 5
 
 typedef struct	s_tc
 {
@@ -34,8 +35,8 @@ typedef struct	s_line
 	size_t			cur;
 	size_t			used;
 	size_t			capacity;
-	struct s_line	*prev;
-	struct s_line	*next;
+	struct s_line	*up;
+	struct s_line	*down;
 }				t_line;
 
 typedef struct	s_coord
@@ -95,12 +96,11 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 */
 
 void	sh_disp_line(t_line *line, t_coord *coord, t_tc termcaps);
-int		sh_line_edit(t_line **line, char **save, t_token **lexer, t_tc termcaps);
-t_line	*sh_line_hist(t_line *line, t_line *new, t_coord **coord, t_tc tc);
+int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc termcaps);
+int		sh_edit_hist(t_line **line, t_line *new, t_coord **coord, t_tc tc);
 int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c);
-void	sh_del_char(t_line *line, t_tc tc, t_coord **coord, long input);
-void	sh_del_after(t_line *line, t_tc tc, t_coord *coord);
-int		sh_prompt(int mode);
+int		sh_del_char(t_line *line, t_tc tc, t_coord **coord, long input);
+void	sh_del_afcur(t_line *line, t_tc tc, t_coord *coord);
 int		termput(int c);
 
 /*

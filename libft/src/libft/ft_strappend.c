@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 18:46:21 by pguillie          #+#    #+#             */
-/*   Updated: 2017/02/01 17:18:06 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/08/31 11:15:43 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,11 @@
 char	*ft_strappend(char *base, char const *to_app, char side)
 {
 	char	*new;
-	char	*tmp;
 
-	if (!(new = ft_strnew(ft_strlen(base) + ft_strlen(to_app))))
-		return (NULL);
-	tmp = base;
 	if (side == 'l')
-	{
-		base = ft_strjoin(to_app, base);
-		free(tmp);
-		return (base);
-	}
+		new = ft_strjoin(to_app, base);
 	if (side == 'r')
-	{
-		base = ft_strjoin(base, to_app);
-		free(base);
-		return (base);
-	}
-	return (base);
+		new = ft_strjoin(base, to_app);
+	base ? ft_strdel(&base) : 0;
+	return (new);
 }

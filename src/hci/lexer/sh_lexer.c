@@ -9,16 +9,13 @@
 **	 2	syntax error (lexer ou parser?)
 */
 
-static int	sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
+static int		sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
 {
 	t_token		*new;
 	t_token		*browse;
 
 	if (!(new = sh_token_new(str, i, status)))
-	{
-		sh_token_del(begin);
-		return (-1);
-	}
+		return (sh_token_del(begin));
 	status[1] = new->category == REDIRECTION ? 1 : 0;
 	browse = *begin;
 	if (!browse)
@@ -32,11 +29,8 @@ static int	sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
 	return (0);
 }
 
-static int	sh_lex_loop(char *str, int *status, t_token **begin)
+static int	sh_lex_loop(char *str, size_t *i, int *status, t_token **begin)
 {
-	size_t	i[2];
-
-	i[0] = 0;
 	while (str[i[0]])
 	{
 		i[1] = 0;
@@ -51,12 +45,14 @@ static int	sh_lex_loop(char *str, int *status, t_token **begin)
 			i[0] += i[1];
 		}
 	}
+	i[1] = 0;
 	return (0);
 }
 
 int			sh_lexer(char *str, t_token **begin)
 {
 	t_token		*last;
+	size_t		i[2];
 	int			status[2];
 
 	if (!str)
@@ -64,7 +60,8 @@ int			sh_lexer(char *str, t_token **begin)
 	sh_token_del(begin);
 	status[0] = CMD;
 	status[1] = 0;
-	if (str && sh_lex_loop(str, status, begin) < 0)
+	ft_bzero(i, sizeof(size_t) * 2);
+	if (str && sh_lex_loop(str, i, status, begin) < 0)
 		return (-1);
 	last = *begin;
 	if (last)
@@ -72,8 +69,9 @@ int			sh_lexer(char *str, t_token **begin)
 			last = last->next;
 	if (last && last->category == NEWLINE)
 		return (0);
-	if ((!str[0] || sh_metachar(str[ft_strlen(str) - 1]))
-			&& (sh_lex_token(NULL, NULL, status, begin) != -1))
+	if ((!str[0] || (sh_metachar(str[ft_strlen(str) - 1])
+					&& str[ft_strlen(str) - 1] != '\n'))
+			&& (sh_lex_token(str, i, status, begin) < 0))
 		return (-1);
 	return (1);
 }

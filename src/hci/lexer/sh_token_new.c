@@ -6,12 +6,12 @@ t_token		*sh_token_new(char *str, size_t *i, int *status)
 
 	if (!(new = ft_memalloc(sizeof(t_token))))
 		return (NULL);
-	if (!(new->lexeme = str ? ft_strsub(str, i[0], i[1]) : ft_strdup("")))
+	if (!(new->lexeme = ft_strsub(str, i[0], i[1])))
 	{
 		free(new);
 		return (NULL);
 	}
-	new->category = str ? sh_category(str, i, status) : *status;
+	new->category = sh_category(str, i, status);
 	new->next = NULL;
 	return (new);
 }

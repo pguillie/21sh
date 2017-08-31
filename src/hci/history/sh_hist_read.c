@@ -25,8 +25,8 @@ t_line	*sh_hist_create(t_line *hist, char **line)
 	ft_strdel(line);
 	if (hist)
 	{
-		hist->next = new;
-		hist = hist->next;
+		hist->down = new;
+		hist = hist->down;
 	}
 	else
 		hist = new;
@@ -75,8 +75,8 @@ t_line	*sh_hist_read(void)
 		return (NULL);
 	if (hist)
 	{
-		hist->next = new;
-		hist = hist->next;
+		hist->down = new;
+		hist = hist->down;
 	}
 	else
 		hist = new;

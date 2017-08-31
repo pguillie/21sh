@@ -14,7 +14,8 @@ int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c)
 	line->str[line->cur] = c;
 	line->used += 1;
 	free(*coord);
-	*coord = sh_create_coord(line, tc.prompt);
+	if (!(*coord = sh_create_coord(line, tc.prompt)))
+		return (-1);
 	sh_disp_line(line, *coord, tc);
 	line->cur = sh_move_cur(line->cur, line->cur + 1, *coord, tc);
 	return (0);

@@ -12,5 +12,5 @@ int		sh_token_del(t_token **begin)
 		*begin = NULL;
 		*begin = tmp;
 	}
-	return (1);
+	return (-1);
 }

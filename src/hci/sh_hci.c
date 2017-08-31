@@ -1,49 +1,43 @@
 #include "shell.h"
 
-void	displex(t_token *lexer)
+static int	sh_hci_raw(t_token **lexer, t_tc tc)
 {
-	ft_putendl("\n=== DISPLEX ===\n");
-	while (lexer)
-	{
-		ft_printf("category:%2d -- lexeme:%s\n", lexer->category, lexer->lexeme);
-		lexer = lexer->next;
-	}
-}
+	t_line	*hist;
+	char	*last;
+	int		success;
 
-void disphist(t_line *line)
-{
-	while (line)
+	if (!(hist = sh_hist_read()))
 	{
-		ft_printf("hist: '%s'\n", line->str);
-		line = line->prev;
+		return (ft_error("Warning",
+				"An error occured while preparing history",
+				"you will be redirect to basic edition"));
 	}
+	last = hist->up ? ft_strjoin(hist->up->str, "\n") : NULL;
+	success = sh_raw_edit(hist, last, lexer, tc);
+	last ? ft_strdel(&last) : 0;
+	if (success < 0)
+		return (-1);
+	if (success > 0)
+	{
+		return (ft_error("Warning",
+				"An error occured while preparing history",
+				"you will be redirect to basic edition"));
+	}
+	sh_hist_del(&hist);
+	return (0);
 }
 
 t_token		*sh_hci(t_tc tc)
 {
-	t_line	*hist;
 	t_token	*lexer;
-	char	*last;
 	int		failure;
 
 	lexer = NULL;
-	failure = 0;
 	if (tc.on)
-	{
-		if (!(hist = sh_hist_read()))
-			failure = ft_error("Warning", "An error occured while preparing history", "you will be redirect to basic edition");
-		else
-		{
-	//		disphist(hist);
-			last = hist->prev ? ft_strjoin(hist->prev->str, "\n") : NULL;
-			sh_raw_edit(hist, last, &lexer, tc);
-			if (last)
-				ft_strdel(&last);
-			sh_hist_del(&hist);
-		}
-	}
-	if (!tc.on || failure)
-		sh_ckd_edit(&lexer);
-	displex(lexer);
+		if ((failure = sh_hci_raw(&lexer, tc)) < 0)
+			ft_error("Severe error occured while getting input", NULL, NULL);
+	if (!tc.on || failure == 1)
+		if (sh_ckd_edit(&lexer))
+			ft_error("Severe error occured while getting input", NULL, NULL);
 	return (lexer);
 }
