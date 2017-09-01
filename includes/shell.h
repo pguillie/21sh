@@ -97,7 +97,7 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 void	sh_disp_line(t_line *line, t_coord *coord, t_tc termcaps);
 int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc termcaps);
-int		sh_edit_hist(t_line **line, t_line *new, t_coord **coord, t_tc tc);
+int		sh_edit_hist(t_line **line, long input, t_coord **coord, t_tc tc);
 int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c);
 int		sh_del_char(t_line *line, t_tc tc, t_coord **coord, long input);
 void	sh_del_afcur(t_line *line, t_tc tc, t_coord *coord);
