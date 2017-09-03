@@ -1,64 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/06 15:56:00 by pguillie          #+#    #+#             */
-/*   Updated: 2017/06/21 15:58:04 by pguillie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
-char	*ft_append(char *str, int fd, int *eof)
+int		get_next_line(int fd, char **line)
 {
-	char	*buffer;
-	char	*tmp;
-	int		ret;
-	int		t;
-
-	t = 0;
-	if (!(buffer = ft_strnew(BUFF_SIZE)))
-		return (NULL);
-	while (!t || !(ft_strchr(str, '\n') || *eof))
+	static char	*s[512] = {NULL};
+	char		b[BUFF_SIZE + 1];
+	size_t		i;
+	int			c;
+	
+	if (!line || fd < 0 || fd >= 512 || !((c = BUFF_SIZE) > 0))
+		return (-1);
+	while (!ft_strchr(s[fd], '\n') && c == BUFF_SIZE)
 	{
-		if ((ret = read(fd, buffer, BUFF_SIZE)) == -1)
-			return (NULL);
-		t = 1;
-		if (ret < BUFF_SIZE)
-			*eof = 1;
-		tmp = str;
-		str = ft_strjoin(str, buffer);
-		ft_strdel(&tmp);
-		ft_strclr(buffer);
+		ft_bzero(b, BUFF_SIZE + 1);
+		c = read(fd, b, BUFF_SIZE);
+		(s[fd] = ft_strappend(s[fd], b)) && c < 0 ? ft_strdel(&s[fd]) : 0;
+		if (!s[fd])
+			return (-1);
 	}
-	free(buffer);
-	return (str);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	static char		*str;
-	int				i;
-	int				eof;
-
 	i = 0;
-	eof = 0;
-	if (fd < 0 || !line || (str ? 0 : !(str = ft_strnew(BUFF_SIZE))))
-		return (-1);
-	if ((str = ft_append(str, fd, &eof)) == NULL)
-		return (-1);
-	if (str[0] == '\0' && eof)
-	{
-		ft_strdel(&str);
-		free(str);
-		return (0);
-	}
-	while (str[i] && str[i] != '\n')
+	while (!(*line = NULL) && s[fd][i] && s[fd][i] != '\n')
 		i++;
-	*line = ft_strsub(str, 0, i);
-	ft_memmove(str, str + i + 1, ft_strlen(str) - (i > 1 ? 1 : 0));
-	return (1);
+	s[fd][i] && !(*line = ft_strndup(s[fd], i)) ? ft_strdel(&s[fd]) : 0;
+	if (!s[fd])
+		return (-1);
+	ft_memmove(s[fd], s[fd] + i + (s[fd][i] ? 1 : 0),
+		ft_strlen(s[fd] + i + (s[fd][i] ? 1 : 0)) + 1);
+	s[fd][0] == 0 ? ft_strdel(&s[fd]) : 0;
+	return (c == BUFF_SIZE || s[fd] || *line ? 1 : 0);
 }

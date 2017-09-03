@@ -12,25 +12,21 @@
 
 #include "libft.h"
 
-char	*ft_strappend(char *base, char const *to_app, char side)
+char    *ft_strappend(char *str, const char *content)
 {
-	char	*new;
-	char	*tmp;
+	char    *new;
+	size_t  i[2];
 
-	if (!(new = ft_strnew(ft_strlen(base) + ft_strlen(to_app))))
-		return (NULL);
-	tmp = base;
-	if (side == 'l')
-	{
-		base = ft_strjoin(to_app, base);
-		free(tmp);
-		return (base);
+	if ((new = ft_strnew(ft_strlen(str) + ft_strlen(content))))
+	{   
+		i[0] = 0;
+		if (str && !(i[1] = 0))
+			while (str[i[1]])
+				new[i[0]++] = str[i[1]++];
+		if (content && !(i[1] = 0))
+			while (content[i[1]])
+				new[i[0]++] = content[i[1]++];
 	}
-	if (side == 'r')
-	{
-		base = ft_strjoin(base, to_app);
-		free(base);
-		return (base);
-	}
-	return (base);
+	str ? ft_strdel(&str) : 0;
+	return (new);
 }

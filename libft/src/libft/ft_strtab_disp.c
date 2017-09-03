@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 12:59:46 by pguillie          #+#    #+#             */
-/*   Updated: 2017/07/11 19:47:18 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/08/30 12:24:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ void		ft_strtab_disp(char **tab)
 	{
 		len = 0;
 		if (ioctl(0, TIOCGWINSZ, &w) < 0)
-		{
 			while (tab[len])
 				ft_putendl(tab[len++]);
-		}
 		else
 		{
 			size = 0;
