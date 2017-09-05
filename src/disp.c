@@ -21,3 +21,15 @@ void	disphist(t_line *line)
 	}
 	ft_putendl(" ** end hist **");
 }
+
+void	dispcoord(t_coord *coord, t_line *line)
+{
+	size_t	i;
+
+	i = 0;
+	while (i <= line->used + 1)
+	{
+		ft_printf("%zu: (%d;%d) `%c'\n", i, coord[i].x, coord[i].y, line->str[i]);
+		i++;
+	}
+}

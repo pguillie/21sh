@@ -14,13 +14,15 @@
 typedef struct	s_tc
 {
 	int		on;
+	int		cut;
 	int		prompt;
-	int		select[2];
 	char	*clipboard;
+	char	*esc;
 	char	data[2048];
 	char	buff[2048];
 	char	*cd;
 	char	*ce;
+	char	*dc;
 	char	*dn;
 	char	*le;
 	char	*nd;
@@ -55,6 +57,7 @@ typedef struct	s_token
 ////////////////
 void displex(t_token *lexer);
 void disphist(t_line *line);
+void dispcoord(t_coord *c, t_line *l);
 ////////////////
 
 /*
@@ -69,9 +72,8 @@ char	*sh_getenv(char *name, char *env[]);
 **	HCI	(Human-Computer Interaction)
 */
 
-t_token	*sh_hci(t_tc termcaps);
-int		sh_ckd_edit(t_token **begin);
-int		sh_raw_edit(t_line *line, char *last, t_token **lexer, t_tc termcaps);
+t_token	*sh_hci(t_tc *termcaps);
+int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 /*
 **	HCI	CONVERTIONS
@@ -95,12 +97,10 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 **	HCI	EDITION
 */
 
-void	sh_disp_line(t_line *line, t_coord *coord, t_tc termcaps);
-int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc termcaps);
-int		sh_edit_hist(t_line **line, long input, t_coord **coord, t_tc tc);
-int		sh_ins_char(t_line *line, t_tc tc, t_coord **coord, char c);
-int		sh_del_char(t_line *line, t_tc tc, t_coord **coord, long input);
-void	sh_del_afcur(t_line *line, t_tc tc, t_coord *coord);
+int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
+int		sh_esc(t_line **line, t_coord **coord, t_tc *tc);
+int		sh_del(t_line *line, t_coord **coord, t_tc tc);
+int		sh_ins(t_line *line, t_coord **coord, t_tc tc, char c);
 int		termput(int c);
 
 /*

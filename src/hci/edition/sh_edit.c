@@ -8,7 +8,7 @@
 **	 1	ko
 */
 
-int		sh_raw_edit(t_line *line, char *last, t_token **lexer, t_tc tc)
+int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 {
 	struct termios	backup;
 	char			*save;
@@ -23,7 +23,8 @@ int		sh_raw_edit(t_line *line, char *last, t_token **lexer, t_tc tc)
 		ft_bzero(line->str, line->used);
 		line->used = 0;
 		line->cur = 0;
-		tc.prompt = sh_prompt(!save ? 1 : 2);
+		tc->esc = NULL;
+		tc->prompt = sh_prompt(!save ? 1 : 2);
 		if ((loop = sh_edit_line(&line, &save, lexer, tc)) < 0)
 			return (sh_token_del(lexer));
 	}
