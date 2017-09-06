@@ -1,5 +1,5 @@
-#ifndef CATEGORY_H
-# define CATEGORY_H
+#ifndef SH_CATEGORY_H
+# define SH_CATEGORY_H
 
 # define ANDOR			4
 # define ESPERCOLON		3

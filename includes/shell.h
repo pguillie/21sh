@@ -1,150 +1,45 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+/*
+**	EXTERN LIB
+*/
+
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <termcap.h>
-# include "../libft/includes/libft.h"
-# include "key.h"
-# include "category.h"
+
+/*
+**	DEFINE
+*/
 
 # define HIST_FILE ".21sh_history"
 # define ERROR_MAX 5
+# define EOL 4
+# define LEXER 2
+# define DISP 1
 
-typedef struct	s_tc
-{
-	int		on;
-	int		cut;
-	int		prompt;
-	char	*clipboard;
-	char	*esc;
-	char	data[2048];
-	char	buff[2048];
-	char	*cd;
-	char	*ce;
-	char	*dc;
-	char	*dn;
-	char	*le;
-	char	*nd;
-	char	*up;
-	char	*vi;
-	char	*ve;
-}				t_tc;
+/*
+**	RESSOURCES
+*/
 
-typedef struct	s_line
-{
-	char			*str;
-	size_t			cur;
-	size_t			used;
-	size_t			capacity;
-	struct s_line	*up;
-	struct s_line	*down;
-}				t_line;
+# include "../libft/includes/libft.h"
+# include "sh_key.h" // on garde?
+# include "sh_category.h"
+# include "sh_struct.h"
 
-typedef struct	s_coord
-{
-	int	x;
-	int	y;
-}				t_coord;
+/*
+**	PROTO
+*/
 
-typedef struct	s_token
-{
-	char			*lexeme;
-	int				category;
-	struct s_token	*next;
-}				t_token;
+# include "sh_environment.h"
+# include "sh_hci.h"
+# include "sh_initialization.h"
 
 ////////////////
 void displex(t_token *lexer);
 void disphist(t_line *line);
 void dispcoord(t_coord *c, t_line *l);
 ////////////////
-
-/*
-**	ENVIRONMENT
-*/
-
-char	**sh_envdup(char *env[]);
-char	**sh_envvarsplit(char *name, char *env[]);
-char	*sh_getenv(char *name, char *env[]);
-
-/*
-**	HCI	(Human-Computer Interaction)
-*/
-
-t_token	*sh_hci(t_tc *termcaps);
-int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
-
-/*
-**	HCI	CONVERTIONS
-*/
-
-char	sh_conv(char *str);
-char	sh_conv_oct(char *str);
-char	sh_conv_hex(char *str);
-
-/*
-**	HCI	CUR_MOTION
-*/
-
-int		sh_cur_motion(long input, t_line *line, size_t *pos, t_coord *coord);
-size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
-size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret);
-size_t	sh_move_word(long input, t_line *line);
-t_coord	*sh_create_coord(t_line *line, size_t prompt);
-
-/*
-**	HCI	EDITION
-*/
-
-int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
-int		sh_esc(t_line **line, t_coord **coord, t_tc *tc);
-int		sh_del(t_line *line, t_coord **coord, t_tc tc);
-int		sh_ins(t_line *line, t_coord **coord, t_tc tc, char c);
-int		termput(int c);
-
-/*
-**	HCI	HISTORY
-*/
-
-t_line	*sh_hist_read(void);
-t_line	*sh_hline_new(char *str, t_line *prev);
-int		sh_hist_write(char *line, char *last);
-void	sh_hist_del(t_line **hist);
-
-/*
-**	HCI	LEXER
-*/
-
-int		sh_lexer(char *str, t_token **begin);
-int		sh_lex_word(char *str);
-int		sh_metachar(char c);
-int		sh_ctrl_op(char *str);
-int		sh_rdir_op(char *str);
-int		sh_token_del(t_token **begin);
-t_token	*sh_token_new(char *lexeme, size_t *i, int *status);
-int		sh_category(char *str, size_t *i, int *status);
-
-/*
-**	HCI	PROMPT
-*/
-
-int		sh_prompt(int mode);
-int		sh_print_prompt(char *ps);
-int		sh_prompt_conv(char c);
-int		sh_prt_date(void);
-int		sh_prt_host(char c);
-int		sh_prt_time(char c);
-int		sh_prt_user(void);
-int		sh_prt_wdir(char c);
-int		sh_prt_end(void);
-
-/*
-**	INITIALIZATION
-*/
-
-int		sh_init(t_tc *init);
-int		sh_init_env(void);
-int		sh_init_termcaps(t_tc *init);
 
 #endif

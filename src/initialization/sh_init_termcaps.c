@@ -22,7 +22,6 @@ int			sh_init_termcaps(t_tc *init)
 	ft_bzero(init->buff, 2048);
 	if (sh_init_tc(init, &init->cd, "cd")
 			|| sh_init_tc(init, &init->ce, "ce")
-			|| sh_init_tc(init, &init->dc, "dc")
 			|| sh_init_tc(init, &init->dn, "do")
 			|| sh_init_tc(init, &init->le, "le")
 			|| sh_init_tc(init, &init->nd, "nd")

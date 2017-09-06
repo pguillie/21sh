@@ -1,5 +1,5 @@
-#ifndef KEY_H
-# define KEY_H
+#ifndef SH_KEY_H
+# define SH_KEY_H
 
 # define K_TAB 9
 # define K_ESC 27

@@ -16,9 +16,6 @@ int		sh_ins(t_line *line, t_coord **coord, t_tc tc, char c)
 	free(*coord);
 	if (!(*coord = sh_create_coord(line, tc.prompt)))
 		return (-1);
-	ft_putstr_fd(line->str + line->cur, 0);
-	if ((*coord)[line->used - 1].x == (*coord)[line->used + 1].x - 1)
-		ft_putchar('\n');
-	line->cur = sh_move_cur(line->used, line->cur + 1, *coord, tc);
-	return (2);
+	line->pos = line->cur + 1;
+	return (LEXER | DISP);
 }
