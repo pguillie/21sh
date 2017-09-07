@@ -5,12 +5,15 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 	t_coord	*coord;
 	int		success;
 	char	byte;
+	char	*tmp;
 
+	tmp = NULL;
 	if (!(coord = sh_create_coord(*line, tc->prompt)))
 		return (-1);
 	success = 0;
 	while (!(success & EOL))
 	{
+		tmp ? ft_strdel(&tmp) : 0;
 		if (read(0, &byte, 1) < 0)
 			return (-1);
 		if (byte == 27)
@@ -24,11 +27,12 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 		if (success < 0)
 			return (success);
 		if (success & LEXER)
-			;//lexer
+			if (sh_lexer((tmp = ft_strappend(*save, (*line)->str)), lexer) < 0)
+				return (-1);
 		if (success & DISP)
 			sh_display(*line, coord, *tc); //+lexer
 	}
-	(void)save;
-	(void)lexer;
+	*save ? ft_strdel(save) : 0;
+	*save = tmp;
 	return (0);
 }
