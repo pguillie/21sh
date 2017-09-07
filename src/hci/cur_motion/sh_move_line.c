@@ -1,15 +1,17 @@
 #include "shell.h"
 
-size_t	sh_move_line(int move, t_line *line, t_coord *coord)
+int		sh_move_line(int move, t_line *line, t_coord *coord)
 {
 	size_t	i;
 
+	(void)move;
+	(void)coord;
 	i = line->cur;
-	while (1)//
-		;//
+//	while (1)//
+//		;//
 	return (0);//
 }
-
+/*
 size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret)
 {
 	size_t	i;
@@ -36,4 +38,4 @@ size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret)
 		while (i < end - 1 && coord[i].x < coord[line->cur].x)
 			i++;
 	return (i);
-}
+}*/
