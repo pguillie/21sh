@@ -36,8 +36,10 @@ char	sh_conv_hex(char *str);
 
 int		sh_cur_motion(long input, t_line *line, size_t *pos, t_coord *coord);
 size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
-size_t	sh_move_line(long input, t_coord *coord, t_line *line, int *ret);
-size_t	sh_move_word(int move, t_line *line);
+int		sh_move_line_u(t_line *line, t_coord *coord);
+int		sh_move_line_d(t_line *line, t_coord *coord);
+int		sh_move_word_r(t_line *line);
+int		sh_move_word_l(t_line *line);
 t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 /*

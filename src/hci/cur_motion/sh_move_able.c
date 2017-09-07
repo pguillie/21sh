@@ -15,29 +15,22 @@ int			sh_move_able(char *esc, t_line *line, t_coord *coord)
 {
 	char	id;
 
-	if (!(id = sh_convert_move(esc)))
-		return (0);
+	id = sh_convert_move(esc);
 	if (id & UP)
-	{
-		if (!(id & CTL) && coord[line->cur].y == coord[0].y)
-			return (0);
-		line->pos = sh_move_line(UP, line, coord);
-	}
+		return ((id & CTL || coord[line->cur].y != coord[0].y)
+				&& sh_move_line_u(line, coord));
 	else if (id & DOWN)
-	{
-		if (!(id & CTL) && coord[line->cur].y == coord[line->used].y)
-			return (0);
-		line->pos = sh_move_line(DOWN, line, coord);
-	}
+		return ((id & CTL || coord[line->cur].y != coord[line->used].y)
+				&& sh_move_line_d(line, coord));
 	else if (id & RIGHT && line->str[line->cur])
-		line->pos = id & CTL ? sh_move_word(RIGHT, line) : line->cur + 1;
+		line->pos = id & CTL ? sh_move_word_r(line) : line->cur + 1;
 	else if (id & LEFT && line->cur)
-		line->pos = id & CTL ? sh_move_word(LEFT, line) : line->cur - 1;
+		line->pos = id & CTL ? sh_move_word_l(line) : line->cur - 1;
 	else if (id & HOME)
 		line->pos = 0;
 	else if (id & END)
 		line->pos = line->used;
 	else
 		return (0);
-	return (1);	
+	return (1);
 }
