@@ -6,19 +6,19 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 18:46:21 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/07 14:10:27 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/09/07 14:29:28 by mdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    *ft_strappend(char *str, const char *content)
+char	*ft_strappend(char *str, const char *content)
 {
-	char    *new;
-	size_t  i[2];
+	char	*new;
+	size_t	i[2];
 
 	if ((new = ft_strnew(ft_strlen(str) + ft_strlen(content))))
-	{   
+	{
 		i[0] = 0;
 		if (str && !(i[1] = 0))
 			while (str[i[1]])

@@ -35,9 +35,12 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 		if (success[0] < 0)
 			return (success[0]);
 		if (success[0] & LEXER)
-			if ((success[1] = sh_lexer((tmp = *save ? ft_strappend(*save, (*line)->str)
-								: ft_strdup((*line)->str)), lexer)) < 0)
+		{
+			if (!(tmp = ft_strjoin(*save, (*line)->str)))
 				return (-1);
+			if ((success[1] = sh_lexer(tmp, lexer)) < 0)
+				return (-1);
+		}
 		if (success[0] & DISP)
 			sh_display(*line, coord, *tc); //+lexer
 	}
