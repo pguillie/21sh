@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 16:04:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/08/31 11:08:42 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/09/07 14:11:07 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int					ft_strnequ(char const *s1, char const *s2, size_t n);
 size_t				ft_strlen(const char *str);
 size_t				ft_strclen(const char *str, const char c);
 size_t				ft_strlcat(char *dest, const char *src, size_t n);
-char				*ft_strappend(char *base, const char *to_append, char side);
+char				*ft_strappend(char *str, const char *content);
 char				*ft_strcat(char *dest, const char *src);
 char				*ft_strncat(char *dest, const char *src, size_t n);
 char				*ft_strchr(const char *str, int c);
