@@ -6,7 +6,7 @@
 #    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/29 12:05:50 by pguillie         ###   ########.fr        #
+#    Updated: 2017/09/07 15:26:08 by mdescamp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ obj:
 	mkdir -p ./obj/hci/lexer
 	mkdir -p ./obj/hci/prompt
 	mkdir -p ./obj/initialization
+	mkdir -p ./obj/parser
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
 $(LIB):

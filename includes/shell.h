@@ -24,7 +24,6 @@
 */
 
 # include "../libft/includes/libft.h"
-# include "sh_key.h" // on garde?
 # include "sh_category.h"
 # include "sh_struct.h"
 
@@ -35,6 +34,7 @@
 # include "sh_environment.h"
 # include "sh_hci.h"
 # include "sh_initialization.h"
+# include "sh_parser.h"
 
 ////////////////
 void displex(t_token *lexer);
