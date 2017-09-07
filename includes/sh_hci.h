@@ -13,6 +13,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 */
 
 int		sh_move_able(char *esc, t_line *line, t_coord *coord);
+t_line	*sh_hist_able(char *esc, t_line *line);
 
 /*
 **	CONVERTIONS
@@ -33,6 +34,8 @@ char	sh_conv_hex(char *str);
 # define LEFT 8
 # define END 32
 # define HOME 128
+# define P_UP 8
+# define P_DO 4
 
 int		sh_cur_motion(long input, t_line *line, size_t *pos, t_coord *coord);
 size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
@@ -52,6 +55,7 @@ int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc);
 void	sh_clear(t_line *line, t_coord *coord, t_tc tc);
 void	sh_display(t_line *line, t_coord *coord, t_tc tc);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
+int		sh_hist(t_line **line, t_coord **coord, t_tc tc, t_line *target);
 int		sh_ins(t_line *line, t_coord **coord, t_tc tc, char c);
 int		termput(int c);
 
