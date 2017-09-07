@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 16:04:11 by pguillie          #+#    #+#             */
-/*   Updated: 2017/08/29 19:24:15 by lcordier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -112,7 +100,6 @@ char				*ft_strdup(const char *str);
 char				*ft_strndup(const char *str, size_t n);
 char				*ft_strinsert(char *dest, char *src, size_t pos);
 char				*ft_strjoin(char const *s1, char const *s2);
-char				*ft_strjoinf(char *s1, char const *s2);
 char				*ft_strcjoin(char const *s1, char const *s2, char c);
 char				*ft_strjoin3(char const *s1, char const *s2,
 						char const *s3);

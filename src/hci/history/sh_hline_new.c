@@ -1,6 +1,6 @@
 #include "shell.h"
 
-t_line	*sh_hline_new(char *str, t_line *prev)
+t_line	*sh_hline_new(char *str, t_line *up)
 {
 	t_line	*new;
 
@@ -15,7 +15,7 @@ t_line	*sh_hline_new(char *str, t_line *prev)
 	ft_strcat(new->str, str);
 	new->used = ft_strlen(str);
 	new->cur = 0;
-	new->prev = prev;
-	new->next = NULL;
+	new->up = up;
+	new->down = NULL;
 	return (new);
 }

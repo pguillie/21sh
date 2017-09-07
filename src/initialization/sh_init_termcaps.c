@@ -1,6 +1,13 @@
 #include "shell.h"
 
-int		sh_init_termcaps(t_tc *init)
+static int	sh_init_tc(t_tc *s, char **stc, char *tc)
+{
+	if (!(*stc = tgetstr(tc, (char**)&(s->buff))))
+		return (ft_error(tc, "termcap not provided by terminal", NULL));
+	return (0);
+}
+
+int			sh_init_termcaps(t_tc *init)
 {
 	char	*termtype;
 	int		success;
@@ -13,13 +20,14 @@ int		sh_init_termcaps(t_tc *init)
 	else if (success == 0)
 		return (ft_error(termtype, "Terminal type not defined", NULL));
 	ft_bzero(init->buff, 2048);
-	if (!(init->ce = tgetstr("ce", (char**)&(init->buff))))
-		return (ft_error("ce", "termcap not provided by terminal", NULL));
-	if (!(init->dc = tgetstr("dc", (char**)&(init->buff))))
-		return (ft_error("dc", "termcap not provided by terminal", NULL));
-	if (!(init->le = tgetstr("le", (char**)&(init->buff))))
-		return (ft_error("le", "termcap not provided by terminal", NULL));
-	if (!(init->nd = tgetstr("nd", (char**)&(init->buff))))
-		return (ft_error("nd", "termcap not provided by terminal", NULL));
+	if (sh_init_tc(init, &init->cd, "cd")
+			|| sh_init_tc(init, &init->ce, "ce")
+			|| sh_init_tc(init, &init->dn, "do")
+			|| sh_init_tc(init, &init->le, "le")
+			|| sh_init_tc(init, &init->nd, "nd")
+			|| sh_init_tc(init, &init->up, "up"))
+		return (1);
+	init->vi = tgetstr("vi", (char**)&(init->buff));
+	init->ve = tgetstr("ve", (char**)&(init->buff));
 	return (0);
 }
