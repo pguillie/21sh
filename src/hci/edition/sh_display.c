@@ -4,7 +4,7 @@ void	sh_display(t_line *line, t_coord *coord, t_tc tc)
 {
 	size_t	i;
 
-//	sh_clear(line, coord, tc);
+	sh_clear(line, coord, tc);
 	i = line->cur;
 	while (line->str[i])
 	{
