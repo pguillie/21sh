@@ -6,7 +6,7 @@
 **		2) faire le mouvement normal
 **		3) gerer la selection
 */
-
+/*
 int		sh_cur_motion(long input, t_line *line, size_t *dest, t_coord *coord)
 {
 	int		ret;
@@ -27,4 +27,4 @@ int		sh_cur_motion(long input, t_line *line, size_t *dest, t_coord *coord)
 	else
 		return (0);
 	return (ret);
-}
+}*/
