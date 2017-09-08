@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
+static int	sh_get_highest(t_token *lexer)
 {
 	t_token	*b;
 	int		high;
@@ -13,7 +13,14 @@ static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
 			high = b->category;
 		b = b->next;
 	}
-	if (!high)
+	return (high);
+}
+
+static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
+{
+	int		high;
+
+	if (!(high = sh_get_highest(lexer)))
 		return (0);
 	*right = lexer;
 	while (*right && (*right)->category != high)
@@ -23,9 +30,14 @@ static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
 	}
 	if (!(*op = ft_strdup((*right)->lexeme)))
 		return (-1);
-	*right = (*right)->next;
-	(*left)->next = NULL;
-	*left = lexer;
+	*right = (*right)->next ? (*right)->next : NULL;
+	if (!*left)
+		left = NULL;
+	else
+	{
+		(*left)->next = NULL;
+		*left = lexer;
+	}
 	return (1);
 }
 
