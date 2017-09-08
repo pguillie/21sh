@@ -14,9 +14,12 @@ int			main(void)
 	{
 		if (!(lexer = sh_hci(&termcaps)))
 			remaining_error -= 1;
+		displex(lexer);
 		root = NULL;
-		if (sh_parser(lexer, &root) < 0)
-			remaining_error -= 1;
+		if (!sh_syntax(lexer))
+			if (sh_parser(lexer, &root) < 0)
+				remaining_error -= 1;
+	if (root)
 		disptree(root);
 	//	if (execution())
 	//		return (1);
