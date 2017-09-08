@@ -6,7 +6,9 @@
 */
 
 # include <sys/ioctl.h>
+# include <sys/stat.h>
 # include <termios.h>
+# include <dirent.h>
 # include <termcap.h>
 
 /*
@@ -33,6 +35,7 @@
 */
 
 # include "sh_environment.h"
+# include "sh_execution.h"
 # include "sh_hci.h"
 # include "sh_initialization.h"
 
