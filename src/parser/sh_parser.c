@@ -44,7 +44,7 @@ int			sh_parser(t_token *lexer, t_tree **root)
 	(*root)->op = NULL;
 	if (sh_split(&((*root)->op), lexer, &left, &right) < 0)
 		return (sh_tree_del(root));
-	if ((*root)->op && !((*root)->cmd = sh_cmd_new(lexer)))
+	if (!(*root)->op && !((*root)->cmd = sh_cmd_new(lexer)))
 		return (sh_tree_del(root));
 	if (sh_parser(left, &((*root)->left)) < 0
 			|| sh_parser(right, &((*root)->right)) < 0)

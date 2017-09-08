@@ -17,6 +17,7 @@ int			main(void)
 		root = NULL;
 		if (sh_parser(lexer, &root) < 0)
 			remaining_error -= 1;
+		disptree(root);
 	//	if (execution())
 	//		return (1);
 	}

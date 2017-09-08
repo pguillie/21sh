@@ -67,33 +67,30 @@ static char		**sh_av_new(t_token *lexer, size_t size)
 
 static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 {
-	t_redir		*redir;
+	t_redir		*new;
 	size_t		i;
 
-	if (!(redir = (t_redir*)ft_memalloc(sizeof(t_redir) * (size + 1))))
+	if (!(new = (t_redir*)ft_memalloc(sizeof(t_redir) * (size + 1))))
 		return (NULL);
 	i = 0;
 	while (size)
 	{
 		if (lexer->category == FILDES || lexer->category == REDIRECTION)
 		{
-			if (lexer->category == FILDES)
-			{
-				redir[i].left = ft_atoi(lexer->lexeme);
-				lexer = lexer->next;
-			}
-			else
-				redir[i].left = sh_redir_left(lexer->lexeme, lexer->next->lexeme);
-			redir[i].type = ft_strdup(lexer->lexeme);
-			redir[i].right = ft_strdup(lexer->next->lexeme);
-			if (!redir[i].type || !redir[i].right)
-				return (sh_redir_del(&redir));
-			lexer = lexer->next->next;
+			new[i].left = lexer->category == FILDES ? ft_atoi(lexer->lexeme)
+				: sh_redir_left(lexer->lexeme, lexer->next->lexeme);
+			lexer->category == FILDES ? (lexer = lexer->next) : 0;
+			new[i].type = ft_strdup(lexer->lexeme);
+			new[i].right = ft_strdup(lexer->next->lexeme);
+			if (!new[i].type || !new[i].right)
+				return (sh_redir_del(&new));
+			lexer = lexer->next;
 			size -= 1;
-			i++;
+			i += 1;
 		}
+		lexer = lexer->next;
 	}
-	return (redir);
+	return (new);
 }
 
 t_cmd			*sh_cmd_new(t_token *lexer)
