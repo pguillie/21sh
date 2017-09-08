@@ -1,54 +1,64 @@
 #include "shell.h"
 
-static int	sh_exec_cmd_path(char *cmd, char **path)
+static int	sh_exec_file(char *cmd, char **path)
 {
-	DIR				*dirp;
-	struct dirent	*entry;
-	char			**dir_path;
-	size_t			i;
-	int				found;
+	struct stat		buf;
 
-	if (!(dir_path = sh_envvarsplit(getenv("PATH"))))
-		return (0);
-	i = 0;
-	found = 0;
-	while (!found && dir_path[i])
-	{
-		if (!(dirp = opendir(dir_path[i])))
-			return (-1);
-		while ((entry = readdir(dirp)))
-			if (ft_strequ(entry->d_name, cmd))
-				found = 1;
-		closedir(dirp);
-		found == 0 ? i += 1 : 0;
-	}
-	found ? *path = ft_strcjoin(dir_path[i], cmd, '/') : 0;
-	ft_strtabdel(dir_path);
-	if (found)
-		return (*path ? 1 : -1);
+	if (access(cmd, F_OK) < 0)
+		return (ft_error(cmd, E_NOENT, NULL));
+	if (stat(cmd, &buf) < 0)
+		return (-1);
+	if (S_ISDIR(buf.st_mode))
+		return (ft_error(cmd, "Is a directory", NULL));
+	if (access(cmd, X_OK) < 0)
+		return (ft_error(cmd, "Permission denied", NULL));
+	if (!(*path = ft_strdup(cmd)))
+		return (-1);
 	return (0);
 }
 
-static int	sh_exec_cmd(char *cmd, char **path)
+static int	sh_exec_dir(char *cmd, char *dir)
 {
-	struct stat	buf;
+	DIR				*dirp;
+	struct dirent	*entry;
+	int				ret;
 
-	if (ft_strchr(cmd, '/'))
+	ret = 0;
+	if ((dirp = opendir(dir)))
 	{
-		if (access(cmd, F_OK) < 0)
-			return (0);
-		if (stat(cmd, &buf) < 0)
-			return (-1);
-		if (S_ISDIR(buf.st_mode))
-		{
-			ft_error(cmd, "is a directory", NULL);
-			return (0);
-		}
-		if (!(*path = ft_strdup(cmd)))
-			return (-1);
-		return (1);
+		while ((entry = readdir(dirp)))
+			if (ft_strequ(entry->d_name, cmd))
+				ret = 1;
+		closedir(dirp);
 	}
-	return (sh_exec_cmd_path(cmd, path));
+	return (ret);
+}
+
+static int	sh_exec_bin(char *cmd, char **path)
+{
+	char	**env_path;
+	char	*path_value;
+	size_t	i;
+	
+	if (!(path_value = getenv("PATH")))
+		return (ft_error(cmd, E_NOCMD, NULL));
+	if (!(env_path = sh_envvarsplit(path_value)))
+		return (-1);
+	i = 0;
+	while (env_path[i + 1])
+	{
+		if (sh_exec_dir(cmd, env_path[i]))
+			break ;
+		i += 1;
+	}
+	if (env_path[i + 1] && !(*path = ft_strcjoin(env_path[i], cmd, '/')))
+		return (-1);
+	ft_strtabdel(env_path);
+	if (!*path)
+		return (ft_error(cmd, E_NOCMD, NULL));
+	if (access(*path, X_OK) < 0)
+		return (ft_error(cmd, "Permission denied", NULL));
+	return (0);
 }
 
 int			sh_execution(char *av[])
@@ -56,26 +66,25 @@ int			sh_execution(char *av[])
 	pid_t		child;
 	extern char **environ;
 	char		*path;
-	int			success;
+	int			no_file;
 	int			ret;
 
 	path = NULL;
 	ret = 0;
-	if ((success = sh_exec_cmd(av[0], &path)) < 0)
+	if ((no_file = ft_strchr(av[0], '/') ?
+		sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
 		return (-1);
-	ft_printf("path: %s\n", path);//
-	if (success == 0)
-		return (ft_error(av[0], "command not found", NULL));
-	if (access(path, X_OK) < 0)
-		return (ft_error(av[0], "permission denied", NULL));
+	if (no_file)
+		return (1);
 	if ((child = fork()) < 0)
 		return (-1);
-	if (!child)
+	if (child == 0)
 	{
 		if (execve(path, av, environ) < 0)
 			return (-1);
 	}
 	else
 		waitpid(child, &ret, 0);
+	ft_strdel(&path);
 	return (ret);
 }
