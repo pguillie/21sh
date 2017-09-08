@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_move_line_u(t_line *line, t_coord *coord)
+size_t	sh_move_line_u(t_line *line, t_coord *coord)
 {
 	int		pos;
 	int		nl;
@@ -21,7 +21,7 @@ int		sh_move_line_u(t_line *line, t_coord *coord)
 	return (1);
 }
 
-int		sh_move_line_d(t_line *line, t_coord *coord)
+size_t	sh_move_line_d(t_line *line, t_coord *coord)
 {
 	int		pos;
 	int		nl;
