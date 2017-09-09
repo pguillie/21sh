@@ -9,7 +9,7 @@
 **	 2	syntax error (lexer ou parser?)
 */
 
-static int		sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
+static int	sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
 {
 	t_token		*new;
 	t_token		*browse;
@@ -36,7 +36,8 @@ static int	sh_lex_loop(char *str, size_t *i, int *status, t_token **begin)
 		i[1] = 0;
 		if (!sh_metachar(str[i[0]]))
 			i[1] = sh_lex_word(str + i[0]);
-		else if (!(i[1] = sh_ctrl_op(str + i[0]) + sh_rdir_op(str + i[0])))
+		else if (!(i[1] = sh_rdir_op(str + i[0]))
+				&& !(i[1] = sh_ctrl_op(str + i[0])))
 			i[0] += 1;
 		if (i[1])
 		{

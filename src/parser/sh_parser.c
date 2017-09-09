@@ -30,10 +30,9 @@ static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
 	}
 	if (!(*op = ft_strdup((*right)->lexeme)))
 		return (-1);
-	*right = (*right)->next ? (*right)->next : NULL;
-	if (!*left)
-		left = NULL;
-	else
+//	*right = (*right)->next ? (*right)->next : NULL;//
+	*right = (*right)->next;
+	if (*left)
 	{
 		(*left)->next = NULL;
 		*left = lexer;
