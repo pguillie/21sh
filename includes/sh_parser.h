@@ -3,11 +3,10 @@
 
 # include "shell.h"
 
-void	sh_cmd_del(t_cmd **cmd);
-t_cmd	*sh_cmd_new(t_token *lexer);
 int		sh_parser(t_token *lexer, t_tree **root);
-int		sh_tree_del(t_tree **tree);
+t_cmd	*sh_cmd_new(t_token *lexer);
+void	sh_cmd_del(t_cmd **cmd);
 t_tree	*sh_tree_new(char *op, t_cmd *cmd);
-int		sh_syntax(t_token *tree);
+int		sh_tree_del(t_tree **tree);
 
 #endif

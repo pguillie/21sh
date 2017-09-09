@@ -12,13 +12,13 @@ int			main(void)
 	remaining_error = ERROR_MAX;
 	while (remaining_error)
 	{
-		if (!(lexer = sh_hci(&termcaps)))
+		lexer = NULL;
+		if (sh_hci(&termcaps, &lexer))
 			remaining_error -= 1;
 		displex(lexer);
 		root = NULL;
-		if (!sh_syntax(lexer))
-			if (sh_parser(lexer, &root) < 0)
-				remaining_error -= 1;
+		if (sh_parser(lexer, &root) < 0)
+			remaining_error -= 1;
 	if (root)
 		disptree(root);
 	//	if (execution())

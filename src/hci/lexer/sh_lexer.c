@@ -69,10 +69,10 @@ int			sh_lexer(char *str, t_token **begin)
 		while (last->next)
 			last = last->next;
 	if (last && last->category == NEWLINE)
-		return (0);
+		return (LEX_OK);
 	if ((!str[0] || (sh_metachar(str[ft_strlen(str) - 1])
 					&& str[ft_strlen(str) - 1] != '\n'))
 			&& (sh_lex_token(str, i, status, begin) < 0))
 		return (-1);
-	return (1);
+	return (LEX_LOOP);
 }
