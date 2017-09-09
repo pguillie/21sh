@@ -7,7 +7,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 	int				ret;
 
 	if (term_raw(&backup, 0, 1))
-		return (1);
+		return (-1);
 	ret = LEX_LOOP;
 	save = NULL;
 	while (ret & LEX_LOOP)
@@ -23,7 +23,10 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 			ret = sh_verification(*lexer);
 	}
 	if (tcsetattr(0, TCSANOW, &backup) < 0)
-		return (ft_error("Unable to restore termios structure", NULL, NULL));
+	{
+		ft_error("Unable to restore termios structure", NULL, NULL);
+		return (-1);
+	}
 	if (sh_hist_write(save, last))
 		ft_error("Unable to write line in history", NULL, NULL);
 	return (ret);

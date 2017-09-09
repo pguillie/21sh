@@ -1,5 +1,8 @@
 # 21sh
 
+UNICODE:
+pb en insertion
+
 MULTILIGNES:
 melanger too big + \n
 

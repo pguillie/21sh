@@ -6,6 +6,7 @@ int			main(void)
 	t_token	*lexer;
 	t_tree	*root;
 	int		remaining_error;
+	int		ret;
 
 	if (sh_init(&termcaps))
 		return (1);
@@ -13,16 +14,13 @@ int			main(void)
 	while (remaining_error)
 	{
 		lexer = NULL;
+		root = NULL;
 		if (sh_hci(&termcaps, &lexer))
 			remaining_error -= 1;
-		displex(lexer);
-		root = NULL;
-		if (sh_parser(lexer, &root) < 0)
+		else if (sh_parser(lexer, &root) < 0)
 			remaining_error -= 1;
-	if (root)
-		disptree(root);
-	//	if (execution())
-	//		return (1);
+		else if ((ret = sh_tree_browse(root)) < 0)
+			remaining_error -= 1;
 	}
 	ft_printf("\n\nToo many errors encountered, program has to quit.\n"
 			"Press any key to exit.");

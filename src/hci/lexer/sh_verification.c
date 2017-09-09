@@ -24,7 +24,8 @@ int			sh_verification(t_token *lex)
 		{
 			if (lex->next->category > NEWLINE)
 				return (sh_syn_err(lex->next->lexeme));
-			if (lex->next->category == NEWLINE && !lex->next->next)
+			if (!ft_strequ(lex->lexeme, ";")
+					&& lex->next->category == NEWLINE && !lex->next->next)
 				return (LEX_LOOP);
 		}
 		lex = lex->next;
