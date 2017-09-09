@@ -30,7 +30,6 @@ static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
 	}
 	if (!(*op = ft_strdup((*right)->lexeme)))
 		return (-1);
-//	*right = (*right)->next ? (*right)->next : NULL;//
 	*right = (*right)->next;
 	if (*left)
 	{
@@ -48,7 +47,10 @@ int			sh_parser(t_token *lexer, t_tree **root)
 	left = NULL;
 	right = NULL;
 	if (!lexer)
-		return ((int)(*root = NULL));
+	{
+		*root = NULL;
+		return (0);
+	}
 	if (!(*root = (t_tree*)ft_memalloc(sizeof(t_tree))))
 		return (-1);
 	(*root)->cmd = NULL;
