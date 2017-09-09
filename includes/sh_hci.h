@@ -5,7 +5,7 @@
 **	HUMAN-COMPUTER INTERACTION
 */
 
-t_token	*sh_hci(t_tc *termcaps);
+int		sh_hci(t_tc *termcaps, t_token **lexer);
 int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 /*
@@ -72,6 +72,7 @@ int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);
 int		sh_token_del(t_token **begin);
 int		sh_category(char *str, size_t *i, int *status);
+int		sh_verification(t_token *lexer);
 
 /*
 **	PROMPT

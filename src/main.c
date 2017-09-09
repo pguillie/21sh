@@ -4,6 +4,7 @@ int			main(void)
 {
 	t_tc	termcaps;
 	t_token	*lexer;
+	t_tree	*root;
 	int		remaining_error;
 
 	if (sh_init(&termcaps))
@@ -11,10 +12,15 @@ int			main(void)
 	remaining_error = ERROR_MAX;
 	while (remaining_error)
 	{
-		if (!(lexer = sh_hci(&termcaps)))
+		lexer = NULL;
+		if (sh_hci(&termcaps, &lexer))
 			remaining_error -= 1;
-	//	if (lexer_parser())
-	//		return (1);
+		displex(lexer);
+		root = NULL;
+		if (sh_parser(lexer, &root) < 0)
+			remaining_error -= 1;
+	if (root)
+		disptree(root);
 	//	if (execution())
 	//		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:28:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/07/03 19:04:43 by pguillie         ###   ########.fr       */
+/*   Updated: 2017/09/09 15:31:53 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define E_NOTERM "Terminal type not defined"
 # define E_NOTSET "Varibale not set"
 # define E_RAW "Could not switch to non-canonical mode"
-# define E_SYNTAX "Syntax error"
+# define E_SYNERR "Syntax error near unexpected token"
 # define E_TCBASE "Could not access the termcap data base"
 # define E_TERMIOS "Could not restore previous structure"
 
