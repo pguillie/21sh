@@ -25,6 +25,7 @@ typedef struct	s_line
 	char			*str;
 	size_t			cur;
 	size_t			pos;
+	int				hist;//
 	size_t			used;
 	size_t			capacity;
 	struct s_line	*up;

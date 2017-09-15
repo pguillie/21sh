@@ -19,7 +19,7 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
 		byte = 0;
 		while (byte < '@' || byte > '~')
 		{
-			tc->esc = ft_realloc(tc->esc, size, size + 1, sizeof(char));
+			tc->esc = ft_realloc(tc->esc, size, size + 1, sizeof(char));//secu
 			if (tc->esc && read(0, &byte, 1) < 0)
 				ft_strdel(&(tc->esc));
 			if (!tc->esc)
