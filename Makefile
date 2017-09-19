@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pguillie <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/05/09 12:40:11 by pguillie          #+#    #+#              #
-#    Updated: 2017/08/29 12:05:50 by pguillie         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME	= 21sh
 CC		= gcc
 LEAKS	= -fsanitize=address -g3
@@ -48,6 +36,7 @@ obj/%.o: src/%.c $(HEADERS) Makefile
 
 obj:
 	mkdir -p ./obj/environment
+	mkdir -p ./obj/execution
 	mkdir -p ./obj/hci/conversions
 	mkdir -p ./obj/hci/cur_motion
 	mkdir -p ./obj/hci/edition
@@ -55,6 +44,8 @@ obj:
 	mkdir -p ./obj/hci/lexer
 	mkdir -p ./obj/hci/prompt
 	mkdir -p ./obj/initialization
+	mkdir -p ./obj/parser
+	mkdir -p ./obj/signals
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
 $(LIB):

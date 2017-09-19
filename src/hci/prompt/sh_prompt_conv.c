@@ -27,30 +27,30 @@ int			sh_prompt_conv(char c)
 		return (1);
 	if (c == 'd')
 		return (sh_prt_date());
-	if (c == 'D')
-		;
+//	if (c == 'D')
+//		;
 	if (c == 'e')
 		return (sh_prt_esc());
 	if (c == 'h' || c == 'H')
 		return (sh_prt_host(c));
-	if (c == 'j')
-		;
-	if (c == 'l')
-		;
-	if (c == 's')
-		;
+//	if (c == 'j')
+//		;
+//	if (c == 'l')
+//		;
+//	if (c == 's')
+//		;
 	if (c == 't' || c == 'T' || c == '@' || c == 'A')
 		return (sh_prt_time(c));
 	if (c == 'u')
 		return (sh_prt_user());
-	if (c == 'v' || c == 'V')
-		;
+//	if (c == 'v' || c == 'V')
+//		;
 	if (c == 'w' || c == 'W')
 		return (sh_prt_wdir(c));
-	if (c == '!')
-		;
-	if (c == '#')
-		;
+//	if (c == '!')
+//		;
+//	if (c == '#')
+//		;
 	if (c == '$')
 		return (sh_prt_end());
 	return (0);

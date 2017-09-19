@@ -44,4 +44,26 @@ typedef struct	s_token
 	struct s_token	*next;
 }				t_token;
 
+typedef struct	s_redir
+{
+	size_t	size;
+	char	*type;
+	int		left;
+	char	*right;
+}				t_redir;
+
+typedef struct	s_cmd
+{
+	char			**av;
+	struct s_redir	*redir;
+}				t_cmd;
+
+typedef struct	s_tree
+{
+	char			*op;
+	t_cmd			*cmd;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}				t_tree;
+
 #endif

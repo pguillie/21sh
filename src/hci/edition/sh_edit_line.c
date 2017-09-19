@@ -19,7 +19,7 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 	if (!(coord = sh_create_coord(*line, tc->prompt)))
 		return (-1);
 	success[0] = 0;
-	while (!(success[0] & EOL))
+	while (!sh_sig_quit() && !(success[0] & EOL))
 	{
 		tmp ? ft_strdel(&tmp) : 0;
 		if (read(0, &byte, 1) < 0)
@@ -44,6 +44,7 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 		if (success[0] & DISP)
 			sh_display(*line, coord, *tc); //+lexer
 	}
+	free(coord);
 	*save ? ft_strdel(save) : 0;
 	*save = tmp;
 	return (success[1]);
