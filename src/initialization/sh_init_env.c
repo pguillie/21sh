@@ -2,13 +2,13 @@
 
 int		sh_init_env(void)
 {
-//	extern char	**environ;
-//	char		**dup;
+	extern char	**environ;
+	char		**dup;
 //	char		*shlvl;
 	int			ret;
 
-//	if (!(dup = sh_envdup(environ)))
-//		return (-1);
+	if (!(dup = sh_envdup(environ)))
+		return (-1);
 	ret = 1;
 /*
 	if ((shlvl = ft_itoa(ft_atoi(getenv("SHLVL") + 1))))
@@ -18,5 +18,6 @@ int		sh_init_env(void)
 	if (!getenv("SYNTAX_HIGHLIGHTING"))
 		ret = sh_setenv_line("SYNTAX_HIGHLIGHTING=false");//secu
 */
+	environ = dup;
 	return (ret);
 }

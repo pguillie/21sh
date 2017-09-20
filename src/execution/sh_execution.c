@@ -39,7 +39,7 @@ static int	sh_exec_bin(char *cmd, char **path)
 	char	**env_path;
 	char	*path_value;
 	size_t	i;
-	
+
 	if (!(path_value = getenv("PATH")))
 		return (ft_error(cmd, E_NOCMD, NULL));
 	if (!(env_path = sh_envvarsplit(path_value)))
@@ -61,23 +61,12 @@ static int	sh_exec_bin(char *cmd, char **path)
 	return (0);
 }
 
-int			sh_execution(char *av[])
+static int	sh_father_child(pid_t child, char *path, char *av[])
 {
-	pid_t		child;
-	extern char **environ;
-	char		*path;
-	int			no_file;
+	extern char	**environ;
 	int			ret;
 
-	path = NULL;
 	ret = 0;
-	if ((no_file = ft_strchr(av[0], '/') ?
-		sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
-		return (-1);
-	if (no_file)
-		return (1);
-	if ((child = fork()) < 0)
-		return (-1);
 	if (child == 0)
 	{
 		sh_dfl_sig();
@@ -86,10 +75,35 @@ int			sh_execution(char *av[])
 	}
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(child, &ret, WUNTRACED);
 		if (WIFSTOPPED(ret))
+		{
 			kill(child, SIGTERM);
+			wait(&ret);
+		}
 	}
+	return (ret);
+}
+
+int			sh_execution(char *av[])
+{
+	pid_t		child;
+	char		*path;
+	int			no_file;
+	int			ret;
+
+	path = NULL;
+	ret = 0;
+	if ((no_file = ft_strchr(av[0], '/') ?
+				sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
+		return (-1);
+	if (no_file)
+		return (1);
+	if ((child = fork()) < 0)
+		return (-1);
+	ret = sh_father_child(child, path, av);
+	sh_catch_signals();
 	ft_strdel(&path);
 	return (ret);
 }

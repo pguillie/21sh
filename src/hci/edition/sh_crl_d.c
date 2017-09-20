@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_sig_quit.c                                      :+:      :+:    :+:   */
+/*   sh_crl_d.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/18 16:20:00 by pbourlet          #+#    #+#             */
-/*   Updated: 2017/09/19 17:08:07 by pbourlet         ###   ########.fr       */
+/*   Created: 2017/09/20 15:08:57 by pbourlet          #+#    #+#             */
+/*   Updated: 2017/09/20 15:47:38 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "shell.h"
 
-int		sh_sig_quit(void)
+int		sh_ctrl_d(t_line **line, t_coord **coord, t_tc *tc, char *save)
 {
-	if (g_signal == SIGINT)
-		return (1);
-	return (0);
+	int ret;
+
+	ret = 0;
+	if (!save && (*line)->str[0] == 0)
+	{
+		ft_putchar('\n');
+		return (EOT);
+	}
+	if ((*line)->cur != (*line)->used)
+		ret = sh_del_r(*line, coord, *tc);
+	return (ret);
 }
