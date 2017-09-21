@@ -37,6 +37,7 @@ static int	sh_pipe(t_tree *root)
 	int		fildes[2];
 	int		ret;
 
+	ft_printf("pipe\n");
 	if (pipe(fildes) < 0)
 		return (-1);
 	if ((child = fork()) < 0)
@@ -63,7 +64,11 @@ int			sh_tree_browse(t_tree *root)
 		return (0);
 	ret = -1;
 	if (root->cmd)
+	{
+//		sh_redir_set(root->cmd->redir, root->cmd->nb_redir, int back[]);
 		ret = sh_execution(root->cmd->av);
+//		sh_redir_res(back);
+	}
 	else if (root->op)
 	{
 		if (ft_strequ(root->op, "|") || ft_strequ(root->op, "|&"))

@@ -111,7 +111,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 	}
 	new->av = sh_av_new(lexer, size[0]);
 	new->redir = sh_redir_new(lexer, size[1]);
-	new->redir->size = size[1];
+	new->nb_redir = size[1];
 	if (!new->av || !new->redir)
 		sh_cmd_del(&new);
 	return (new);

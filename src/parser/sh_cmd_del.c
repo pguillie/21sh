@@ -6,7 +6,7 @@ void	sh_cmd_del(t_cmd **cmd)
 
 	ft_strtabdel((*cmd)->av);
 	i = 0;
-	while (i < (*cmd)->redir->size)
+	while (i < (*cmd)->nb_redir)
 	{
 		ft_strdel(&((*cmd)->redir[i].type));
 		ft_strdel(&((*cmd)->redir[i].right));

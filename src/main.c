@@ -6,7 +6,7 @@
 **	or 128+n if the command was terminated by signal n.
 */
 
-static void	sh_remettre_a_zero(t_token **lexer, t_tree **root, int mode)
+static void	sh_set_to_zero(t_token **lexer, t_tree **root, int mode)
 {
 	if (mode == 1)
 	{
@@ -27,7 +27,7 @@ int			main(void)
 	t_token	*lexer;
 	t_tree	*root;
 	int		remaining_error;
-	int		ret;
+	int		ret[2];
 
 	if (sh_init(&termcaps))
 		return (1);
@@ -35,16 +35,16 @@ int			main(void)
 	sh_catch_signals();
 	while (remaining_error)
 	{
-		sh_remettre_a_zero(&lexer, &root, 1);
-		if ((ret = sh_hci(&termcaps, &lexer)) < 0)
+		sh_set_to_zero(&lexer, &root, 1);
+		if ((ret[0] = sh_hci(&termcaps, &lexer)) < 0)
 			remaining_error -= 1;
-		else if (ret & EOT)
-			exit(0);
+		else if (ret[0] & EOT)
+			exit(ret[1]);
 		else if (sh_parser(lexer, &root) < 0)
 			remaining_error -= 1;
-		else if ((ret = sh_tree_browse(root)) < 0)
+		else if ((ret[1] = sh_tree_browse(root)) < 0)
 			remaining_error -= 1;
-		sh_remettre_a_zero(&lexer, &root, 2);
+		sh_set_to_zero(&lexer, &root, 2);
 	}
 	ft_printf("\n\nToo many errors encountered, program has to quit.\n");
 	return (1);

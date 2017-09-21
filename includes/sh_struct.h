@@ -46,7 +46,6 @@ typedef struct	s_token
 
 typedef struct	s_redir
 {
-	size_t	size;
 	char	*type;
 	int		left;
 	char	*right;
@@ -55,6 +54,7 @@ typedef struct	s_redir
 typedef struct	s_cmd
 {
 	char			**av;
+	size_t			nb_redir;
 	struct s_redir	*redir;
 }				t_cmd;
 

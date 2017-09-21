@@ -12,8 +12,7 @@ void		sh_catch_signals(void)
 
 	sa.sa_handler = &sig_handler;
 	sa.sa_flags = 0;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		ft_error("Signal", "SIGINT", "Impossible to catch");
+	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);

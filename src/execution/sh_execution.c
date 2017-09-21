@@ -83,7 +83,7 @@ static int	sh_father_child(pid_t child, char *path, char *av[])
 			wait(&ret);
 		}
 	}
-	return (ret);
+	return (WEXITSTATUS(ret));
 }
 
 int			sh_execution(char *av[])
