@@ -22,5 +22,5 @@ int		sh_hci(t_tc *tc, t_token **lexer)
 	if (g_signal == SIGINT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	sh_hist_del(&hist);
-	return (ret);
+	return (g_signal ? 0 : ret);
 }
