@@ -9,6 +9,10 @@ int			sh_redir_set(t_redir *redir, int std[])
 	ft_memset(std, -1, 10);
 	while (redir[i].type)
 	{
+		if (ft_strequ(redir[i].type, ">&"))
+			fd = ft_atoi(redir[i].right);
+		if (ft_strequ(redir[i].type, "<&"))
+			fd = ft_atoi(redir[i].right);
 		if (ft_strequ(redir[i].type, ">"))
 			fd = open(redir[i].right, O_CREAT | O_WRONLY | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
