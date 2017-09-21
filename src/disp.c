@@ -1,12 +1,12 @@
 #include "shell.h"
 
-void	displex(t_token *lexer)
+void	displex(t_token *lex)
 {
 	ft_putendl("=== DISPLEX ===");
-	while (lexer)
+	while (lex)
 	{
-		ft_printf("category:%2d -- lexeme:%s\n", lexer->category, lexer->lexeme);
-		lexer = lexer->next;
+		ft_printf("category:%2d -- lexeme:%s\n", lex->category, lex->lexeme);
+		lex = lex->next;
 	}
 	ft_putendl(" == end lex ==");
 }

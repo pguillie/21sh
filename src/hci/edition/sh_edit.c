@@ -1,6 +1,23 @@
 #include "shell.h"
 
-int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
+static int	edit_end(struct termios backup, int ret, char *save, char *last)
+{
+	if (tcsetattr(0, TCSANOW, &backup) < 0)
+	{
+		save ? ft_strdel(&save) : 0;
+		ft_error("Unable to restore termios structure", NULL, NULL);
+		return (-1);
+	}
+	if (!(ret & EOT) && g_signal != SIGINT)
+	{
+		if (sh_hist_write(save, last))
+			ft_error("Unable to write line in history", NULL, NULL);
+	}
+	save ? ft_strdel(&save) : 0;
+	return (ret);
+}
+
+int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 {
 	struct termios	backup;
 	char			*save;
@@ -10,7 +27,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		return (-1);
 	ret = LEX_LOOP;
 	save = NULL;
-	while (ret & LEX_LOOP)
+	while (g_signal != SIGINT && !(ret & EOT) && ret & LEX_LOOP)
 	{
 		ft_bzero(line->str, line->used);
 		line->used = 0;
@@ -22,12 +39,5 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		if (ret & LEX_OK)
 			ret = sh_verification(*lexer);
 	}
-	if (tcsetattr(0, TCSANOW, &backup) < 0)
-	{
-		ft_error("Unable to restore termios structure", NULL, NULL);
-		return (-1);
-	}
-	if (sh_hist_write(save, last))
-		ft_error("Unable to write line in history", NULL, NULL);
-	return (ret);
+	return (edit_end(backup, ret, save, last));
 }

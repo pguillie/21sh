@@ -62,6 +62,31 @@ static int	sh_exec_bin(char *cmd, char **path)
 	return (*path ? 0 : 1);
 }
 
+static int	sh_father_child(pid_t child, char *path, char *av[])
+{
+	extern char	**environ;
+	int			ret;
+
+	ret = 0;
+	if (child == 0)
+	{
+		sh_dfl_sig();
+		if (execve(path, av, environ) < 0)
+			return (-1);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(child, &ret, WUNTRACED);
+		if (WIFSTOPPED(ret))
+		{
+			kill(child, SIGTERM);
+			wait(&ret);
+		}
+	}
+	return (WEXITSTATUS(ret));
+}
+
 int			sh_execution(char *av[])
 {
 	pid_t		child;
@@ -79,13 +104,8 @@ int			sh_execution(char *av[])
 		return (1);
 	if ((child = fork()) < 0)
 		return (-1);
-	if (child == 0)
-	{
-		if (execve(path, av, environ) < 0)
-			return (-1);
-	}
-	else
-		waitpid(child, &ret, 0);
+	ret = sh_father_child(child, path, av);
+	sh_catch_signals();
 	ft_strdel(&path);
 	return (ret);
 }

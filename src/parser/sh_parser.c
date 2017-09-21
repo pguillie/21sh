@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_get_highest(t_token *lexer)
+static int		sh_get_highest(t_token *lexer)
 {
 	t_token	*b;
 	int		high;
@@ -16,7 +16,8 @@ static int	sh_get_highest(t_token *lexer)
 	return (high);
 }
 
-static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
+static int		sh_split(char **op, t_token *lexer,
+				t_token **left, t_token **right)
 {
 	int		high;
 
@@ -33,13 +34,29 @@ static int	sh_split(char **op, t_token *lexer, t_token **left, t_token **right)
 	*right = (*right)->next;
 	if (*left)
 	{
-		(*left)->next = NULL;
+		ft_strdel(&((*left)->next->lexeme));
+		ft_memdel((void**)&((*left)->next));
 		*left = lexer;
 	}
 	return (1);
 }
 
-int			sh_parser(t_token *lexer, t_tree **root)
+static t_token	*sh_join_token(t_token *l, t_token *r)
+{
+	t_token *f;
+
+	if (l)
+	{
+		f = l;
+		while (f->next)
+			f = f->next;
+		f->next = r;
+		return (l);
+	}
+	return (r);
+}
+
+int				sh_parser(t_token *lexer, t_tree **root)
 {
 	t_token	*left;
 	t_token	*right;
@@ -62,5 +79,6 @@ int			sh_parser(t_token *lexer, t_tree **root)
 	if (sh_parser(left, &((*root)->left)) < 0
 			|| sh_parser(right, &((*root)->right)) < 0)
 		return (sh_tree_del(root));
+	lexer = sh_join_token(left, right);
 	return (0);
 }

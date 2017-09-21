@@ -6,7 +6,7 @@ int		get_next_line(int fd, char **line)
 	char		b[BUFF_SIZE + 1];
 	size_t		i;
 	int			c;
-	
+
 	if (!line || fd < 0 || fd >= 512 || !((c = BUFF_SIZE) > 0))
 		return (-1);
 	while (!ft_strchr(s[fd], '\n') && c == BUFF_SIZE)

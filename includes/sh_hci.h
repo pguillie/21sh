@@ -40,6 +40,7 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 **	EDITION
 */
 
+int		sh_ctrl_d(t_line **line, t_coord **coord, t_tc *tc, char *save);
 int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
 int		sh_esc(t_line **line, t_coord **coord, t_tc *tc);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc);

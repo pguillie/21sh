@@ -20,20 +20,21 @@
 # define HIST_FILE ".21sh_history"
 # define ERROR_MAX 5
 
+# define EOT 8
 # define EOL 4
 # define LEXER 2
 # define DISP 1
 # define SYN_ERR 4
-# define LEX_LOOP 2 
+# define LEX_LOOP 2
 # define LEX_OK 1
 
-# define UP 1    
-# define DOWN 2  
-# define RIGHT 4 
-# define LEFT 8  
-# define END 32  
+# define UP 1
+# define DOWN 2
+# define RIGHT 4
+# define LEFT 8
+# define END 32
 # define HOME 128
-# define CTL 64  
+# define CTL 64
 
 /*
 **	RESSOURCES
@@ -52,6 +53,7 @@
 # include "sh_hci.h"
 # include "sh_initialization.h"
 # include "sh_parser.h"
+# include "signals.h"
 
 ////////////////
 void displex(t_token *lexer);
