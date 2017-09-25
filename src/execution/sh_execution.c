@@ -79,7 +79,7 @@ static int	sh_father_child(pid_t child, char *path, char *av[])
 		waitpid(child, &ret, WUNTRACED);
 		if (WIFSTOPPED(ret))
 		{
-			kill(child, SIGTERM);
+			kill(child, SIGKILL);
 			wait(&ret);
 		}
 	}

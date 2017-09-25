@@ -24,6 +24,8 @@
 # define EOL 4
 # define LEXER 2
 # define DISP 1
+# define DISP_FULL 17
+
 # define SYN_ERR 4
 # define LEX_LOOP 2
 # define LEX_OK 1
@@ -53,7 +55,8 @@
 # include "sh_hci.h"
 # include "sh_initialization.h"
 # include "sh_parser.h"
-# include "signals.h"
+# include "sh_signals.h"
+# include "sh_builtins.h"
 
 ////////////////
 void displex(t_token *lexer);

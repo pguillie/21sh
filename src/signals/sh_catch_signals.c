@@ -3,7 +3,6 @@
 static void	sig_handler(int sig)
 {
 	g_signal = sig;
-	ft_putchar('\n');
 }
 
 void		sh_catch_signals(void)

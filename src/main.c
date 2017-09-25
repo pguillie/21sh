@@ -27,7 +27,7 @@ int			main(void)
 	t_token	*lexer;
 	t_tree	*root;
 	int		remaining_error;
-	int		ret[2];
+	int		ret;
 
 	if (sh_init(&termcaps))
 		return (1);
@@ -36,13 +36,11 @@ int			main(void)
 	while (remaining_error)
 	{
 		sh_set_to_zero(&lexer, &root, 1);
-		if ((ret[0] = sh_hci(&termcaps, &lexer)) < 0)
+		if (sh_hci(&termcaps, &lexer, ret))
 			remaining_error -= 1;
-		else if (ret[0] & EOT)
-			exit(ret[1]);
 		else if (sh_parser(lexer, &root) < 0)
 			remaining_error -= 1;
-		else if ((ret[1] = sh_tree_browse(root)) < 0)
+		else if ((ret = sh_tree_browse(root)) < 0)
 			remaining_error -= 1;
 		sh_set_to_zero(&lexer, &root, 2);
 	}

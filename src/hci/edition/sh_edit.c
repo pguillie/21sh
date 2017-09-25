@@ -1,20 +1,13 @@
 #include "shell.h"
 
-static int	edit_end(struct termios backup, int ret, char *save, char *last)
+static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 {
-	if (tcsetattr(0, TCSANOW, &backup) < 0)
-	{
-		save ? ft_strdel(&save) : 0;
-		ft_error("Unable to restore termios structure", NULL, NULL);
-		return (-1);
-	}
-	if (!(ret & EOT) && g_signal != SIGINT)
-	{
-		if (sh_hist_write(save, last))
+	if (ret < 0 || ret & EOT || ret & SYN_ERR)
+		sh_token_del(lexer);
+	else if (sh_hist_write(save, last))
 			ft_error("Unable to write line in history", NULL, NULL);
-	}
 	save ? ft_strdel(&save) : 0;
-	return (ret);
+	return (g_signal == SIGINT ? 1 : ret);
 }
 
 int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
@@ -27,17 +20,20 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		return (-1);
 	ret = LEX_LOOP;
 	save = NULL;
-	while (g_signal != SIGINT && !(ret & EOT) && ret & LEX_LOOP)
+	while (ret & LEX_LOOP)
 	{
 		ft_bzero(line->str, line->used);
 		line->used = 0;
 		line->cur = 0;
 		tc->esc = NULL;
 		tc->prompt = sh_prompt(!save ? 1 : 2);
-		if ((ret = sh_edit_line(&line, &save, lexer, tc)) < 0)
-			return (sh_token_del(lexer));
+		ret = sh_edit_line(&line, &save, lexer, tc);
+		if (ret < 0 || ret == EOT)
+			break ;
 		if (ret & LEX_OK)
 			ret = sh_verification(*lexer);
 	}
-	return (edit_end(backup, ret, save, last));
+	if (tcsetattr(0, TCSANOW, &backup) < 0 && (ret = -1))
+		ft_error("Unable to restore termios structure", NULL, NULL);
+	return (edit_end(lexer, ret, save, last));
 }

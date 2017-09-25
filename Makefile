@@ -46,6 +46,7 @@ obj:
 	mkdir -p ./obj/initialization
 	mkdir -p ./obj/parser
 	mkdir -p ./obj/signals
+	mkdir -p ./obj/builtins
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
 $(LIB):

@@ -1,8 +1,15 @@
 #ifndef SH_STRUCT_H
 # define SH_STRUCT_H
 
+typedef struct	s_coord
+{
+	int	x;
+	int	y;
+}				t_coord;
+
 typedef struct	s_tc
 {
+	t_coord	*coord;
 	int		on;
 	int		cut;
 	int		prompt;
@@ -30,12 +37,6 @@ typedef struct	s_line
 	struct s_line	*up;
 	struct s_line	*down;
 }				t_line;
-
-typedef struct	s_coord
-{
-	int	x;
-	int	y;
-}				t_coord;
 
 typedef struct	s_token
 {
