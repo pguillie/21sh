@@ -76,6 +76,8 @@ int			sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 		}
 		if (g_signal != SIGINT)
 			sh_norme2(*line, *save, tc, success[0]);
+		if (g_signal == SIGINT)
+			sh_move_cur((*line)->cur, (*line)->used, tc->coord, *tc);
 	}
 	return (sh_edit_free(tc->coord, save, tmp, success));
 }

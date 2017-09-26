@@ -22,6 +22,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 	save = NULL;
 	while (ret & LEX_LOOP)
 	{
+		g_signal = 0;
 		ft_bzero(line->str, line->used);
 		line->used = 0;
 		line->cur = 0;
