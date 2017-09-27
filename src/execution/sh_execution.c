@@ -83,6 +83,8 @@ static int	sh_father_child(pid_t child, char *path, char *av[])
 			kill(child, SIGKILL);
 			wait(&ret);
 		}
+		if (WIFSIGNALED(ret))
+			write(1, "\n", 1);
 	}
 	return (WEXITSTATUS(ret));
 }
