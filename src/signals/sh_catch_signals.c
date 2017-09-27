@@ -9,9 +9,10 @@ void		sh_catch_signals(void)
 {
 	struct sigaction	sa;
 
+	ft_memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_handler = &sig_handler;
-	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGWINCH, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);

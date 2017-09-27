@@ -5,7 +5,7 @@ static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
 	else if (sh_hist_write(save, last))
-			ft_error("Unable to write line in history", NULL, NULL);
+		ft_error("Unable to write line in history", NULL, NULL);
 	save ? ft_strdel(&save) : 0;
 	return (g_signal == SIGINT ? 1 : ret);
 }

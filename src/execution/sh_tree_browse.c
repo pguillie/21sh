@@ -52,13 +52,15 @@ static int	sh_pipe(t_tree *root)
 
 static int	sh_tree_cmd(t_tree *root)
 {
-	int		std[10];
+	int		std[3];
 	int		ret;
+	int		fd;
 
-	ret = sh_redir_set(root->cmd->redir, std);
+	memset(std, -1, sizeof(int) * 3);
+	ret = sh_redir_set(root->cmd->redir, std, &fd);
 	if (ret == 0)
 		ret = sh_execution(root->cmd->av);
-	sh_redir_restore(std);
+	sh_redir_restore(std, fd);
 	return (ret);
 }
 

@@ -11,7 +11,10 @@ void	sh_display(t_line *line, t_coord *coord, t_tc tc)
 		ft_putchar_fd(line->str[i++], 0);
 		if (line->str[i - 1] != '\n' && line->cur != i
 				&& coord[i - 1].x == coord[line->used + 1].x - 1)
-			ft_putchar('\n');
+		{
+			ft_putchar_fd(' ', 0);
+			tputs(tc.le, 0, termput);
+		}
 	}
 	line->cur = sh_move_cur(i, line->pos, coord, tc);
 }
