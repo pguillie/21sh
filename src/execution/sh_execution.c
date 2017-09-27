@@ -72,7 +72,7 @@ static int	sh_father_child(pid_t child, char *path, char *av[])
 	{
 		sh_dfl_sig();
 		if (execve(path, av, environ) < 0)
-			return (-1);
+			exit(1);
 	}
 	else
 	{
