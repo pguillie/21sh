@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prompt.c                                        :+:      :+:    :+:   */
+/*   sh_prt_chr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 17:59:37 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/27 18:39:56 by pguillie         ###   ########.fr       */
+/*   Created: 2017/09/25 17:59:56 by pguillie          #+#    #+#             */
+/*   Updated: 2017/09/25 17:59:57 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prompt(int mode)
+void	sh_prt_chr(char buff[], int *b, char c, int *len)
 {
-	char	*ps;
-
-	ps = NULL;
-	if (mode == 1)
+	if (*b == PRT_SIZE)
+		*b = ft_flush_buff(buff, PRT_SIZE);
+	if (c == 'a')
 	{
-		if (!(ps = getenv("PS1")))
-			ps = PS1;
+		buff[*b] = '\a';
+		*len += 1;
 	}
-	else if (mode == 2)
+	else
 	{
-		if (!(ps = getenv("PS2")))
-			ps = PS2;
+		if (c == 'n')
+			buff[*b] = '\n';
+		else if (c == 'r')
+			buff[*b] = '\r';
+		*len = 0;
 	}
-	else if (mode == 3)
-	{
-		if (!(ps = getenv("PS3")))
-			ps = PS3;
-	}
-	else if (mode == 4)
-	{
-		if (!(ps = getenv("PS4")))
-			ps = PS4;
-	}
-	return (sh_print_prompt(ps));
+	*b += 1;
 }
