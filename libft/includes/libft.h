@@ -117,6 +117,7 @@ char				**ft_strsplit(char const *str, char c);
 char				**ft_strtab_sort(char **tab);
 void				ft_strtab_disp(char **tab);
 void				ft_strtabdel(char **tab);
+size_t				ft_flush_buff(char *buff, size_t size);
 
 /*
 ** Case

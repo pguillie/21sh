@@ -14,6 +14,6 @@ int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc)
 		ret = sh_del_r(*line, coord, *tc);
 	else if (tc->esc[1] == '\n')
 		ret = sh_ins(*line, coord, *tc, '\n');
-	ft_strdel(&(tc->esc));
+	free(tc->esc);
 	return (ret);
 }

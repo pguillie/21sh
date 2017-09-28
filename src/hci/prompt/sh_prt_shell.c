@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prompt.c                                        :+:      :+:    :+:   */
+/*   sh_prt_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 17:59:37 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/27 18:39:56 by pguillie         ###   ########.fr       */
+/*   Created: 2017/09/25 18:00:27 by pguillie          #+#    #+#             */
+/*   Updated: 2017/09/25 18:00:28 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prompt(int mode)
+int		sh_prt_shell(char buff[], int *b)
 {
-	char	*ps;
+	char	*shell;
+	int		i;
 
-	ps = NULL;
-	if (mode == 1)
+	shell = SHELL;
+	i = 0;
+	while (shell[i])
 	{
-		if (!(ps = getenv("PS1")))
-			ps = PS1;
+		if (*b == PRT_SIZE)
+			*b = ft_flush_buff(buff, PRT_SIZE);
+		buff[(*b)++] = shell[i++];
 	}
-	else if (mode == 2)
-	{
-		if (!(ps = getenv("PS2")))
-			ps = PS2;
-	}
-	else if (mode == 3)
-	{
-		if (!(ps = getenv("PS3")))
-			ps = PS3;
-	}
-	else if (mode == 4)
-	{
-		if (!(ps = getenv("PS4")))
-			ps = PS4;
-	}
-	return (sh_print_prompt(ps));
+	return (i);
 }

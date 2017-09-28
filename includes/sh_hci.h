@@ -81,12 +81,19 @@ int		sh_verification(t_token *lexer);
 
 int		sh_prompt(int mode);
 int		sh_print_prompt(char *ps);
-int		sh_prompt_conv(char c);
-int		sh_prt_date(void);
-int		sh_prt_host(char c);
-int		sh_prt_time(char c);
-int		sh_prt_user(void);
-int		sh_prt_wdir(char c);
-int		sh_prt_end(void);
+int		sh_prompt_conv(char *ps, char buff[], int *b, int *len);
+
+int		sh_prt_strftime(char buff[], int *b, char *format, struct tm *tm);
+void	sh_prt_chr(char buff[], int *b, char c, int *len);
+int		sh_prt_date(char buff[], int *b, char *ps, int *len);
+int		sh_prt_esc(char buff[], int *b, char *ps);
+int		sh_prt_host(char buff[], int *b, char h);
+int		sh_prt_shell(char buff[], int *b);
+int		sh_prt_term(char buff[], int *b);
+int		sh_prt_time(char buff[], int *b, char t);
+int		sh_prt_user(char buff[], int *b);
+int		sh_prt_vers(char buff[], int *b, char v);
+int		sh_prt_wdir(char buff[], int *b, char w);
+int		sh_prt_uid(char buff[], int *b);
 
 #endif

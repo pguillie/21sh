@@ -11,7 +11,7 @@ char	*sh_hist_line(char *line, char *gnl)
 		ft_strdel(&tmp);
 	if (!line)
 		ft_error("Warning", "History not totally recoverded", NULL);
-	if (line[ft_strlen(line) - 1] == '\\')
+	if (line[ft_strlen(line) - (ft_strlen(line) ? 1 : 0)] == '\\')
 		line[ft_strlen(line) - 1] = '\n';
 	return (line);
 }
@@ -46,7 +46,7 @@ t_line	*sh_hist_gnl(int fd)
 	{
 		if (!(line = sh_hist_line(line, gnl)))
 			return (hist);
-		if (line[ft_strlen(line) - 1] != '\n')
+		if (line[ft_strlen(line) - (ft_strlen(line) ? 1 : 0)] != '\n')
 		{
 			if (!(hist = sh_hist_create(hist, &line)))
 				return (hist);

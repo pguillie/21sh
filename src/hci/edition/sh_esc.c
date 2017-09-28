@@ -13,7 +13,7 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
 		ft_strdel(&tc->esc);
 		return (-1);
 	}
-	if ((size = 2) && tc->esc[1] == '[')
+	if (tc->esc[1] == '[' && (size = 2))
 	{
 		byte = 0;
 		while (byte < '@' || byte > '~')

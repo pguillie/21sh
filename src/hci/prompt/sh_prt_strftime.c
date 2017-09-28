@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prompt.c                                        :+:      :+:    :+:   */
+/*   sh_prt_strftime.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 17:59:37 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/27 18:39:56 by pguillie         ###   ########.fr       */
+/*   Created: 2017/09/25 18:00:33 by pguillie          #+#    #+#             */
+/*   Updated: 2017/09/25 18:00:33 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prompt(int mode)
+int		sh_prt_strftime(char buff[], int *b, char *format, struct tm *tm)
 {
-	char	*ps;
+	char	date[128];
+	int		i;
+	int		len;
 
-	ps = NULL;
-	if (mode == 1)
+	len = 0;
+	if (strftime(date, 128, format, tm) > 0)
 	{
-		if (!(ps = getenv("PS1")))
-			ps = PS1;
+		i = 0;
+		while (date[i])
+		{
+			len = (date[i] == '\n' ? 0 : len + 1);
+			if (*b == PRT_SIZE)
+				*b = ft_flush_buff(buff, PRT_SIZE);
+			buff[(*b)++] = date[i++];
+		}
 	}
-	else if (mode == 2)
-	{
-		if (!(ps = getenv("PS2")))
-			ps = PS2;
-	}
-	else if (mode == 3)
-	{
-		if (!(ps = getenv("PS3")))
-			ps = PS3;
-	}
-	else if (mode == 4)
-	{
-		if (!(ps = getenv("PS4")))
-			ps = PS4;
-	}
-	return (sh_print_prompt(ps));
+	return (len);
 }

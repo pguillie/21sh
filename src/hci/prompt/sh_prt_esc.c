@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_prt_host.c                                      :+:      :+:    :+:   */
+/*   sh_prt_esc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 18:00:15 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/25 18:00:16 by pguillie         ###   ########.fr       */
+/*   Created: 2017/09/25 18:00:06 by pguillie          #+#    #+#             */
+/*   Updated: 2017/09/27 18:56:03 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		sh_prt_host(char buff[], int *b, char h)
+int		sh_prt_esc(char buff[], int *b, char *ps)
 {
-	char	host[128];
 	int		i;
-	int		len;
 
-	len = 0;
-	if (gethostname(host, 128) == 0)
+	i = 1;
+	if (*b == PRT_SIZE)
+		*b = ft_flush_buff(buff, PRT_SIZE);
+	buff[(*b)++] = 27;
+	if (*b == PRT_SIZE)
+		*b = ft_flush_buff(buff, PRT_SIZE);
+	buff[*b] = ps[i++];
+	if (buff[(*b)++] == '[')
 	{
-		i = 0;
-		while (host[i])
+		while (ps[i] < '@' || ps[i] > '~')
 		{
-			if (host[i] == '.' && h == 'h')
-				break ;
-			len = (host[i] == '\n' ? 0 : len + 1);
 			if (*b == PRT_SIZE)
 				*b = ft_flush_buff(buff, PRT_SIZE);
-			buff[(*b)++] = host[i++];
+			buff[(*b)++] = ps[i++];
 		}
+		if (*b == PRT_SIZE)
+			*b = ft_flush_buff(buff, PRT_SIZE);
+		buff[(*b)++] = ps[i++];
 	}
-	return (len);
+	return (i);
 }

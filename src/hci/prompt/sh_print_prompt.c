@@ -1,25 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_print_prompt.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/25 17:59:21 by pguillie          #+#    #+#             */
+/*   Updated: 2017/09/25 17:59:21 by pguillie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 int		sh_print_prompt(char *ps)
 {
-	size_t	i;
+	char	buff[PRT_SIZE + 1];
+	int		p;
+	int		b;
 	int		len;
 
+	bzero(buff, PRT_SIZE + 1);
+	p = 0;
+	b = 0;
 	len = 0;
-	i = 0;
-	while (ps[i])
+	while (ps[p])
 	{
-		if (ps[i] == '\\')
-		{
-			len += sh_prompt_conv(ps[++i]);
-			if (ps[i])
-				i++;
-		}
+		if (ps[p] == '\\' && (p += 1))
+			p += sh_prompt_conv(ps + p, buff, &b, &len);
 		else
 		{
-			ft_putchar(ps[i++]);
+			if (b == PRT_SIZE)
+				b = ft_flush_buff(buff, PRT_SIZE);
+			buff[b++] = ps[p++];
 			len += 1;
 		}
 	}
+	ft_flush_buff(buff, PRT_SIZE);
 	return (len);
 }
