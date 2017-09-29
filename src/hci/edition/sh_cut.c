@@ -1,5 +1,17 @@
 #include "shell.h"
 
+static int	sh_move_word(t_line *line)
+{
+	size_t	pos;
+
+	pos = line->cur - 1;
+	while (line->str[pos] && line->str[pos] != ' ')
+		pos -= 1;
+	while (line->str[pos] == ' ')
+		pos -= 1;
+	return (pos + 1);
+}
+
 int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
@@ -7,7 +19,7 @@ int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 
 	if (!line->str || line->cur == 0)
 		return (0);
-	i = sh_move_word_l(line);
+	i = sh_move_word(line);
 	if (!tc->clipboard)
 		cpy = ft_strnew(line->cur - i);
 	else
