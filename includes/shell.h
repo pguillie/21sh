@@ -35,6 +35,8 @@
 # define HOME 128
 # define CTL 64  
 
+# define HIST_SEARCH 4
+
 /*
 **	RESSOURCES
 */

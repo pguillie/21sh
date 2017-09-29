@@ -15,7 +15,8 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		ft_bzero(line->str, line->used);
 		line->used = 0;
 		line->cur = 0;
-		line->hist = -1;
+		line->h_smd = 0;
+		line->h_pos = 0;
 		tc->esc = NULL;
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		if ((ret = sh_edit_line(&line, &save, lexer, tc)) < 0)

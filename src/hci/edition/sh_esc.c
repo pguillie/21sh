@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
+int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *hist_search_mode)
 {
 	char	byte;
 	size_t	size;
@@ -27,5 +27,5 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
 			tc->esc[size++] = byte;
 		}
 	}
-	return (sh_putesc(line, coord, tc));
+	return (sh_putesc(line, coord, tc, hist_search_mode));
 }

@@ -14,6 +14,7 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 	int		success[2];
 	char	byte;
 	char	*tmp;
+	int		hist_search_mode;
 
 	tmp = NULL;
 	if (!(coord = sh_create_coord(*line, tc->prompt)))
@@ -24,14 +25,16 @@ int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 		tmp ? ft_strdel(&tmp) : 0;
 		if (read(0, &byte, 1) < 0)
 			return (-1);
+		hist_search_mode = 0;
 		if (byte == 27)
-			success[0] = sh_esc(line, &coord, tc);
+			success[0] = sh_esc(line, &coord, tc, &hist_search_mode);
 		else if (byte == '\n')
 			success[0] = sh_nl(*line, &coord, *tc);
 		else if (byte == 127)
 			success[0] = sh_del_l(*line, &coord, *tc);
 		else
 			success[0] = sh_ins(*line, &coord, *tc, byte);
+		(*line)->h_smd = hist_search_mode;
 		if (success[0] < 0)
 			return (success[0]);
 		if (success[0] & LEXER)

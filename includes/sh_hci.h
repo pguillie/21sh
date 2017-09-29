@@ -14,7 +14,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 int		sh_move_able(char *esc, t_line *line, t_coord *coord);
 int		sh_del_able(char *esc, t_line *line);
-t_line	*sh_hist_able(char *esc, t_line *line);
+t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
 /*
 **	CONVERTIONS
@@ -41,8 +41,8 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 */
 
 int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
-int		sh_esc(t_line **line, t_coord **coord, t_tc *tc);
-int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc);
+int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
+int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 void	sh_clear(t_line *line, t_coord *coord, t_tc tc);
 void	sh_display(t_line *line, t_coord *coord, t_tc tc);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);

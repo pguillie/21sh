@@ -32,6 +32,5 @@ int			sh_move_able(char *esc, t_line *line, t_coord *coord)
 		line->pos = line->used;
 	else
 		return (0);
-	line->hist = -1;
 	return (1);
 }
