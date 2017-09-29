@@ -25,6 +25,8 @@ typedef struct	s_line
 	char			*str;
 	size_t			cur;
 	size_t			pos;
+	int				h_smd;
+	size_t			h_pos;
 	size_t			used;
 	size_t			capacity;
 	struct s_line	*up;
@@ -43,5 +45,26 @@ typedef struct	s_token
 	int				category;
 	struct s_token	*next;
 }				t_token;
+
+typedef struct	s_redir
+{
+	char	*type;
+	int		left;
+	char	*right;
+}				t_redir;
+
+typedef struct	s_cmd
+{
+	char			**av;
+	struct s_redir	*redir;
+}				t_cmd;
+
+typedef struct	s_tree
+{
+	char			*op;
+	t_cmd			*cmd;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}				t_tree;
 
 #endif

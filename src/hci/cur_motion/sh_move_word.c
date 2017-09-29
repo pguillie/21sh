@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_move_word_r(t_line *line)
+size_t	sh_move_word_r(t_line *line)
 {
 	size_t	pos;
 
@@ -12,7 +12,7 @@ int		sh_move_word_r(t_line *line)
 	return (pos);
 }
 
-int		sh_move_word_l(t_line *line)
+size_t	sh_move_word_l(t_line *line)
 {
 	size_t	pos;
 

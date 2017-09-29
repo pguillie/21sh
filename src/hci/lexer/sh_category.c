@@ -17,13 +17,13 @@ int			sh_category(char *str, size_t *i, int *status)
 {
 	int			sep;
 
+	if (sh_rdir_op(str + i[0]))
+		return (REDIRECTION);
 	if ((sep = sh_cat_sep(str + i[0])))
 	{
 		status[0] = CMD;
 		return (sep);
 	}
-	if (sh_rdir_op(str + i[0]))
-		return (REDIRECTION);
 	if ((i[1] == 1 && str[i[0]] >= '0' && str[i[0]] <= '9'
 			&& sh_rdir_op(str + i[0] + i[1]))
 			|| (str[i[0]] != '-' && status[1]))

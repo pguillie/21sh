@@ -5,7 +5,7 @@
 **	HUMAN-COMPUTER INTERACTION
 */
 
-t_token	*sh_hci(t_tc *termcaps);
+int		sh_hci(t_tc *termcaps, t_token **lexer);
 int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 /*
@@ -14,7 +14,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 int		sh_move_able(char *esc, t_line *line, t_coord *coord);
 int		sh_del_able(char *esc, t_line *line);
-t_line	*sh_hist_able(char *esc, t_line *line);
+t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
 /*
 **	CONVERTIONS
@@ -28,23 +28,12 @@ char	sh_conv_hex(char *str);
 **	CUR_MOTION
 */
 
-# define CTL 64
-# define UP 1
-# define DOWN 2
-# define RIGHT 4
-# define LEFT 8
-# define END 32
-# define HOME 128
-# define P_UP 8
-# define P_DO 4
-# define DEL_R 51
-
 int		sh_cur_motion(long input, t_line *line, size_t *pos, t_coord *coord);
 size_t	sh_move_cur(size_t origin, size_t dest, t_coord *coord, t_tc tc);
-int		sh_move_line_u(t_line *line, t_coord *coord);
-int		sh_move_line_d(t_line *line, t_coord *coord);
-int		sh_move_word_r(t_line *line);
-int		sh_move_word_l(t_line *line);
+size_t	sh_move_line_u(t_line *line, t_coord *coord);
+size_t	sh_move_line_d(t_line *line, t_coord *coord);
+size_t	sh_move_word_r(t_line *line);
+size_t	sh_move_word_l(t_line *line);
 t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 /*
@@ -52,8 +41,8 @@ t_coord	*sh_create_coord(t_line *line, size_t prompt);
 */
 
 int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
-int		sh_esc(t_line **line, t_coord **coord, t_tc *tc);
-int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc);
+int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
+int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 void	sh_clear(t_line *line, t_coord *coord, t_tc tc);
 void	sh_display(t_line *line, t_coord *coord, t_tc tc);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
@@ -83,6 +72,7 @@ int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);
 int		sh_token_del(t_token **begin);
 int		sh_category(char *str, size_t *i, int *status);
+int		sh_verification(t_token *lexer);
 
 /*
 **	PROMPT

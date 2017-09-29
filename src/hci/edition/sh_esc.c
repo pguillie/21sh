@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
+int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *hist_search_mode)
 {
 	char	byte;
 	size_t	size;
@@ -19,7 +19,7 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
 		byte = 0;
 		while (byte < '@' || byte > '~')
 		{
-			tc->esc = ft_realloc(tc->esc, size, size + 1, sizeof(char));
+			tc->esc = ft_realloc(tc->esc, size, size + 1, sizeof(char));//secu
 			if (tc->esc && read(0, &byte, 1) < 0)
 				ft_strdel(&(tc->esc));
 			if (!tc->esc)
@@ -27,5 +27,5 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc)
 			tc->esc[size++] = byte;
 		}
 	}
-	return (sh_putesc(line, coord, tc));
+	return (sh_putesc(line, coord, tc, hist_search_mode));
 }

@@ -33,31 +33,31 @@ static char	**sh_splitexit(char **array)
 	return (NULL);
 }
 
-char		**sh_envvarsplit(char *name, char *env[])
+char		**sh_envvarsplit(char *value)
 {
 	char	**new;
-	char	*value;
-	size_t	i[3];
+	size_t	i;
+	size_t	j;
+	size_t	l;
 
-	value = sh_getenv(name, env);
 	if (!(new = sh_splitalloc(value)))
 		return (NULL);
-	i[0] = 0;
-	i[1] = 0;
+	i = 0;
+	j = 0;
 	if (value)
 	{
-		if (value[i[0]] == ':')
-			i[0]++;
-		while (value[i[0]])
+		if (value[i] == ':')
+			i++;
+		while (value[i])
 		{
-			i[2] = 0;
-			while (value[i[0] + i[2]] && value[i[0] + i[2]] != ':')
-				i[2]++;
-			if (!(new[i[1]++] = sh_splitnew(value, i[0], i[1])))
+			l = 0;
+			while (value[i + l] && value[i + l] != ':')
+				l++;
+			if (!(new[j++] = sh_splitnew(value, i, l)))
 				return (sh_splitexit(new));
-			i[0] += value[i[0] + i[2]] ? i[2] + 1 : i[2];
+			i += value[i + l] ? l + 1 : l;
 		}
 	}
-	new[i[1]] = ft_strdup(".");
+	new[j] = ft_strdup(".");
 	return (new);
 }
