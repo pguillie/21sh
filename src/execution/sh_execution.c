@@ -39,7 +39,7 @@ static int	sh_exec_bin(char *cmd, char **path)
 	char	**env_path;
 	char	*path_value;
 	size_t	i;
-	
+
 	if (!(path_value = getenv("PATH")))
 		return (ft_error(cmd, E_NOCMD, NULL));
 	if (!(env_path = sh_envvarsplit(path_value)))

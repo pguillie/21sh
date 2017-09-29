@@ -9,6 +9,21 @@ static int	sh_convert_hist(char *esc)
 	return (0);
 }
 
+static int	sh_hist_search(t_line *line, int id)
+{
+	if (id & HIST_SEARCH)
+	{
+		if (!line->h_smd)
+		{
+			line->h_smd = 1;
+			line->h_pos = line->cur;
+		}
+		return (1);
+	}
+	else
+		return (0);
+}
+
 t_line		*sh_hist_able(char *esc, t_line *line, int *hist_search)
 {
 	t_line	*target;
@@ -16,17 +31,7 @@ t_line		*sh_hist_able(char *esc, t_line *line, int *hist_search)
 
 	target = NULL;
 	id = sh_convert_hist(esc);
-	if (id & HIST_SEARCH)
-	{
-		*hist_search = 1;
-		if (!line->h_smd)
-		{
-			line->h_smd = 1;
-			line->h_pos = line->cur;
-		}
-	}
-	else
-		line->h_smd = 0;
+	*hist_search = sh_hist_search(line, id);
 	if (id & UP)
 	{
 		target = line->up;

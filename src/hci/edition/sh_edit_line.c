@@ -8,7 +8,7 @@ static int	sh_nl(t_line *line, t_coord **coord, t_tc tc)
 	return (EOL | LEXER | DISP);
 }
 
-int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
+int			sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 {
 	t_coord	*coord;
 	int		success[2];

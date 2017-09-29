@@ -55,7 +55,7 @@ static int	sh_pipe(t_tree *root)
 	return (ret);
 }
 
-int		sh_tree_browse(t_tree *root)
+int			sh_tree_browse(t_tree *root)
 {
 	int ret;
 

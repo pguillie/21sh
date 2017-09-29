@@ -39,13 +39,13 @@
 # define LEX_LOOP 2 
 # define LEX_OK 1
 
-# define UP 1    
-# define DOWN 2  
-# define RIGHT 4 
-# define LEFT 8  
-# define END 32  
+# define UP 1
+# define DOWN 2
+# define RIGHT 4
+# define LEFT 8
+# define END 32
 # define HOME 128
-# define CTL 64  
+# define CTL 64
 
 # define HIST_SEARCH 4
 
