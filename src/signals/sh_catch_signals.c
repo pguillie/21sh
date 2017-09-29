@@ -13,8 +13,8 @@ void		sh_catch_signals(void)
 	sa.sa_handler = &sig_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGWINCH, &sa, NULL);
+	signal(SIGTSTP, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
 	signal(SIGCONT, SIG_IGN);
 }

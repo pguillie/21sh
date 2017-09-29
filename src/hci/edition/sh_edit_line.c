@@ -16,8 +16,10 @@ static int	sh_norme1(t_line **line, char *save, t_token *lexer, t_tc *tc)
 	(void)lexer;
 	ret = 0;
 	byte = 0;
-	if (read(0, &byte, 1) < 0 && g_signal != SIGWINCH)
+	if (read(0, &byte, 1) < 0 &&  g_signal != SIGWINCH)
 		return (-1);
+	else if (byte == 11 || byte == 21 || byte == 23 || byte == 25)
+		ret = sh_cvx(*line, &tc->coord, tc, byte);
 	else if (byte == 27)
 		ret = sh_esc(line, &tc->coord, tc);
 	else if (byte == 4)
@@ -28,6 +30,8 @@ static int	sh_norme1(t_line **line, char *save, t_token *lexer, t_tc *tc)
 		ret = sh_del_l(*line, &tc->coord, *tc);
 	else if (byte >= 32 && byte < 127)
 		ret = sh_ins(*line, &tc->coord, *tc, byte);
+	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))// || ft_strlen((*line)->str) == 0))
+		tc->cut = 0;
 	return (ret);
 }
 

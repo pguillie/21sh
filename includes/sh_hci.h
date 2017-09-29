@@ -37,6 +37,16 @@ size_t	sh_move_word_l(t_line *line);
 t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 /*
+**	CVX
+*/
+
+int		sh_cvx(t_line *line, t_coord **coord, t_tc *tc, char byte);
+int		sh_cut_u(t_line *line, t_coord **coord, t_tc *tc);
+int		sh_cut_k(t_line *line, t_coord **coord, t_tc *tc);
+int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc);
+int		sh_paste(t_line *line, t_coord **coord, t_tc *tc);
+
+/*
 **	EDITION
 */
 
