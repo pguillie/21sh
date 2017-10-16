@@ -5,13 +5,13 @@ int		sh_cvx(t_line *line, t_coord **coord, t_tc *tc, char byte)
 	int	ret;
 
 	ret = 0;
-	if (byte == 11)
+	if (byte == 11 && line->cur != line->used)
 	{
 		if (tc->cut == 0 && tc->clipboard)
 			ft_strclr(tc->clipboard);
 		ret = sh_cut_k(line, coord, tc);
 	}
-	else if (byte == 21)
+	else if (byte == 21 && line->cur != 0)
 	{
 		if (tc->cut == 0 && tc->clipboard)
 			ft_strclr(tc->clipboard);

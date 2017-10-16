@@ -5,14 +5,14 @@ static int	sh_move_word(t_line *line)
 	size_t	pos;
 
 	pos = line->cur - 1;
-	while (line->str[pos] && line->str[pos] != ' ')
-		pos -= 1;
 	while (line->str[pos] == ' ')
+		pos -= 1;
+	while (line->str[pos] && line->str[pos] != ' ')
 		pos -= 1;
 	return (pos + 1);
 }
 
-int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
+int			sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
 	char	*cpy;
@@ -40,7 +40,7 @@ int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 	return (DISP | LEXER);
 }
 
-int		sh_cut_u(t_line *line, t_coord **coord, t_tc *tc)
+int			sh_cut_u(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
 	size_t	j;
@@ -65,12 +65,10 @@ int		sh_cut_u(t_line *line, t_coord **coord, t_tc *tc)
 	free(tc->clipboard);
 	tc->clipboard = cpy;
 	free(*coord);
-	if (!(*coord = sh_create_coord(line, tc->prompt)))
-		return (-1);
-	return (DISP | LEXER);
+	return (!(*coord = sh_create_coord(line, tc->prompt)) ? -1 : DISP | LEXER);
 }
 
-int		sh_cut_k(t_line *line, t_coord **coord, t_tc *tc)
+int			sh_cut_k(t_line *line, t_coord **coord, t_tc *tc)
 {
 	size_t	i;
 	size_t	j;
@@ -96,7 +94,5 @@ int		sh_cut_k(t_line *line, t_coord **coord, t_tc *tc)
 	free(tc->clipboard);
 	tc->clipboard = cpy;
 	free(*coord);
-	if (!(*coord = sh_create_coord(line, tc->prompt)))
-		return (-1);
-	return (DISP | LEXER);
+	return (!(*coord = sh_create_coord(line, tc->prompt)) ? -1 : DISP | LEXER);
 }
