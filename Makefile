@@ -35,6 +35,7 @@ obj/%.o: src/%.c $(HEADERS) Makefile
 	$(CC) $(FLAGS) -I $(INCPATH) -o $@ -c $<
 
 obj:
+	mkdir -p ./obj/builtins
 	mkdir -p ./obj/environment
 	mkdir -p ./obj/execution
 	mkdir -p ./obj/hci/conversions
