@@ -25,11 +25,11 @@ int		sh_setenv_var(char *var)
 
 int		sh_setenv(char *av[])
 {
-	int			i;
-	int			j;
-	int 		ret;
+	int	i;
+	int	j;
+	int	ret;
 
-	i = 0;
+	i = 1;
 	while (av[i])
 	{
 		j = 0;
@@ -46,10 +46,8 @@ int		sh_setenv(char *av[])
 			if ((ret = sh_setenv_var(ft_strdup(av[i])) < 0))
 				return (ret);
 		}
-		else if (!av[i][j])
-			ft_error("setenv", av[i], "Missing equal (`=')");
 		else
-			ft_error("setenv", av[i], E_ALNUM);
+			ft_error("setenv", av[i], !av[i][j] ? E_EQMISS : E_ALNUM);
 	}
 	return (ret);
 }

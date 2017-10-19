@@ -6,7 +6,7 @@
 /*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/22 10:28:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/09 15:31:53 by lcordier         ###   ########.fr       */
+/*   Updated: 2017/10/19 15:45:27 by lcordier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define E_2MNARG "Too many arguments"
 # define E_ALNUM "String must contain alphanumeric characters"
 # define E_ARGREQ "Option requires an argument"
+# define E_EQMISS "Missing equal (`=')"
 # define E_ILLOPT "Illegal option"
 # define E_NOCMD "Command not found"
 # define E_NOENT "No such file or directory"
