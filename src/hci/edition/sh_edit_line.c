@@ -22,7 +22,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte == 11 || byte == 21 || byte == 23 || byte == 25)
 		ret = sh_cvx(*line, &tc->coord, tc, byte);
 	else if (byte == 27)
-		ret = sh_esc(line, &tc->coord, tc);
+		ret = sh_esc(line, &tc->coord, tc, &hist_search_mode);
 	else if (byte == 4)
 		ret = sh_ctrl_d(*line, &tc->coord, *tc, save);
 	else if (byte == '\n')
@@ -32,7 +32,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte >= 32 && byte < 127)
 		ret = sh_ins(*line, &tc->coord, *tc, byte);
 	(*line)->h_smd = hist_search_mode;
-	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))// || ft_strlen((*line)->str) == 0))
+	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
 		tc->cut = 0;
 	return (ret);
 }

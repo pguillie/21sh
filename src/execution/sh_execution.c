@@ -62,16 +62,15 @@ static int	sh_exec_bin(char *cmd, char **path)
 	return (*path ? 0 : 1);
 }
 
-static int	sh_father_child(pid_t child, char *path, char *av[])
+static int	sh_father_child(pid_t child, char *path, char *av[], char *env[])
 {
-	extern char	**environ;
 	int			ret;
 
 	ret = 0;
 	if (child == 0)
 	{
 		sh_dfl_sig();
-		if (execve(path, av, environ) < 0)
+		if (execve(path, av, env) < 0)
 			exit(1);
 	}
 	else
@@ -89,7 +88,7 @@ static int	sh_father_child(pid_t child, char *path, char *av[])
 	return (WEXITSTATUS(ret));
 }
 
-static int	sh_cmd_exec(char *av[])
+static int	sh_cmd_exec(char *av[], char *env[])
 {
 	pid_t		child;
 	extern char **environ;
@@ -106,7 +105,7 @@ static int	sh_cmd_exec(char *av[])
 		return (1);
 	if ((child = fork()) < 0)
 		return (-1);
-	ret = sh_father_child(child, path, av);
+	ret = sh_father_child(child, path, av, env);
 	sh_catch_signals();
 	ft_strdel(&path);
 	return (ret);
@@ -124,6 +123,8 @@ int			sh_execution(char *av[], char *env[])
 		return (sh_unsetenv(av));
 	else if (ft_strequ(av[0], "env"))
 		return (sh_env(av, env));
+	else if (ft_strequ(av[0], "printenv"))
+		return (sh_printenv());
 	else
 		return (sh_cmd_exec(av, env));
 	//else if (ft_strequ(av[0], "exit"))

@@ -52,14 +52,15 @@ static int	sh_pipe(t_tree *root)
 
 static int	sh_tree_cmd(t_tree *root)
 {
-	int		std[3];
-	int		ret;
-	int		fd;
+	extern char	**environ;
+	int			std[3];
+	int			ret;
+	int			fd;
 
 	memset(std, -1, sizeof(int) * 3);
 	ret = sh_redir_set(root->cmd->redir, std, &fd);
 	if (ret == 0)
-		ret = sh_execution(root->cmd->av);
+		ret = sh_execution(root->cmd->av, environ);
 	sh_redir_restore(std, fd);
 	return (ret);
 }
@@ -79,8 +80,7 @@ int			sh_tree_browse(t_tree *root)
 			ret = sh_pipe(root);
 		else
 		{
-			if (root->left)
-				ret = sh_tree_browse(root->left);
+			ret = sh_tree_browse(root->left);
 			if (!(ft_strequ(root->op, "&&") && ret)
 					&& !(ft_strequ(root->op, "||") && !ret) && root->right)
 				ret = sh_tree_browse(root->right);
