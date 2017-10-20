@@ -124,7 +124,7 @@ int			sh_execution(char *av[], char *env[])
 	else if (ft_strequ(av[0], "env"))
 		return (sh_env(av, env));
 	else if (ft_strequ(av[0], "printenv"))
-		return (sh_printenv());
+		return (sh_printenv(env));
 	else
 		return (sh_cmd_exec(av, env));
 	//else if (ft_strequ(av[0], "exit"))

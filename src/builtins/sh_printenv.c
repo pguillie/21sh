@@ -1,12 +1,15 @@
 #include "shell.h"
 
-int		sh_printenv(void)
+int		sh_printenv(char *env[])
 {
 	extern char **environ;
 	int			i;
 
-	i = 0;
-	while (environ[i])
-		ft_putendl(environ[i++]);
+	if (env)
+	{
+		i = 0;
+		while (environ[i])
+			ft_putendl(environ[i++]);
+	}
 	return (0);
 }
