@@ -3,7 +3,7 @@
 static int	sh_nl(t_line *line, t_coord **coord, t_tc tc)
 {
 	line->cur = sh_move_cur(line->cur, line->used, *coord, tc);
-	if (sh_ins(line, coord, tc, '\n') < 0)
+	if (sh_ins(line, '\n') < 0)
 		return (-1);
 	return (EOL | LEXER | DISP);
 }
@@ -30,7 +30,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte == 127)
 		ret = sh_del_l(*line, &tc->coord, *tc);
 	else if (byte >= 32 && byte < 127)
-		ret = sh_ins(*line, &tc->coord, *tc, byte);
+		ret = sh_ins(*line, byte);
 	(*line)->h_smd = hist_search_mode;
 	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
 		tc->cut = 0;
@@ -63,7 +63,8 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 			line->cur = 0;
 			sh_prompt(save ? 2 : 1);
 		}
-		sh_display(line, tc->coord, *tc);
+		if (sh_display(line, &(tc->coord), *tc) == -1)
+			return (-1);
 	}
 	return (0);
 }
