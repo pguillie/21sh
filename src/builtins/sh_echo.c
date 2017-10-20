@@ -4,7 +4,7 @@ int		sh_echo(char *av[])
 {
 	size_t	i;
 
-	i = 0;
+	i = 1;
 	while (av[i])
 	{
 		ft_putstr(av[i++]);
