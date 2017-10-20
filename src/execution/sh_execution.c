@@ -61,7 +61,7 @@ static int	sh_exec_bin(char *cmd, char **path)
 	return (0);
 }
 
-int			sh_execution(char *av[])
+static int	sh_cmd_exec(char *av[])
 {
 	pid_t		child;
 	extern char **environ;
@@ -72,7 +72,7 @@ int			sh_execution(char *av[])
 	path = NULL;
 	ret = 0;
 	if ((no_file = ft_strchr(av[0], '/') ?
-		sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
+				sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
 		return (-1);
 	if (no_file)
 		return (1);
@@ -87,4 +87,22 @@ int			sh_execution(char *av[])
 		waitpid(child, &ret, 0);
 	ft_strdel(&path);
 	return (ret);
+}
+
+int			sh_execution(char *av[], char *env[])
+{
+	if (ft_strequ(av[0], "echo"))
+		return (sh_echo(av));
+	//else if (ft_strequ(av[0], "cd"))
+	//	return (sh_cd(av));
+	else if (ft_strequ(av[0], "setenv"))
+		return (sh_setenv(av));
+	else if (ft_strequ(av[0], "unsetenv"))
+		return (sh_unsetenv(av));
+	else if (ft_strequ(av[0], "env"))
+		return (sh_env(av, env));
+	else
+		return (sh_cmd_exec(av, env));
+	//else if (ft_strequ(av[0], "exit"))
+	//	return (sh_exit(av));
 }

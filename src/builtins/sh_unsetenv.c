@@ -3,25 +3,25 @@
 static int	sh_remove_var(char *var)
 {
 	extern char **environ;
-	char		**tmp;
+	char		**new;
 	int			i;
+	int			j;
 
 	i = 0;
 	while (environ[i])
 		i++;
-	if (!(tmp = (char **)ft_memalloc(sizeof(char*) * i)))
+	if (!(new = (char **)ft_memalloc(sizeof(char *) * i)))
 		return (-1);
 	i = 0;
+	j = 0;
 	while (environ[i])
 	{
-		if (!ft_strequ(environ[i], var) && !(tmp[i] = ft_strdup(environ[i])))
-		{
-			ft_strtabdel(tmp);
-			return (-1);
-		}
+		if (!ft_strequ(environ[i], var))
+			new[j++] = environ[i];
 		i++;
 	}
-	environ = tmp;
+	free(environ);
+	environ = new;
 	return (0);
 }
 
@@ -44,7 +44,8 @@ int			sh_unsetenv(char *av[])
 			if (!av[i][n] && environ[j][n] == '=')
 			{
 				if (sh_remove_var(environ[j]) < 0)
-					return (1);
+					return (-1);
+				break ;
 			}
 			j++;
 		}
