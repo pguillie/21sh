@@ -17,5 +17,6 @@ int		sh_init_env(void)
 	if (!getenv("SYNTAX_HIGHLIGHTING"))
 		ret = sh_setenv_line("SYNTAX_HIGHLIGHTING=false");//secu
 */
+	environ = dup;
 	return (ret);
 }

@@ -32,11 +32,21 @@
 # define PS3 "#? "
 # define PS4 "+ "
 
+# define PRT_SIZE 256
+# define PROMPT_DIRTRIM 3
+# define PS1 "\\s-\\v\\$ "
+# define PS2 "> "
+# define PS3 "#? "
+# define PS4 "+ "
+
+# define EOT 8
 # define EOL 4
 # define LEXER 2
 # define DISP 1
+# define DISP_FULL 17
+
 # define SYN_ERR 4
-# define LEX_LOOP 2 
+# define LEX_LOOP 2
 # define LEX_OK 1
 
 # define UP 1
@@ -69,6 +79,8 @@
 # include "sh_hci.h"
 # include "sh_initialization.h"
 # include "sh_parser.h"
+# include "sh_signals.h"
+# include "sh_builtins.h"
 
 ////////////////
 void displex(t_token *lexer);

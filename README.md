@@ -11,3 +11,12 @@ prompt_len est la longueur du prompt depuis le DERNIER '\n' (s'il existe)
 
 HISTORIQUE:
 multiligne fucked
+
+SIGNALS:
+ctrl+z ->kill le process
+pas de fg car pas de job control
+a test:
+ctrl+c, SIGTERM, SIGQUIT
+
+CVX
+norme + clear multilignes + NE PAS append si rien a append

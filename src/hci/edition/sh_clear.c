@@ -2,16 +2,13 @@
 
 void	sh_clear(t_line *line, t_coord *coord, t_tc tc)
 {
-	size_t	i;
+	int		i;
 
 	tputs(tc.ce, 0, termput);
-	i = line->cur;
-	while (line->str[i] && coord[i].x)
-		i++;
-	if (coord[i].x == 0)
-	{
-		sh_move_cur(line->cur, i, coord, tc);
-		tputs(tc.cd, 0, termput);
-		sh_move_cur(i, line->cur, coord, tc);
-	}
+	ft_putstr("\n\r");
+	tputs(tc.cd, 0, termput);
+	tputs(tc.up, 0, termput);
+	i = 0;
+	while (i++ < coord[line->cur].x)
+		tputs(tc.nd, 0, termput);
 }

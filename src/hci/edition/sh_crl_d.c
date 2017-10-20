@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   sh_crl_d.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pbourlet <pbourlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 12:12:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/28 14:13:17 by lcordier         ###   ########.fr       */
+/*   Created: 2017/09/20 15:08:57 by pbourlet          #+#    #+#             */
+/*   Updated: 2017/09/25 11:37:06 by pbourlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-void	ft_strdel(char **as)
+int		sh_ctrl_d(t_line *line, t_coord **coord, t_tc tc, char *save)
 {
-	size_t	i;
-
-	if (as)
-	{
-		i = 0;
-		while ((*as)[i])
-			(*as)[i++] = '\0';
-		free(*as);
-		*as = NULL;
-	}
+	if (line->str[line->cur])
+		return (sh_del_r(line, coord, tc));
+	else if (line->cur == 0 && !save)
+		return (EOT);
+	return (0);
 }

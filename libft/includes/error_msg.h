@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   error_msg.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/22 10:28:23 by pguillie          #+#    #+#             */
-/*   Updated: 2017/10/19 15:45:27 by lcordier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef ERROR_MSG_H
 # define ERROR_MSG_H
 
@@ -30,6 +18,7 @@
 # define E_NOTERM "Terminal type not defined"
 # define E_NOTSET "Varibale not set"
 # define E_RAW "Could not switch to non-canonical mode"
+# define E_SEVER "\nSevere error occured while getting input"
 # define E_SYNERR "Syntax error near unexpected token"
 # define E_TCBASE "Could not access the termcap data base"
 # define E_TERMIOS "Could not restore previous structure"

@@ -39,26 +39,54 @@ static int	sh_exec_bin(char *cmd, char **path)
 	char	**env_path;
 	char	*path_value;
 	size_t	i;
+	int		found;
 
 	if (!(path_value = getenv("PATH")))
 		return (ft_error(cmd, E_NOCMD, NULL));
 	if (!(env_path = sh_envvarsplit(path_value)))
 		return (-1);
 	i = 0;
-	while (env_path[i + 1])
-	{
-		if (sh_exec_dir(cmd, env_path[i]))
-			break ;
-		i += 1;
-	}
-	if (env_path[i + 1] && !(*path = ft_strcjoin(env_path[i], cmd, '/')))
-		return (-1);
+	found = 0;
+	while (env_path[i + 1] && !found)
+		if (sh_exec_dir(cmd, env_path[i++]))
+			found = 1;
+	if (found)
+		*path = ft_strcjoin(env_path[i - 1], cmd, '/');
 	ft_strtabdel(env_path);
-	if (!*path)
+	if (!found)
 		return (ft_error(cmd, E_NOCMD, NULL));
-	if (access(*path, X_OK) < 0)
-		return (ft_error(cmd, "Permission denied", NULL));
-	return (0);
+	else if (!*path)
+		return (-1);
+	if (access(*path, X_OK) < 0 && ft_error(cmd, "Permission denied", NULL))
+		ft_strdel(path);
+	return (*path ? 0 : 1);
+}
+
+static int	sh_father_child(pid_t child, char *path, char *av[])
+{
+	extern char	**environ;
+	int			ret;
+
+	ret = 0;
+	if (child == 0)
+	{
+		sh_dfl_sig();
+		if (execve(path, av, environ) < 0)
+			exit(1);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(child, &ret, WUNTRACED);
+		if (WIFSTOPPED(ret))
+		{
+			kill(child, SIGKILL);
+			wait(&ret);
+		}
+		if (WIFSIGNALED(ret))
+			write(1, "\n", 1);
+	}
+	return (WEXITSTATUS(ret));
 }
 
 static int	sh_cmd_exec(char *av[])
@@ -78,13 +106,8 @@ static int	sh_cmd_exec(char *av[])
 		return (1);
 	if ((child = fork()) < 0)
 		return (-1);
-	if (child == 0)
-	{
-		if (execve(path, av, environ) < 0)
-			return (-1);
-	}
-	else
-		waitpid(child, &ret, 0);
+	ret = sh_father_child(child, path, av);
+	sh_catch_signals();
 	ft_strdel(&path);
 	return (ret);
 }

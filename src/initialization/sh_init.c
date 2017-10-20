@@ -12,7 +12,7 @@ int		sh_init(t_tc *init)
 				"Some environment variables could not get set", NULL);
 	if (sh_init_termcaps(init))
 	{
-		ft_error("Warning", "Line edition can't switch to advanced mode", NULL);//
+		ft_error("Warning", "Line edition can't switch to advanced mode", NULL);
 		init->on = 0;
 	}
 	else
