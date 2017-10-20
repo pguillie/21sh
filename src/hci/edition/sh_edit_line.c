@@ -17,7 +17,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	ret = 0;
 	byte = 0;
 	hist_search_mode = 0;
-	if (read(0, &byte, 1) < 0 &&  g_signal != SIGWINCH)
+	if (read(0, &byte, 1) < 0 && g_signal != SIGWINCH)
 		return (-1);
 	else if (byte == 11 || byte == 21 || byte == 23 || byte == 25)
 		ret = sh_cvx(*line, &tc->coord, tc, byte);

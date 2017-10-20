@@ -22,7 +22,7 @@ int		sh_paste(t_line *line, t_coord **coord, t_tc *tc)
 	line->used += i - 1;
 	free(*coord);
 	if (!(*coord = sh_create_coord(line, tc->prompt)))
-		return(-1);
+		return (-1);
 	line->pos = line->cur + ft_strlen(tc->clipboard);
 	return (DISP | LEXER);
 }
