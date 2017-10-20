@@ -9,12 +9,12 @@ static int	sh_remove_var(char *var)
 	i = 0;
 	while (environ[i])
 		i++;
-	if (!(tmp = (char **)ft_memmalloc(sizeof(char*) * i)))
+	if (!(tmp = (char **)ft_memalloc(sizeof(char*) * i)))
 		return (-1);
 	i = 0;
 	while (environ[i])
 	{
-		if (!strequ(environ[i], var) && !(tmp[i] = ft_strdup(environ[i])))
+		if (!ft_strequ(environ[i], var) && !(tmp[i] = ft_strdup(environ[i])))
 		{
 			ft_strtabdel(tmp);
 			return (-1);
@@ -25,9 +25,9 @@ static int	sh_remove_var(char *var)
 	return (0);
 }
 
-int			sh_unsetev(char *av[])
+int			sh_unsetenv(char *av[])
 {
-	extern char	*environ;
+	extern char	**environ;
 	int			i;
 	int			j;
 	int			n;

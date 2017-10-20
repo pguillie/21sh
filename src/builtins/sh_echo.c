@@ -12,4 +12,5 @@ int		sh_echo(char *av[])
 			ft_putchar(' ');
 	}
 	ft_putchar('\n');
+	return (0);
 }

@@ -63,6 +63,7 @@
 **	PROTO
 */
 
+# include "sh_builtins.h"
 # include "sh_environment.h"
 # include "sh_execution.h"
 # include "sh_hci.h"

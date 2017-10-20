@@ -57,20 +57,20 @@ static int	sh_pipe(t_tree *root)
 
 static int	sh_tree_exec(char *av[])
 {
-	if (ft_strnequ(av[0], "echo"))
+	if (ft_strequ(av[0], "echo"))
 		return (sh_echo(av));
-	else if (ft_strnequ(av[0], "cd"))
-		return (sh_cd(av));
-	else if (ft_strnequ(av[0], "setenv"))
+//	else if (ft_strequ(av[0], "cd"))
+//		return (sh_cd(av));
+	else if (ft_strequ(av[0], "setenv"))
 		return (sh_setenv(av));
-	else if (ft_strnequ(av[0], "unsetenv"))
+	else if (ft_strequ(av[0], "unsetenv"))
 		return (sh_unsetenv(av));
-	else if (ft_strnequ(av[0], "env"))
-		return (sh_env(av));
-	else if (ft_strnequ(av[0], "exit"))
-		return (sh_exit(av));
 	else
 		return (sh_execution(av));
+//	else if (ft_strequ(av[0], "env"))
+//		return (sh_env(av));
+//	else if (ft_strequ(av[0], "exit"))
+//		return (sh_exit(av));
 }
 
 int			sh_tree_browse(t_tree *root)

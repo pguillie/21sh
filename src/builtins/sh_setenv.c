@@ -17,20 +17,21 @@ int		sh_setenv_var(char *var)
 		if (!(environ = ft_realloc(environ, i, i + 1, sizeof(char *))))
 			return (-1);
 	}
-	else
-		free(environ[i]);
 	environ[i] = var;
 	return (0);
 }
+
+
 
 int		sh_setenv(char *av[])
 {
 	int	i;
 	int	j;
 	int	ret;
+	extern char	**environ;
 
-	i = 1;
-	while (av[i])
+	i = 0;
+	while (av[++i])
 	{
 		j = 0;
 		while (av[i][j] && av[i][j] != '=')
@@ -45,6 +46,9 @@ int		sh_setenv(char *av[])
 		{
 			if ((ret = sh_setenv_var(ft_strdup(av[i])) < 0))
 				return (ret);
+			ft_printf("%d\n", __LINE__);
+			ft_strtab_disp(environ);
+			ft_printf("%d\n", __LINE__);
 		}
 		else
 			ft_error("setenv", av[i], !av[i][j] ? E_EQMISS : E_ALNUM);
