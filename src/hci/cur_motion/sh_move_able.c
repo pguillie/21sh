@@ -11,11 +11,9 @@ static int	sh_convert_move(char *esc)
 	return (0);
 }
 
-int			sh_move_able(char *esc, t_line *line, t_coord *coord)
+static int	sh_check_move(t_line *line, t_coord *coord, char id)
 {
-	char	id;
-
-	id = sh_convert_move(esc);
+	line->h_smd = 0;
 	if (id & UP)
 		return ((id & CTL || coord[line->cur].y != coord[0].y)
 				&& sh_move_line_u(line, coord));
@@ -33,4 +31,17 @@ int			sh_move_able(char *esc, t_line *line, t_coord *coord)
 	else
 		return (0);
 	return (1);
+}
+
+int			sh_move_able(char *esc, t_line *line, t_coord *coord,
+		int *hist_search)
+{
+	char	id;
+
+	id = sh_convert_move(esc);
+	if (line->h_smd == 1 && (id & UP || id & DOWN))
+		*hist_search = 1;
+	else
+		return (sh_check_move(line, coord, id));
+	return (0);
 }

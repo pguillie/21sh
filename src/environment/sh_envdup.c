@@ -5,6 +5,8 @@ char	**sh_envdup(char *env[])
 	char	**new;
 	size_t	i;
 
+	if (!env)
+		return (NULL);
 	i = 0;
 	while (env[i])
 		i++;

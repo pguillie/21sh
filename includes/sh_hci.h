@@ -5,14 +5,14 @@
 **	HUMAN-COMPUTER INTERACTION
 */
 
-int		sh_hci(t_tc *termcaps, t_token **lexer);
+int		sh_hci(t_tc *termcaps, t_token **lexer, int mret);
 int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 
 /*
 **	X-ABLE
 */
 
-int		sh_move_able(char *esc, t_line *line, t_coord *coord);
+int		sh_move_able(char *esc, t_line *line, t_coord *coord, int *hist_search);
 int		sh_del_able(char *esc, t_line *line);
 t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
@@ -37,18 +37,29 @@ size_t	sh_move_word_l(t_line *line);
 t_coord	*sh_create_coord(t_line *line, size_t prompt);
 
 /*
+**	CVX
+*/
+
+int		sh_cvx(t_line *line, t_coord **coord, t_tc *tc, char byte);
+int		sh_cut_u(t_line *line, t_coord **coord, t_tc *tc);
+int		sh_cut_k(t_line *line, t_tc *tc);
+int		sh_cut_w(t_line *line, t_coord **coord, t_tc *tc);
+int		sh_paste(t_line *line, t_coord **coord, t_tc *tc);
+
+/*
 **	EDITION
 */
 
+int		sh_ctrl_d(t_line *line, char *save);
 int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
 int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
-void	sh_clear(t_line *line, t_coord *coord, t_tc tc);
-void	sh_display(t_line *line, t_coord *coord, t_tc tc);
+int		sh_clear(t_line *line, t_coord **coord, t_tc tc);
+int		sh_display(t_line *line, t_coord **coord, t_tc tc);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
-int		sh_del_r(t_line *line, t_coord **coord, t_tc tc);
+int		sh_del_r(t_line *line);
 int		sh_hist(t_line **line, t_coord **coord, t_tc tc, t_line *target);
-int		sh_ins(t_line *line, t_coord **coord, t_tc tc, char c);
+int		sh_ins(t_line *line, char c);
 int		termput(int c);
 
 /*

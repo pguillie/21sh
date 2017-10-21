@@ -1,7 +1,7 @@
 NAME	= 21sh
 CC		= gcc
 LEAKS	= -fsanitize=address -g3
-FLAGS	= -Wall -Werror -Wextra
+FLAGS	= -Wall -Werror -Wextra -g
 INCPATH	= includes/
 HEADERS	= $(addprefix $(INCPATH), shell.h)
 LIBPATH	= libft/
@@ -35,6 +35,7 @@ obj/%.o: src/%.c $(HEADERS) Makefile
 	$(CC) $(FLAGS) -I $(INCPATH) -o $@ -c $<
 
 obj:
+	mkdir -p ./obj/builtins
 	mkdir -p ./obj/environment
 	mkdir -p ./obj/execution
 	mkdir -p ./obj/hci/conversions
@@ -45,6 +46,8 @@ obj:
 	mkdir -p ./obj/hci/prompt
 	mkdir -p ./obj/initialization
 	mkdir -p ./obj/parser
+	mkdir -p ./obj/signals
+	mkdir -p ./obj/builtins
 	@ echo "$(BLUE)[$(NAME)]: objects directory created$(EOC)"
 
 $(LIB):

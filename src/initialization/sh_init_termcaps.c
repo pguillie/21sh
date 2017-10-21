@@ -29,5 +29,6 @@ int			sh_init_termcaps(t_tc *init)
 		return (1);
 	init->vi = tgetstr("vi", (char**)&(init->buff));
 	init->ve = tgetstr("ve", (char**)&(init->buff));
+	init->coord = NULL;
 	return (0);
 }

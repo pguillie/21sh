@@ -49,7 +49,7 @@ static char		**sh_av_new(t_token *lexer, size_t size)
 	if (!(av = (char**)ft_memalloc(sizeof(char*) * (size + 1))))
 		return (NULL);
 	i = 0;
-	while (size)
+	while (i < size)
 	{
 		if (lexer->category != REDIRECTION && lexer->category != FILDES)
 		{
@@ -58,7 +58,6 @@ static char		**sh_av_new(t_token *lexer, size_t size)
 				ft_strtabdel(av);
 				return ((av = NULL));
 			}
-			size -= 1;
 		}
 		lexer = lexer->next;
 	}
@@ -73,7 +72,7 @@ static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 	if (!(new = (t_redir*)ft_memalloc(sizeof(t_redir) * (size + 1))))
 		return (NULL);
 	i = 0;
-	while (size)
+	while (i < size)
 	{
 		if (lexer->category == FILDES || lexer->category == REDIRECTION)
 		{
@@ -85,7 +84,6 @@ static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 			if (!new[i].type || !new[i].right)
 				return (sh_redir_del(&new));
 			lexer = lexer->next;
-			size -= 1;
 			i += 1;
 		}
 		lexer = lexer->next;
@@ -113,6 +111,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 	}
 	new->av = sh_av_new(lexer, size[0]);
 	new->redir = sh_redir_new(lexer, size[1]);
+	new->nb_redir = size[1];
 	if (!new->av || !new->redir)
 		sh_cmd_del(&new);
 	return (new);
