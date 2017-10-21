@@ -1,5 +1,7 @@
 #include "shell.h"
 
+//man:     printenv [name]
+
 int		sh_printenv(char *env[])
 {
 	int			i;

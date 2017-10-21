@@ -1,56 +1,63 @@
 #include "shell.h"
 
-int		sh_setenv_var(char *var)
+static int	sh_set_env(char *var)
 {
 	extern char	**environ;
-	int			i;
-	int			n;
+	int			i[2];
 
-	i = 0;
-	n = 0;
-	var = ft_strdup(var);//secu
-	while (var[n] && var[n] != '=')
-		n++;
-	while (environ[i] &&
-			!(ft_strnequ(environ[i], var, n) && environ[i][n] == '='))
-		i++;
-	if (!environ[i])
+	i[1] = 0;
+	if (!(var = ft_strdup(var)))
+		return (-1);
+	while (var[i[1]] && var[i[1]] != '=')
+		i[1]++;
+	i[0] = 0;
+	if (environ)
 	{
-		if (!(environ = ft_realloc(environ, i + 1, i + 2, sizeof(char *))))
+		while (environ[i[0]] && !(ft_strnequ(environ[i[0]], var, i[1])
+					&& environ[i[0]][i[1]] == '='))
+			i[0]++;
+		if (environ[i[0]])
+			free(environ[i[0]]);
+		else if (!(environ = (char **)ft_realloc(environ,
+						i[0] + 1, i[0] + 2, sizeof(char *))))
 			return (-1);
 	}
-	environ[i] = var;
+	else if (!(environ = (char **)ft_memalloc(sizeof(char *) * 2)))
+		return (-1);
+	environ[i[0]] = var;
 	return (0);
 }
 
+int			sh_setenv_var(char *prg, char *var)
+{
+	int	j;
 
+	j = 0;
+	while (var[j] && var[j] != '=')
+	{
+		if (!((var[j] >= 'a' && var[j] <= 'z')
+					|| (var[j] >= 'A' && var[j] <= 'Z')
+					|| (var[j] >= '0' && var[j] <= '9')
+					|| var[j] == '_'))
+			break ;
+		j++;
+	}
+	if (var[j] == '=')
+		return (sh_set_env(var));
+	else
+		return (ft_error(prg, var, !var[j] ? E_EQMISS : E_ALNUM));
+}
 
-int		sh_setenv(char *av[])
+int			sh_setenv(char *av[])
 {
 	int	i;
-	int	j;
 	int	ret;
+	int	stat;
 
-	i = 0;
-	while (av[++i])
-	{
-		j = 0;
-		while (av[i][j] && av[i][j] != '=')
-		{
-			if (!((av[i][j] >= 'a' && av[i][j] <= 'z')
-						|| (av[i][j] >= 'A' && av[i][j] <= 'Z') 
-						|| (av[i][j] >= '0' && av[i][j] <= '9')
-						|| av[i][j] == '_'))
-				break ;
-			j++;
-		}
-		if (av[i][j] == '=')
-		{
-			if ((ret = sh_setenv_var(av[i]) < 0))
-				return (ret);
-		}
-		else
-			ft_error("setenv", av[i], !av[i][j] ? E_EQMISS : E_ALNUM);
-	}
-	return (ret);
+	i = 1;
+	stat = 0;
+	while (av[i] && (ret = sh_setenv_var(av[0], av[i++])) >= 0)
+		if (ret)
+			stat = 1;
+	return (ret < 0 ? ret : stat);
 }

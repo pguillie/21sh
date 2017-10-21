@@ -3,7 +3,7 @@
 
 int		sh_echo(char *av[]);
 int		sh_setenv(char *av[]);
-int		sh_setenv_var(char *var);
+int		sh_setenv_var(char *prg, char *var);
 int		sh_unsetenv(char *av[]);
 int		sh_env(char *av[], char *env[]);
 int		sh_exit(char *av[], int ret);

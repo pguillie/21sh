@@ -20,3 +20,10 @@ ctrl+c, SIGTERM, SIGQUIT
 
 CVX
 norme + clear multilignes + NE PAS append si rien a append
+
+
+		BONUS:
+
+table de hash
+Ctr-R
+completion
