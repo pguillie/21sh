@@ -29,7 +29,7 @@
 # define PRT_SIZE 256
 # define PROMPT_DIRTRIM 3
 # define PS1B "\\s-\\v\\$ "
-# define PS1 "\\e[31;1m[\\T] \\e[34m\\w \\$\\e[0m "
+# define PS1 "\\e[31;1m[\\T] \\e[34m\\w \\$\\e[0m " //prompt alternatif pour une meilleure lisibilité
 # define PS2 "> "
 # define PS3 "#? "
 # define PS4 "+ "

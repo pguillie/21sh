@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_pipe_left(t_tree *root, int pipe_out)//voir pour |&
+static int	sh_pipe_left(t_tree *root, int pipe_out)
 {
 	int		stdout;
 	int		ret;
