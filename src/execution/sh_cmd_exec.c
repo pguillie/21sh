@@ -88,7 +88,7 @@ static int	sh_father_child(pid_t child, char *path, char *av[], char *env[])
 	return (WEXITSTATUS(ret));
 }
 
-static int	sh_cmd_exec(char *av[], char *env[])
+int			sh_cmd_exec(char *av[], char *env[])
 {
 	pid_t		child;
 	extern char	**environ;
