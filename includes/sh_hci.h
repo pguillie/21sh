@@ -12,7 +12,7 @@ int		sh_edit(t_line *line, char *last, t_token **lexer, t_tc *termcaps);
 **	X-ABLE
 */
 
-int		sh_move_able(char *esc, t_line *line, t_coord *coord);
+int		sh_move_able(char *esc, t_line *line, t_coord *coord, int *hist_search);
 int		sh_del_able(char *esc, t_line *line);
 t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 

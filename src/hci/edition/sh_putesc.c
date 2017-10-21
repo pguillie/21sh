@@ -6,7 +6,7 @@ int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *hist_search)
 	int		ret;
 
 	ret = 0;
-	if (sh_move_able(tc->esc, *line, *coord))
+	if (sh_move_able(tc->esc, *line, *coord, hist_search))
 		(*line)->cur = sh_move_cur((*line)->cur, (*line)->pos, *coord, *tc);
 	else if ((target = sh_hist_able(tc->esc, *line, hist_search)))
 		ret = sh_hist(line, coord, *tc, target);
