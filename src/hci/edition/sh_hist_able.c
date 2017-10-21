@@ -48,5 +48,7 @@ t_line		*sh_hist_able(char *esc, t_line *line, int *hist_search)
 						|| !ft_strcmp(line->str, target->str)))
 				target = target->down;
 	}
+	if (!target)
+		*hist_search = 0;
 	return (target);
 }
