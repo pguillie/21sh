@@ -24,7 +24,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte == 27)
 		ret = sh_esc(line, &tc->coord, tc, &hist_search_mode);
 	else if (byte == 4)
-		ret = sh_ctrl_d(*line, &tc->coord, *tc, save);
+		ret = sh_ctrl_d(*line, save);
 	else if (byte == '\n')
 		ret = sh_nl(*line, &tc->coord, *tc);
 	else if (byte == 127)

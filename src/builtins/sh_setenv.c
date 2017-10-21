@@ -8,6 +8,7 @@ int		sh_setenv_var(char *var)
 
 	i = 0;
 	n = 0;
+	var = ft_strdup(var);//secu
 	while (var[n] && var[n] != '=')
 		n++;
 	while (environ[i] &&
@@ -45,7 +46,7 @@ int		sh_setenv(char *av[])
 		}
 		if (av[i][j] == '=')
 		{
-			if ((ret = sh_setenv_var(ft_strdup(av[i])) < 0))
+			if ((ret = sh_setenv_var(av[i]) < 0))
 				return (ret);
 		}
 		else

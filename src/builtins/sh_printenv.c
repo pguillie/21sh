@@ -2,14 +2,13 @@
 
 int		sh_printenv(char *env[])
 {
-	extern char **environ;
 	int			i;
 
 	if (env)
 	{
 		i = 0;
-		while (environ[i])
-			ft_putendl(environ[i++]);
+		while (env[i])
+			ft_putendl(env[i++]);
 	}
 	return (0);
 }
