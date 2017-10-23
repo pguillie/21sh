@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int			sh_execution(char *av[], char *env[])
+int			sh_execution(char *av[], char *env[], int ret)
 {
 	if (ft_strequ(av[0], "echo"))
 		return (sh_echo(av));
@@ -13,9 +13,9 @@ int			sh_execution(char *av[], char *env[])
 	else if (ft_strequ(av[0], "env"))
 		return (sh_env(av, env));
 	else if (ft_strequ(av[0], "printenv"))
-		return (sh_printenv(env));
+		return (sh_printenv(env, av[1]));
+	else if (ft_strequ(av[0], "exit"))
+		return (sh_exit(av, ret));
 	else
 		return (sh_cmd_exec(av, env));
-//	else if (ft_strequ(av[0], "exit"))
-//		return (sh_exit(av, ret)); RECUPERER RET DEPUIS EXEC
 }

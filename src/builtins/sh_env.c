@@ -45,8 +45,8 @@ static int	sh_env_set(char *av[], int *i)
 static int	sh_env_end(char *av[], int i, char *env[])
 {
 	if (!av[i])
-		return (sh_printenv(env));
-	return (sh_execution(av + i, env));
+		return (sh_printenv(env, NULL));
+	return (sh_execution(av + i, env, 0));
 }
 
 int			sh_env(char *av[], char *env[])
@@ -58,7 +58,7 @@ int			sh_env(char *av[], char *env[])
 	int			ret;
 
 	if (!av[1])
-		return (sh_printenv(env));
+		return (sh_printenv(env, NULL));
 	bac_env = environ;
 	environ = sh_envdup(env);
 	i = 1;

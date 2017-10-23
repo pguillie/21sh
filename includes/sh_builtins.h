@@ -8,6 +8,6 @@ int		sh_setenv_var(char *prg, char *var);
 int		sh_unsetenv(char *av[]);
 int		sh_env(char *av[], char *env[]);
 int		sh_exit(char *av[], int ret);
-int		sh_printenv(char *env[]);
+int		sh_printenv(char *env[], char *var);
 
 #endif
