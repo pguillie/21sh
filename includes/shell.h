@@ -82,6 +82,7 @@ void displex(t_token *lexer);
 void disphist(t_line *line);
 void dispcoord(t_coord *c, t_line *l);
 void disptree(t_tree *root);
+void dispeof(char *fifo[32]);
 ////////////////
 
 #endif

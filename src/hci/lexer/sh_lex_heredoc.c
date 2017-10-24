@@ -20,11 +20,27 @@ static int	sh_lex_hd_rplc(t_token **list, char *hd)
 	t_token	*l;
 
 	l = *list;
-	while (!(ft_strnequ(l->lexeme, "<<") && l->next->category == FILDES))
+	while (l->next && !(ft_strequ(l->lexeme, "<<")
+				&& l->next->category == FILDES))
 		l = l->next;
-	free(l->lexeme);
-	l->lexeme = hd;
-	l->category = HEREDOC;
+	if ((l = l->next))
+	{
+		//free(l->lexeme); // WTF ??????????????????????????????????????????????
+		l->lexeme = hd;
+		l->category = HEREDOC;
+	}
+	return (0);
+}
+
+int			sh_lex_eof(char *fifo[32], char *eof)
+{
+	int		i;
+
+	i = 0;
+	while (i < 31 && fifo[i])
+		i++;
+	if (i < 31)
+		fifo[i] = eof;
 	return (0);
 }
 
@@ -43,17 +59,17 @@ int			sh_lex_heredoc(char *str, int *i, char *fifo[32], t_token **list)
 		i[1] = 0;
 		while (str[sol + i[1]] && str[sol + i[1]] != '\n')
 			i[1]++;
-		if ((len == i[1] && ft_strnequ(eof_fifo[0], str + sol, i[1])))
+		if ((len == i[1] && ft_strnequ(eof, str + sol, i[1])))
 			break ;
 		sol += i[1] + (str[sol + i[1]] ? 1 : 0);
 	}
 	free(eof);
 	if (!str[sol])
 		return (1);
-	if (!(heredoc = ft_strsub(str, i[0], i[0] - sol)))
+	if (!(heredoc = ft_strsub(str, i[0], sol - i[0])))
 		return (-1);
 	sh_lex_hd_rplc(list, heredoc);
-	i[0] = sol + i[1];
+	i[0] = sol + i[1] + 1;
 	i[1] = 0;
 	return (0);
 }

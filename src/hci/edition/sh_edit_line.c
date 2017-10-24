@@ -37,16 +37,6 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	return (ret);
 }
 
-static int	sh_edit_free(t_coord *coord, char **save, char *tmp, int *success)
-{
-	free(coord);
-	*save ? ft_strdel(save) : 0;
-	*save = tmp;
-	if (success[0] & EOT || success[0] < 0)
-		return (success[0]);
-	return (success[1]);
-}
-
 static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 {
 	if (g_signal == SIGWINCH)
@@ -63,25 +53,32 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 			line->cur = 0;
 			sh_prompt(save ? 2 : 1);
 		}
-		if (sh_display(line, &(tc->coord), *tc) == -1)
+		if (sh_display(line, &(tc->coord), *tc) < 0)
 			return (-1);
 	}
 	return (0);
 }
 
-int			sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
+static int	sh_edit_free(t_coord *coord, int *success)
+{
+	free(coord);
+	if (success[0] & EOT || success[0] < 0)
+		return (success[0]);
+	return (success[1]);
+}
+
+int			sh_edit_line(t_line **line, char *save, t_tc *tc)
 {
 	int		success[2];
-	char	*tmp;
 
-	tmp = NULL;
 	success[0] = 0;
 	if (!(tc->coord = sh_create_coord(*line, tc->prompt)))
 		return (-1);
 	while (g_signal != SIGINT && !(success[0] & EOT) && !(success[0] & EOL)
 			&& !(success[0] < 0))
 	{
-		tmp ? ft_strdel(&tmp) : 0;
+		success[0] = sh_norme1(line, save, tc);
+		/*
 		if ((success[0] = sh_norme1(line, *save, tc)) & LEXER)
 		{
 			if (!(tmp = ft_strjoin(*save, (*line)->str)))
@@ -89,10 +86,11 @@ int			sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc)
 			if ((success[1] = sh_lexer(tmp, lexer)) < 0)
 				success[0] = -1;
 		}
+		*/
 		if (g_signal == SIGINT)
 			sh_move_cur((*line)->cur, (*line)->used, tc->coord, *tc);
-		else if (sh_norme2(*line, *save, tc, success[0]) < 0)
+		else if (sh_norme2(*line, save, tc, success[0]) < 0)
 			return (-1);
 	}
-	return (sh_edit_free(tc->coord, save, tmp, success));
+	return (sh_edit_free(tc->coord, success));
 }

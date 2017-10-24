@@ -51,7 +51,7 @@ static char		**sh_av_new(t_token *lexer, size_t size)
 	i = 0;
 	while (i < size)
 	{
-		if (lexer->category != REDIRECTION && lexer->category != FILDES)
+		if (lexer->category != REDIRECTION && lexer->category > FILDES)
 		{
 			if (!(av[i++] = ft_strdup(lexer->lexeme)))
 			{
@@ -74,7 +74,7 @@ static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 	i = 0;
 	while (i < size)
 	{
-		if (lexer->category == FILDES || lexer->category == REDIRECTION)
+		if (lexer->category <= FILDES || lexer->category == REDIRECTION)
 		{
 			new[i].left = lexer->category == FILDES ? ft_atoi(lexer->lexeme)
 				: sh_redir_left(lexer->lexeme, lexer->next->lexeme);
@@ -83,6 +83,7 @@ static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 			new[i].right = ft_strdup(lexer->next->lexeme);
 			if (!new[i].type || !new[i].right)
 				return (sh_redir_del(&new));
+			new[i].file = lexer->next->category == FILDES ? 1 : 0;
 			lexer = lexer->next;
 			i += 1;
 		}
@@ -105,7 +106,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 	{
 		if (l->category == REDIRECTION)
 			size[1] += 1;
-		else if (l->category != FILDES)
+		else if (l->category > FILDES)
 			size[0] += 1;
 		l = l->next;
 	}

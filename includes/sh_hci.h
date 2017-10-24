@@ -51,7 +51,7 @@ int		sh_paste(t_line *line, t_coord **coord, t_tc *tc);
 */
 
 int		sh_ctrl_d(t_line *line, char *save);
-int		sh_edit_line(t_line **line, char **save, t_token **lexer, t_tc *tc);
+int		sh_edit_line(t_line **line, char *save, t_tc *tc);
 int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_clear(t_line *line, t_coord **coord, t_tc tc);
@@ -75,15 +75,17 @@ void	sh_hist_del(t_line **hist);
 **	LEXER
 */
 
-t_token	*sh_token_new(char *lexeme, size_t *i, int *status);
-int		sh_lexer(char *str, t_token **begin);
+int		sh_category(char *str, int i[2], int status[3]);
+int		sh_lex_heredoc(char *str, int *i, char *fifo[32], t_token **list);
+int		sh_lex_eof(char *fifo[32], char *eof);
 int		sh_lex_word(char *str);
+int		sh_lexer(t_token **list, char *str);
 int		sh_metachar(char c);
 int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);
+int		sh_token_new(t_token **list, char *lexeme, int category);
 int		sh_token_del(t_token **begin);
-int		sh_category(char *str, size_t *i, int *status);
-int		sh_verification(t_token *lexer);
+int		sh_verification(t_token *lex);
 
 /*
 **	PROMPT
