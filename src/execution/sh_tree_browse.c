@@ -51,13 +51,15 @@ static int	sh_tree_cmd(t_tree *root, int ret)
 {
 	extern char	**environ;
 	int			fd[10];
+	int			std[3];
 	int			red_ret;
 
 	memset(fd, -1, sizeof(int) * 10);
+	sh_redir_backup(std);
 	red_ret = sh_redir_set(root->cmd->redir, fd);
 	if (red_ret == 0)
 		ret = sh_execution(root->cmd->av, environ, ret);
-	sh_redir_restore(fd);
+	sh_redir_restore(fd, std);
 	return (red_ret ? red_ret : ret);
 }
 

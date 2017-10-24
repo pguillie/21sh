@@ -27,8 +27,7 @@ int			main(void)
 			remaining_error -= 1;
 		else if (sh_parser(lexer, &root) < 0)
 			remaining_error -= 1;
-		disptree(root);
-		if ((ret = sh_tree_browse(root, ret)) < 0)
+		else if ((ret = sh_tree_browse(root, ret)) < 0)
 			remaining_error -= 1;
 		lexer ? sh_token_del(&lexer) : 0;
 		root ? sh_tree_del(&root) : 0;

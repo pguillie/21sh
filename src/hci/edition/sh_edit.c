@@ -52,7 +52,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
 				|| (ret = sh_lexer(lexer, save)) < 0)
 			break ;
-		displex(*lexer);
+//		displex(*lexer);
 		if (ret & LEX_OK)
 			ret = sh_verification(*lexer);
 	}

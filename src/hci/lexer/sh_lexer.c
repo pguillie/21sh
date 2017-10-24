@@ -25,13 +25,13 @@ int		sh_lexer(t_token **list, char *str)
 	status[2] = 0;
 	while (str[i[0]])
 	{
-		printf("STATUS: %d\n", status[1]);
-		dispeof(eof_fifo);
+//		printf("STATUS: %d\n", status[1]);
+//		dispeof(eof_fifo);
 		i[1] = 0;
-		printf("NEWLINE? %d\n", status[2]);
+//		printf("NEWLINE? %d\n", status[2]);
 		if (status[2] == 1 && eof_fifo[0])
 		{
-			printf("-- ENTER HEREDOC --\n");
+//			printf("-- ENTER HEREDOC --\n");
 			if (sh_lex_heredoc(str, i, eof_fifo, list))
 				return (LEX_LOOP);//a voir
 		}
@@ -52,7 +52,7 @@ int		sh_lexer(t_token **list, char *str)
 		}
 		i[0] += i[1];
 	}
-	if (sh_last_token(list) != NEWLINE || /*status[2]*/ eof_fifo[0])
+	if (sh_last_token(list) != NEWLINE || eof_fifo[0])
 		return (LEX_LOOP);
 	return (LEX_OK);
 }
