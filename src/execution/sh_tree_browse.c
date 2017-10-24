@@ -50,15 +50,14 @@ static int	sh_pipe(t_tree *root, int ret)
 static int	sh_tree_cmd(t_tree *root, int ret)
 {
 	extern char	**environ;
-	int			std[3];
-	int			fd;
+	int			fd[10];
 	int			red_ret;
 
-	memset(std, -1, sizeof(int) * 3);
-	red_ret = sh_redir_set(root->cmd->redir, std, &fd);
+	memset(fd, -1, sizeof(int) * 10);
+	red_ret = sh_redir_set(root->cmd->redir, fd);
 	if (red_ret == 0)
 		ret = sh_execution(root->cmd->av, environ, ret);
-	sh_redir_restore(std, fd);
+	sh_redir_restore(fd);
 	return (red_ret ? red_ret : ret);
 }
 
