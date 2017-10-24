@@ -1,5 +1,15 @@
 #include "shell.h"
 
+static int	sh_last_token(t_token **list)
+{
+	t_token *l;
+
+	l = *list;
+	while (l->next)
+		l = l->next;
+	return (l->category);
+}
+
 int		sh_lexer(t_token **list, char *str)
 {
 	char	*eof_fifo[32];
@@ -24,9 +34,8 @@ int		sh_lexer(t_token **list, char *str)
 			printf("-- ENTER HEREDOC --\n");
 			if (sh_lex_heredoc(str, i, eof_fifo, list))
 				return (LEX_LOOP);//a voir
-
 		}
-		else if (!sh_metachar(str[i[0]]))
+		if (!sh_metachar(str[i[0]]))
 			i[1] = sh_lex_word(str + i[0]);
 		else if (!(i[1] = sh_rdir_op(str + i[0]))
 				&& !(i[1] = sh_ctrl_op(str + i[0])))
@@ -43,5 +52,7 @@ int		sh_lexer(t_token **list, char *str)
 		}
 		i[0] += i[1];
 	}
+	if (sh_last_token(list) != NEWLINE || /*status[2]*/ eof_fifo[0])
+		return (LEX_LOOP);
 	return (LEX_OK);
 }
