@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static void	edit_raz(t_line *line, t_tc *tc)
+static void	edit_raz(t_line *line, t_tc *tc, t_token **lexer)
 {
 	g_signal = 0;
 	ft_bzero(line->str, line->used);
@@ -9,6 +9,7 @@ static void	edit_raz(t_line *line, t_tc *tc)
 	line->h_smd = 0;
 	line->h_pos = 0;
 	tc->esc = NULL;
+	sh_token_del(lexer);
 }
 
 static int	edit_save(char **save, char *line)
@@ -45,7 +46,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 	save = NULL;
 	while (ret & LEX_LOOP)
 	{
-		edit_raz(line, tc);
+		edit_raz(line, tc, lexer);
 		tc->prompt = sh_prompt(!save ? 1 : 2);
 		ret = sh_edit_line(&line, save, tc);
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
