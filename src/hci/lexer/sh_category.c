@@ -43,7 +43,7 @@ int			sh_category(char *str, int i[2], int status[3])
 	status[2] = 0;
 	if ((i[1] == 1 && str[i[0]] >= '0' && str[i[0]] <= '9'
 				&& sh_rdir_op(str + i[0] + i[1]))
-			|| (str[i[0]] != '-' && status[1]))
+			|| status[1])
 		return ((status[1] == 2 ? HEREDOC : FILDES) + (status[1] = 0));
 	if (sh_rdir_op(str + i[0]))
 	{

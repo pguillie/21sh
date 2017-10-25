@@ -56,6 +56,9 @@
 
 # define CASE(x) (x | 32)
 
+# define RDR_AMB -2
+# define RDR_BADFD -4
+
 /*
 **	RESSOURCES
 */
