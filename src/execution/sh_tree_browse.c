@@ -56,8 +56,7 @@ static int	sh_tree_cmd(t_tree *root, int ret)
 
 	memset(fd, -1, sizeof(int) * 10);
 	sh_redir_backup(std);
-	red_ret = sh_redir_set(root->cmd->redir, fd);
-	if (red_ret == 0)
+	if (!(red_ret = sh_redir_set(root->cmd->redir, fd)))
 		ret = sh_execution(root->cmd->av, environ, ret);
 	sh_redir_restore(fd, std);
 	return (red_ret ? red_ret : ret);

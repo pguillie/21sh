@@ -26,10 +26,10 @@ static int	edit_save(char **save, char *line)
 
 static int	edit_end(t_token **lexer, int ret, char *save, char *last)
 {
+	if (!(ret < 0 || ret & EOT) && sh_hist_write(save, last))
+		ft_error("Unable to write line in history", NULL, NULL);
 	if (ret < 0 || ret & EOT || ret & SYN_ERR)
 		sh_token_del(lexer);
-	else if (sh_hist_write(save, last))
-		ft_error("Unable to write line in history", NULL, NULL);
 	save ? ft_strdel(&save) : 0;
 	return (g_signal == SIGINT ? 1 : ret);
 }
@@ -52,7 +52,7 @@ int			sh_edit(t_line *line, char *last, t_token **lexer, t_tc *tc)
 		if (ret < 0 || ret == EOT || edit_save(&save, line->str) < 0
 				|| (ret = sh_lexer(lexer, save)) < 0)
 			break ;
-//		displex(*lexer);
+		displex(*lexer);
 		if (ret & LEX_OK)
 			ret = sh_verification(*lexer);
 	}

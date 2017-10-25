@@ -7,7 +7,7 @@ static char	*sh_lex_hd_eof(char *fifo[32])
 
 	i = 0;
 	eof = fifo[i];
-	while (i < 32 && fifo[i])
+	while (i < 31 && fifo[i])
 	{
 		fifo[i] = fifo[i + 1];
 		i += 1;
@@ -25,7 +25,7 @@ static int	sh_lex_hd_rplc(t_token **list, char *hd)
 		l = l->next;
 	if ((l = l->next))
 	{
-		free(l->lexeme); // WTF ??????????????????????????????????????????????
+		free(l->lexeme);
 		l->lexeme = hd;
 		l->category = HEREDOC;
 	}
@@ -64,7 +64,7 @@ int			sh_lex_heredoc(char *str, int *i, char *fifo[32], t_token **list)
 		sol += i[1] + (str[sol + i[1]] ? 1 : 0);
 	}
 	if (!str[sol])
-		return (1);
+		return (LEX_LOOP);
 	if (!(heredoc = ft_strsub(str, i[0], sol - i[0])))
 		return (-1);
 	sh_lex_hd_rplc(list, heredoc);

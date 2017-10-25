@@ -2,6 +2,7 @@
 
 static int	sh_redir_open(t_redir red)
 {
+	int		pfd[2];
 	int		fd;
 
 	if (ft_strequ(red.type, ">&") || ft_strequ(red.type, "<&"))
@@ -12,6 +13,13 @@ static int	sh_redir_open(t_redir red)
 	else if (ft_strequ(red.type, ">>"))
 		fd = open(red.right, O_CREAT | O_WRONLY | O_APPEND,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	else if (ft_strequ(red.type, "<<") || ft_strequ(red.type, "<<<"))
+	{
+		pipe(pfd);
+		ft_putstr_fd(red.right, pfd[1]);
+		fd = pfd[0];
+		close(pfd[1]);
+	}
 	else
 		fd = open(red.right, O_RDONLY);
 	return (fd);

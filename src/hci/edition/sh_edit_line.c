@@ -78,15 +78,6 @@ int			sh_edit_line(t_line **line, char *save, t_tc *tc)
 			&& !(success[0] < 0))
 	{
 		success[0] = sh_norme1(line, save, tc);
-		/*
-		if ((success[0] = sh_norme1(line, *save, tc)) & LEXER)
-		{
-			if (!(tmp = ft_strjoin(*save, (*line)->str)))
-				success[0] = -1;
-			if ((success[1] = sh_lexer(tmp, lexer)) < 0)
-				success[0] = -1;
-		}
-		*/
 		if (g_signal == SIGINT)
 			sh_move_cur((*line)->cur, (*line)->used, tc->coord, *tc);
 		else if (sh_norme2(*line, save, tc, success[0]) < 0)
