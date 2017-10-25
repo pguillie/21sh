@@ -11,8 +11,7 @@ int		sh_exit(char *av[], int ret);
 int		sh_printenv(char *env[], char *var);
 int	  sh_cd_opt(char *opt, char *str);
 int	  sh_concat_pwd(char **dir);
-int	  ft_access(char *dir, int mode);
-int	  sh_verif(char *dir, int *i);
-int	  sh_search_path(char **dir);
+int	  ft_access(char *dir, char *av, int mode);
+int	  sh_search_path(char **dir, char *av);
 
 #endif

@@ -5,9 +5,9 @@ static char	*sh_prt_home(char *pwd, char *tmp)
 	char	*home;
 	int		i;
 
-	*tmp = pwd[0];
 	if (pwd && (home = getenv("HOME")) && home[0])
 	{
+		*tmp = pwd[0];
 		i = 0;
 		while (home[i] && home[i] == pwd[i])
 			i++;
