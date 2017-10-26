@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int	sh_cd_opt(char *opt, char *str)
+int		sh_cd_opt(char *opt, char *str)
 {
 	if (!str || *str != '-' || (str[0] == '-' && (str[1] == '\0' ||
 	((str[1] == ' ' || str[1] == '-') && (str[2] == '\0' || str[2] == ' ')))))
@@ -17,7 +17,7 @@ int	sh_cd_opt(char *opt, char *str)
 	return (-1);
 }
 
-int	sh_concat_pwd(char **dir)
+int		sh_concat_pwd(char **dir)
 {
 	char		*tmp;
 	char		*pwd;
@@ -39,7 +39,7 @@ int	sh_concat_pwd(char **dir)
 	return (*dir ? 0 : -1);
 }
 
-int	ft_access(char *dir, char *av, int mode)
+int		ft_access(char *dir, char *av, int mode)
 {
 	if (access(dir, F_OK) < 0)
 		return (!mode ? ft_error("cd", E_NOENT, av) : 1);
@@ -48,7 +48,7 @@ int	ft_access(char *dir, char *av, int mode)
 	return (0);
 }
 
-int	sh_search_path(char **dir, char *av)
+int		sh_search_path(char **dir, char *av)
 {
 	char		**cdpath;
 	char		*tmp;

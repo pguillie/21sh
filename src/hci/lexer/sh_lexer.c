@@ -1,78 +1,64 @@
 #include "shell.h"
 
-/*
-**	RETURN STATUS:
-**
-**	-1	crash
-**	 0	valid
-**	 1	pas fini
-**	 2	syntax error (lexer ou parser?)
-*/
-
-static int	sh_lex_token(char *str, size_t *i, int *status, t_token **begin)
+static int	sh_last_token(t_token **list)
 {
-	t_token		*new;
-	t_token		*browse;
+	t_token *l;
 
-	if (!(new = sh_token_new(str, i, status)))
-		return (sh_token_del(begin));
-	status[1] = new->category == REDIRECTION ? 1 : 0;
-	browse = *begin;
-	if (!browse)
-	{
-		*begin = new;
-		return (0);
-	}
-	while (browse->next)
-		browse = browse->next;
-	browse->next = new;
-	return (0);
+	l = *list;
+	while (l->next)
+		l = l->next;
+	return (l->category);
 }
 
-static int	sh_lex_loop(char *str, size_t *i, int *status, t_token **begin)
+static int	sh_lex_loop(t_token **list, char *str, int *i_stat, char *fifo[32])
 {
-	while (str[i[0]])
+	char	*lexeme;
+	int		category;
+
+	i_stat[1] = 0;
+	if (!sh_metachar(str[i_stat[0]]))
+		i_stat[1] = sh_lex_word(str + i_stat[0]);
+	else if (!(i_stat[1] = sh_rdir_op(str + i_stat[0]))
+			&& !(i_stat[1] = sh_ctrl_op(str + i_stat[0])))
+		i_stat[0] += 1;
+	if (i_stat[1])
 	{
-		i[1] = 0;
-		if (!sh_metachar(str[i[0]]))
-			i[1] = sh_lex_word(str + i[0]);
-		else if (!(i[1] = sh_rdir_op(str + i[0]))
-				&& !(i[1] = sh_ctrl_op(str + i[0])))
-			i[0] += 1;
-		if (i[1])
+		if (!(lexeme = ft_strsub(str, i_stat[0], i_stat[1])))
+			return (-1);
+		if ((category = sh_category(str, i_stat, i_stat + 2)) == HEREDOC)
 		{
-			if (sh_lex_token(str, i, status, begin) == -1)
-				return (-1);
-			i[0] += i[1];
+			sh_lex_eof(fifo, lexeme);
+			category = FILDES;
 		}
+		if (sh_token_new(list, lexeme, category))
+			return (-1);
 	}
-	i[1] = 0;
+	i_stat[0] += i_stat[1];
 	return (0);
 }
 
-int			sh_lexer(char *str, t_token **begin)
+int			sh_lexer(t_token **list, char *str)
 {
-	t_token		*last;
-	size_t		i[2];
-	int			status[2];
+	char	*fifo[32];
+	int		i_stat[5];
+	int		ret;
 
-	if (!str)
-		return (-1);
-	sh_token_del(begin);
-	status[0] = CMD;
-	status[1] = 0;
-	ft_bzero(i, sizeof(size_t) * 2);
-	if (str && sh_lex_loop(str, i, status, begin) < 0)
-		return (-1);
-	last = *begin;
-	if (last)
-		while (last->next)
-			last = last->next;
-	if (last && last->category == NEWLINE)
-		return (LEX_OK);
-	if ((!str[0] || (sh_metachar(str[ft_strlen(str) - 1])
-					&& str[ft_strlen(str) - 1] != '\n'))
-			&& (sh_lex_token(str, i, status, begin) < 0))
-		return (-1);
-	return (LEX_LOOP);
+	ft_memset(fifo, 0, sizeof(char*) * 32);
+	ft_memset(i_stat, 0, sizeof(int) * 5);
+	i_stat[2] = CMD;
+	while (str[i_stat[0]])
+	{
+		if (i_stat[4] == 1 && fifo[0])
+		{
+			if ((ret = sh_lex_heredoc(str, i_stat, fifo, list)) < 0)
+				return (sh_token_del(list));
+			if (ret)
+				return (LEX_LOOP);
+		}
+		if (sh_lex_loop(list, str, i_stat, fifo) < 0)
+			return (sh_token_del(list));
+	}
+	if (sh_last_token(list) != NEWLINE || fifo[0])
+		return (LEX_LOOP);
+	return (LEX_OK);
 }
