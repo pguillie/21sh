@@ -17,6 +17,15 @@ int		sh_del_able(char *esc, t_line *line);
 t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
 /*
+**	COMPLETION
+*/
+
+int		sh_tab(t_line *line, t_coord **coord, t_tc tc);
+char	**sh_tab_find(char *array[], char *dir, int cat);
+int		sh_tab_comp(t_line *line, t_coord **coord, t_tc tc, char *buf);
+int		sh_tab_multi(t_line *line, t_coord **coord, t_tc tc, char *array[]);
+
+/*
 **	CONVERTIONS
 */
 

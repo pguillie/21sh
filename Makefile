@@ -38,7 +38,7 @@ obj:
 	mkdir -p ./obj/builtins
 	mkdir -p ./obj/environment
 	mkdir -p ./obj/execution
-	mkdir -p ./obj/completion
+	mkdir -p ./obj/hci/completion
 	mkdir -p ./obj/hci/conversions
 	mkdir -p ./obj/hci/cur_motion
 	mkdir -p ./obj/hci/edition
