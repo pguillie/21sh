@@ -49,7 +49,11 @@ void	disptree(t_tree *root)
 			i = 0;
 			while (root->cmd->redir[i].type)
 			{
-				ft_printf("\tREDIR: %d/%s/%s\n", root->cmd->redir[i].left, root->cmd->redir[i].type, root->cmd->redir[i].right);
+				ft_printf("\tREDIR: %d/%s/%s/%d\n",
+						root->cmd->redir[i].left,
+						root->cmd->redir[i].type,
+						root->cmd->redir[i].right,
+						root->cmd->redir[i].file);
 				i++;
 			}
 			i = 0;
@@ -60,4 +64,15 @@ void	disptree(t_tree *root)
 		if (root->right)
 			disptree(root->right);
 	}
+}
+
+void	dispeof(char *fifo[32])
+{
+	int	i;
+
+	i = 0;
+	ft_putendl("### beg eof ###");
+	while (i < 32 && fifo[i])
+		ft_putendl(fifo[i++]);
+	ft_putendl(" ## end eof ##");
 }

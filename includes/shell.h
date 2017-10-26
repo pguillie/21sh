@@ -57,6 +57,13 @@
 
 # define CASE(x) (x | 32)
 
+# define RDR_SPEC 1
+# define RDR_AMBG -2
+# define RDR_BADFD -3
+# define RDR_NOENT -4
+# define RDR_NORGHT -5
+# define RDR_PIPE -6
+
 /*
 **	RESSOURCES
 */
@@ -83,6 +90,7 @@ void displex(t_token *lexer);
 void disphist(t_line *line);
 void dispcoord(t_coord *c, t_line *l);
 void disptree(t_tree *root);
+void dispeof(char *fifo[32]);
 ////////////////
 
 #endif

@@ -16,7 +16,7 @@ int			sh_verification(t_token *lex)
 	{
 		if (lex->category == REDIRECTION)
 		{
-			if (lex->next->category != FILDES)
+			if (lex->next->category != FILDES && lex->next->category != HEREDOC)
 				return (sh_syn_err(lex->next->category == NEWLINE ?
 							"newline" : lex->next->lexeme));
 		}
