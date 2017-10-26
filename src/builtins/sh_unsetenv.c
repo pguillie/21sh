@@ -18,6 +18,8 @@ static int	sh_remove_var(char *var)
 	{
 		if (!ft_strequ(environ[i], var))
 			new[j++] = environ[i];
+		else
+			free(environ[i]);
 		i++;
 	}
 	free(environ);

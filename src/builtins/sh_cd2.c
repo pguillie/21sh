@@ -24,7 +24,7 @@ int		sh_concat_pwd(char **dir)
 	int			i;
 
 	if (!(pwd = ft_strdup(getenv("PWD"))))
-		pwd = getcwd(pwd, PATH_MAX);
+		pwd = getcwd(pwd, PATH_SIZE);
 	tmp = ft_strdup(*dir);
 	free(*dir);
 	i = 0;
@@ -65,9 +65,9 @@ int		ft_access(char *dir, int mode, char *av)
 
 int		sh_search_path(char **dir, char *av)
 {
-	char		**cdpath;
-	char		*tmp;
-	int			i;
+	char	**cdpath;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = NULL;
@@ -89,4 +89,25 @@ int		sh_search_path(char **dir, char *av)
 	*dir = tmp;
 	ft_strtabdel(cdpath);
 	return (0);
+}
+
+int		sh_cd_exec2(char opt, char **dir, char **tab, char *av)
+{
+	int ret;
+
+	ret = 0;
+	if (opt == 'P')
+	{
+		if (ft_access(tab[0], 1, av) == 0)
+			ret = chdir(tab[0]);
+		free(*dir);
+		*dir = getcwd(NULL, PATH_SIZE);
+	}
+	if (!(tab[2] = ft_strjoin("PWD=", *dir)))
+	{
+		free(tab[0]);
+		free(*dir);
+		return (-1);
+	}
+	return (ret);
 }

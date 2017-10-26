@@ -36,13 +36,13 @@ static int	sh_epur(char **curdir, char *av)
 
 	d = ft_strdup(*curdir);
 	i[0] = 0;
-	if (ft_access(d, 1, av) != 0 && !ft_strequ(av, av[1] && av[2] ? "../" : ".."))
+	if (ft_access(d, 1, av) != 0 &&
+			!ft_strequ(av, av[1] && av[2] ? "../" : ".."))
 	{
 		free(d);
 		return (1);
 	}
 	av ? sh_epur2(&d, i) : 0;
-	ft_printf("d:%s\n", d);
 	if (av && ft_strequ(av, av[1] && av[2] ? "../" : "..") &&
 		(i[0] = ft_access(d, 1, av)) != 0)
 	{
@@ -59,38 +59,26 @@ static int	sh_epur(char **curdir, char *av)
 
 static int	sh_cd_exec(char opt, char *dir, int epu, char *av)
 {
-	char		*tab[3];
-	char		*path;
+	char		*tab[4];
 	int			ret;
 
 	ret = 0;
-	tab[2] = NULL;
+	tab[3] = NULL;
+	tab[1] = "setenv";
 	if (epu != 2 && ft_access(dir, 0, av) != 0)
 		return (1);
-	tab[0] = "setenv";
-	if (!(tab[1] = ft_strjoin("OLDPWD=", getenv("PWD"))))
+	if (!(tab[2] = ft_strjoin("OLDPWD=", getenv("PWD"))))
 		return (-1);
-	sh_setenv(tab);
-	free(tab[1]);
-	path = ft_strdup(dir);
-	if (opt == 'P')
-	{
-		if (ft_access(path, 1, av) == 0)
-			ret = chdir(path);
-		free(dir);
-		dir = getcwd(NULL, PATH_MAX);
-	}
-	if (!(tab[1] = ft_strjoin("PWD=", dir)))
-	{
-		free(path);
-		free(dir);
+	sh_setenv(tab + 1);
+	free(tab[2]);
+	tab[0] = ft_strdup(dir);
+	if ((ret = sh_cd_exec2(opt, &dir, tab, av)) < 0)
 		return (-1);
-	}
-	sh_setenv(tab);
-	free(tab[1]);
-	if (opt != 'P' && ft_access(path, 1, av) == 0)
-		ret = chdir(path);
-	free(path);
+	sh_setenv(tab + 1);
+	free(tab[2]);
+	if (opt != 'P' && ft_access(tab[0], 1, av) == 0)
+		ret = chdir(tab[0]);
+	free(tab[0]);
 	free(dir);
 	return (ret < 0 ? -1 : 0);
 }
@@ -100,10 +88,19 @@ static int	sh_cd2(char *dir, char opt, char *av)
 	int ret;
 
 	ret = 0;
+	if (ft_strequ(dir, "-"))
+	{
+		free(dir);
+		if (!(dir = ft_strdup(getenv("OLDPWD"))) || ft_strequ(dir, ""))
+		{
+			if (dir && ft_strequ(dir, ""))
+				free(dir);
+			return (ft_error("cd", "OLDPWD not set", NULL));
+		}
+	}
 	if (getenv("CDPATH") && dir[0] != '.' && dir[0] != '/'
 			&& sh_search_path(&dir, av) < 0)
 		return (-1);
-	(void)opt;
 	if (opt != 'P' && dir[0] != '/' && sh_concat_pwd(&dir) < 0)
 		return (-1);
 	if (opt != 'P' && (ret = sh_epur(&dir, av)) < 0)
@@ -130,16 +127,6 @@ int			sh_cd(char *av[])
 		free(dir);
 		if (!(dir = ft_strdup(av[i + 1])))
 			return (-1);
-	}
-	if (ft_strequ(dir, "-"))
-	{
-		free(dir);
-		if (!(dir = ft_strdup(getenv("OLDPWD"))) || ft_strequ(dir, ""))
-		{
-			if (dir && ft_strequ(dir, ""))
-				free(dir);
-			return (ft_error("cd", "OLDPWD not set", NULL));
-		}
 	}
 	if (sh_cd2(dir, opt, av[i + 1]) < 0)
 		return (-1);
