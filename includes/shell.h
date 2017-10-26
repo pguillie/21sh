@@ -27,9 +27,10 @@
 # define ERROR_MAX 5
 
 # define PRT_SIZE 256
+# define PATH_SIZE 2048
 # define PROMPT_DIRTRIM 3
 # define PS1B "\\s-\\v\\$ "
-# define PS1 "\\e[36m[\\T] \\e[34;1m\\w \\$\\e[0m " //prompt alternatif pour une meilleure lisibilité
+# define PS1 "\\e[36m[\\@] \\e[34;1m\\w \\$\\e[0m " //prompt alternatif pour une meilleure lisibilité
 # define PS2 "> "
 # define PS3 "#? "
 # define PS4 "+ "

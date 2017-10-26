@@ -1,12 +1,14 @@
 #include "shell.h"
 
-//
-//ICI PROCHAINEMENT:
-//	__ Function de Ludo __
-//
+static int	sh_tab_err(char *lexeme)
+{
+	free(lexeme);
+	return (0);
+}
 
 static char	*sh_tab_split(char *lexeme, char *dir)
 {
+	char	*tmp;
 	size_t	i;
 
 	if (dir)
@@ -18,7 +20,9 @@ static char	*sh_tab_split(char *lexeme, char *dir)
 		{
 			if (dir)
 				ft_strncat(dir, lexeme, i + 1);
-			lexeme += i + 1;
+			tmp = ft_strdup(lexeme + i + 1);
+			free(lexeme);
+			lexeme = tmp;
 			i = 0;
 		}
 		else
@@ -50,7 +54,7 @@ static void	sh_tab_del(char *array[])
 {
 	size_t	i;
 
-	i = 1;
+	i = 0;
 	while (array[i])
 	{
 		free(array[i]);
@@ -68,14 +72,15 @@ int			sh_tab(t_line *line, t_coord **coord, t_tc tc)
 	int		category;
 	int		ret;
 
-	lexeme = "";
+	lexeme = NULL;
 	category = CMD;
-	//FUNCTION_DE_LUDO(line->str, line->cur, &lexeme, &category);
-	if (!(array = (char**)ft_memalloc(sizeof(char*) * 2)))
+	if (sh_tab_init(line->str, line->cur, &lexeme, &category))
 		return (0);
-	array[0] = sh_tab_split(lexeme, dir);
+	if (!(array = (char**)ft_memalloc(sizeof(char*) * 2))
+			|| !(array[0] = sh_tab_split(lexeme, dir)))
+		return (sh_tab_err(lexeme));
 	if (!(array = sh_tab_find(array, dir, category)))
-		return (0);
+		return (sh_tab_err(lexeme));
 	ret = 0;
 	if (array[1] && !array[2])
 	{

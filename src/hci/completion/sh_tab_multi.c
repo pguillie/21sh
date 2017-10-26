@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sh_tab_multi.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 17:55:08 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/26 16:59:20 by pguillie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static int	sh_norminette(t_line *line, t_coord **coord, t_tc tc, char *array[])
@@ -27,13 +15,13 @@ static int	sh_norminette(t_line *line, t_coord **coord, t_tc tc, char *array[])
 		ft_printf("\nDisplay all %d possibilities? (y or n)", size);
 		ans = 0;
 		while (ans != 'y' && ans != 'n' && ans != 127 && ans != ' '
-				&& g_sig != SIGINT)
+				&& g_signal != SIGINT)
 			read(0, &ans, 1);
 		if (ans == 'n' || ans == 127)
 			disp = 0;
 	}
-	g_sig != SIGINT ? write(1, "\n", 1) : 0;
-	if (disp && g_sig != SIGINT)
+	g_signal != SIGINT ? write(1, "\n", 1) : 0;
+	if (disp && g_signal != SIGINT)
 	{
 		array = ft_strtab_sort(array);
 		ft_strtab_disp(array);

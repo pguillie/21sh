@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sh_tab_find.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pguillie <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 17:55:02 by pguillie          #+#    #+#             */
-/*   Updated: 2017/09/26 17:13:10 by pguillie         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static void	sh_tab_append(char **array[], char *occ, char c)
@@ -102,7 +90,7 @@ char		**sh_tab_find(char *array[], char *dir, int category)
 	{
 		i = 0;
 		path = NULL;
-		if (!(path = sh_envvarsplit(sh_msh_getenv("PATH"))))
+		if (!(path = sh_envvarsplit(getenv("PATH"))))
 			return (NULL);
 		while (path[i])
 		{
