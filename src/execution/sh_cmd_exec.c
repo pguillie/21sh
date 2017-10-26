@@ -41,7 +41,7 @@ static int	sh_exec_bin(char *cmd, char **path)
 	size_t	i;
 	int		found;
 
-	if (!(path_value = getenv("PATH")))
+	if (ft_strequ(cmd, cmd[1] ? ".." : ".") || !(path_value = getenv("PATH")))
 		return (ft_error(cmd, E_NOCMD, NULL));
 	if (!(env_path = sh_envvarsplit(path_value)))
 		return (-1);
