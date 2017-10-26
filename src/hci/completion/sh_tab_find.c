@@ -5,7 +5,7 @@ static void	sh_tab_append(char **array[], char *occ, char c)
 	char	**new;
 	size_t	i;
 
-	i = 0;
+	i = 1;
 	if (*array)
 		while ((*array)[i])
 			if (ft_strequ((*array)[i++], occ))
@@ -79,6 +79,8 @@ static void	sh_tab_builtin(char **array[])
 		sh_tab_append(array, "env", 0);
 	if (ft_strnequ(*array[0], "exit", len))
 		sh_tab_append(array, "exit", 0);
+	if (ft_strnequ(*array[0], "printenv", len))
+		sh_tab_append(array, "printenv", 0);
 }
 
 char		**sh_tab_find(char *array[], char *dir, int category)

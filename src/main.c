@@ -25,7 +25,7 @@ int			main(void)
 		sh_init_loop(&lexer, &root);
 		if (sh_hci(&termcaps, &lexer, ret))
 			remaining_error -= 1;
-		else if (sh_parser(lexer, &root) < 0)
+		else if (sh_parser(sh_expansion(lexer), &root) < 0)
 			remaining_error -= 1;
 		else if ((ret = sh_tree_browse(root, ret)) < 0)
 			remaining_error -= 1;

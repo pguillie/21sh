@@ -8,7 +8,7 @@ static int	sh_init_env_free(char *a, char *b, char *c)
 	return (-1);
 }
 
-int		sh_init_env(void)
+int			sh_init_env(void)
 {
 	extern char	**environ;
 	char		*shlvl;

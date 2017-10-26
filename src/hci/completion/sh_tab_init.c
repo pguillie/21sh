@@ -32,7 +32,8 @@ int			sh_tab_init(char *str, size_t cur, char **lexeme, int *status)
 		{
 			i[1] = sh_lex_word(str + i[0]);
 			if (i[0] + i[1] >= cur)
-				if (!(*lexeme = ft_strsub(str, i[0], i[0] + i[1] > cur ? cur - i[0] : i[1])))
+				if (!(*lexeme = ft_strsub(str, i[0],
+								i[0] + i[1] > cur ? cur - i[0] : i[1])))
 					return (-1);
 			if (*status == CMD)
 				cmd = 1;
@@ -42,7 +43,5 @@ int			sh_tab_init(char *str, size_t cur, char **lexeme, int *status)
 		if (i[1])
 			i[0] += i[1];
 	}
-	if (!*lexeme && !(*lexeme = ft_strdup("")))
-		return (-1);
-	return (0);
+	return ((!*lexeme && !(*lexeme = ft_strdup(""))) ? -1 : 0);
 }

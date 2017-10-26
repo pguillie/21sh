@@ -62,6 +62,8 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 static int	sh_edit_free(t_coord *coord, int *success)
 {
 	free(coord);
+	if (g_signal == SIGINT)
+		return (-1);
 	if (success[0] & EOT || success[0] < 0)
 		return (success[0]);
 	return (success[1]);

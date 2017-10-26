@@ -2,8 +2,8 @@
 
 int		sh_init(t_tc *init)
 {
-	int		success;
 	extern char **environ;
+	int			success;
 
 	success = sh_init_env();
 	if (success < 0)
