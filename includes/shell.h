@@ -27,6 +27,7 @@
 # define ERROR_MAX 5
 
 # define PRT_SIZE 256
+# define PATH_MAX 2048
 # define PROMPT_DIRTRIM 3
 # define PS1B "\\s-\\v\\$ "
 # define PS1 "\\e[31;1m[\\T] \\e[34m\\w \\$\\e[0m " //prompt alternatif pour une meilleure lisibilité
