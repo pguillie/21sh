@@ -23,7 +23,8 @@ int		sh_concat_pwd(char **dir)
 	char		*pwd;
 	int			i;
 
-	pwd = getenv("PWD");
+	if (!(pwd = ft_strdup(getenv("PWD"))))
+		pwd = getcwd(pwd, PATH_MAX);
 	tmp = ft_strdup(*dir);
 	free(*dir);
 	i = 0;
@@ -36,15 +37,29 @@ int		sh_concat_pwd(char **dir)
 	else
 		*dir = ft_strcjoin(pwd, tmp, '/');
 	free(tmp);
+	free(pwd);
 	return (*dir ? 0 : -1);
 }
 
-int		ft_access(char *dir, char *av, int mode)
+int		ft_access(char *dir, int mode, char *av)
 {
-	if (access(dir, F_OK) < 0)
-		return (!mode ? ft_error("cd", E_NOENT, av) : 1);
+	DIR		*fd;
+	char	*str;
+
+	str = NULL;
+	if (ft_strequ(av, "-"))
+		str = dir ? ft_strrchr(dir, '/') + 1 : NULL;
+	else
+		str = av;
+	if (!dir || access(dir, F_OK) < 0)
+	{
+		return (!mode ? ft_error("cd", E_NOENT, str) : 1);
+	}
 	if (access(dir, X_OK) < 0)
-		return (!mode ? ft_error("cd", E_NORGHT, av) + 1 : 2);
+		return (!mode ? ft_error("cd", E_NORGHT, str) + 1 : 2);
+	if (!(fd = opendir(dir)))
+		return (!mode ? ft_error("cd", E_NODIR, str) : 1);
+	closedir(fd);
 	return (0);
 }
 
@@ -61,7 +76,7 @@ int		sh_search_path(char **dir, char *av)
 	{
 		tmp ? free(tmp) : 0;
 		tmp = ft_strcjoin(cdpath[i], *dir, '/');
-		if (ft_access(tmp, av, 1) != 1)
+		if (ft_access(tmp, 1, av) != 1)
 			break ;
 		i++;
 	}

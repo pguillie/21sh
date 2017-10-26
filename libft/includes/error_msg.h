@@ -9,6 +9,7 @@
 # define E_ILLOPT "Illegal option"
 # define E_NOCMD "Command not found"
 # define E_NOENT "No such file or directory"
+# define E_NODIR "Not a directory"
 # define E_NOENV "Variable not found"
 # define E_NOGNL "Cannot get input"
 # define E_NOMEM "Not enought space"

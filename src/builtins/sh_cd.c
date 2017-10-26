@@ -33,17 +33,19 @@ static int	sh_epur(char **curdir, char *av)
 {
 	int		i[2];
 	char	*d;
-	char	*curpath;
 
-	curpath = ft_strdup(*curdir);
+	d = ft_strdup(*curdir);
 	i[0] = 0;
-	d = ft_strdup(curpath);
-	av ? sh_epur2(&d, i) : 0;
-	if (av && ft_strequ(av, av[2] ? "../" : "..") &&
-		(i[0] = ft_access(d, av, 1)) != 0)
+	if (ft_access(d, 1, av) != 0 && !ft_strequ(av, av[1] && av[2] ? "../" : ".."))
 	{
-		free(*curdir);
-		*curdir = curpath;
+		free(d);
+		return (1);
+	}
+	av ? sh_epur2(&d, i) : 0;
+	ft_printf("d:%s\n", d);
+	if (av && ft_strequ(av, av[1] && av[2] ? "../" : "..") &&
+		(i[0] = ft_access(d, 1, av)) != 0)
+	{
 		free(d);
 		return (i[0] == 2 ? 1 : 2);
 	}
@@ -52,11 +54,10 @@ static int	sh_epur(char **curdir, char *av)
 		free(*curdir);
 		*curdir = d;
 	}
-	free(curpath);
 	return (1);
 }
 
-static int	sh_cd_exec(char opt, char *dir, char *av, int epu)
+static int	sh_cd_exec(char opt, char *dir, int epu, char *av)
 {
 	char		*tab[3];
 	char		*path;
@@ -64,23 +65,33 @@ static int	sh_cd_exec(char opt, char *dir, char *av, int epu)
 
 	ret = 0;
 	tab[2] = NULL;
-	if (epu != 2 && ft_access(dir, av, 0) != 0)
+	if (epu != 2 && ft_access(dir, 0, av) != 0)
 		return (1);
-	path = ft_strdup(dir);
 	tab[0] = "setenv";
 	if (!(tab[1] = ft_strjoin("OLDPWD=", getenv("PWD"))))
 		return (-1);
 	sh_setenv(tab);
 	free(tab[1]);
+	path = ft_strdup(dir);
 	if (opt == 'P')
-		dir = getcwd(dir, 32);
+	{
+		if (ft_access(path, 1, av) == 0)
+			ret = chdir(path);
+		free(dir);
+		dir = getcwd(NULL, PATH_MAX);
+	}
 	if (!(tab[1] = ft_strjoin("PWD=", dir)))
+	{
+		free(path);
+		free(dir);
 		return (-1);
+	}
 	sh_setenv(tab);
 	free(tab[1]);
-	if (ft_access(path, av, 1) == 0)
+	if (opt != 'P' && ft_access(path, 1, av) == 0)
 		ret = chdir(path);
 	free(path);
+	free(dir);
 	return (ret < 0 ? -1 : 0);
 }
 
@@ -92,13 +103,14 @@ static int	sh_cd2(char *dir, char opt, char *av)
 	if (getenv("CDPATH") && dir[0] != '.' && dir[0] != '/'
 			&& sh_search_path(&dir, av) < 0)
 		return (-1);
+	(void)opt;
 	if (opt != 'P' && dir[0] != '/' && sh_concat_pwd(&dir) < 0)
 		return (-1);
 	if (opt != 'P' && (ret = sh_epur(&dir, av)) < 0)
 		return (1);
-	if (sh_cd_exec(opt, dir, av, ret) < 0)
+	if ((ret = sh_cd_exec(opt, dir, ret, av)) < 0)
 		return (-1);
-	free(dir);
+	ret == 1 ? free(dir) : 0;
 	return (0);
 }
 
@@ -122,8 +134,12 @@ int			sh_cd(char *av[])
 	if (ft_strequ(dir, "-"))
 	{
 		free(dir);
-		if (!(dir = ft_strdup(getenv("OLDPWD"))))
+		if (!(dir = ft_strdup(getenv("OLDPWD"))) || ft_strequ(dir, ""))
+		{
+			if (dir && ft_strequ(dir, ""))
+				free(dir);
 			return (ft_error("cd", "OLDPWD not set", NULL));
+		}
 	}
 	if (sh_cd2(dir, opt, av[i + 1]) < 0)
 		return (-1);
