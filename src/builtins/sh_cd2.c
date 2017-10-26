@@ -52,14 +52,12 @@ int		ft_access(char *dir, int mode, char *av)
 	else
 		str = av;
 	if (!dir || access(dir, F_OK) < 0)
-	{
 		return (!mode ? ft_error("cd", E_NOENT, str) : 1);
-	}
-	if (access(dir, X_OK) < 0)
-		return (!mode ? ft_error("cd", E_NORGHT, str) + 1 : 2);
 	if (!(fd = opendir(dir)))
 		return (!mode ? ft_error("cd", E_NODIR, str) : 1);
 	closedir(fd);
+	if (access(dir, X_OK) < 0)
+		return (!mode ? ft_error("cd", E_NORGHT, str) + 1 : 2);
 	return (0);
 }
 
