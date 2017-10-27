@@ -10,7 +10,7 @@ static int	sh_syn_err(char *lexeme)
 
 int			sh_verification(t_token *lex)
 {
-	if (lex->category > NEWLINE)
+	if (lex->category > NEWLINE || lex->category == PIPE)
 		return (sh_syn_err(lex->lexeme));
 	while (lex->next)
 	{
@@ -20,9 +20,9 @@ int			sh_verification(t_token *lex)
 				return (sh_syn_err(lex->next->category == NEWLINE ?
 							"newline" : lex->next->lexeme));
 		}
-		if (lex->category > NEWLINE)
+		if (lex->category == NEWLINE)
 		{
-			if (lex->next->category > NEWLINE)
+			if (lex->next->category > NEWLINE || lex->next->category == PIPE)
 				return (sh_syn_err(lex->next->lexeme));
 			if (!ft_strequ(lex->lexeme, ";")
 					&& lex->next->category == NEWLINE && !lex->next->next)
