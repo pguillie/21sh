@@ -5,7 +5,7 @@ static int		sh_get_highest(t_token *lexer)
 	t_token	*b;
 	int		high;
 
-	high = 0;
+	high = 1;
 	b = lexer;
 	while (b)
 	{
@@ -21,7 +21,7 @@ static int		sh_split(char **op, t_token *lexer,
 {
 	int		high;
 
-	if (!(high = sh_get_highest(lexer)))
+	if ((high = sh_get_highest(lexer)) == 1)
 		return (0);
 	*right = lexer;
 	while (*right && (*right)->category != high)
