@@ -53,7 +53,7 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 			line->cur = 0;
 			sh_prompt(save ? 2 : 1);
 		}
-		if (sh_display(line, &(tc->coord), *tc) < 0)
+		if (sh_display(line, &(tc->coord), *tc, save) < 0)
 			return (-1);
 	}
 	return (0);
