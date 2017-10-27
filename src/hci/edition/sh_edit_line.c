@@ -10,31 +10,31 @@ static int	sh_nl(t_line *line, t_coord **coord, t_tc tc)
 
 static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 {
-	int		ret[2];
+	int		ret;
 	char	byte;
+	int		hist_search_mode;
 
-	ft_memset(ret, 0, sizeof(int) * 2);
+	ret = 0;
 	byte = 0;
+	hist_search_mode = 0;
 	if (read(0, &byte, 1) < 0 && g_signal != SIGWINCH)
 		return (-1);
 	else if (byte == 11 || byte == 21 || byte == 23 || byte == 25)
-		ret[0] = sh_cvx(*line, &tc->coord, tc, byte);
+		ret = sh_cvx(*line, &tc->coord, tc, byte);
 	else if (byte == 27)
-		ret[0] = sh_esc(line, &tc->coord, tc, ret + 1);
+		ret = sh_esc(line, &tc->coord, tc, &hist_search_mode);
 	else if (byte == 4)
-		ret[0] = sh_ctrl_d(*line, save);
+		ret = sh_ctrl_d(*line, save);
 	else if (byte == '\n')
-		ret[0] = sh_nl(*line, &tc->coord, *tc);
-	else if (byte == '\t' && !save)
-		ret[0] = sh_tab(*line, &(tc->coord), *tc);
+		ret = sh_nl(*line, &tc->coord, *tc);
 	else if (byte == 127)
-		ret[0] = sh_del_l(*line, &tc->coord, *tc);
+		ret = sh_del_l(*line, &tc->coord, *tc);
 	else if (byte >= 32 && byte < 127)
-		ret[0] = sh_ins(*line, byte);
-	(*line)->h_smd = ret[1];
+		ret = sh_ins(*line, byte);
+	(*line)->h_smd = hist_search_mode;
 	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
 		tc->cut = 0;
-	return (ret[0]);
+	return (ret);
 }
 
 static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
@@ -53,7 +53,7 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 			line->cur = 0;
 			sh_prompt(save ? 2 : 1);
 		}
-		if (sh_display(line, &(tc->coord), *tc) < 0)
+		if (sh_display(line, &(tc->coord), *tc, save) < 0)
 			return (-1);
 	}
 	return (0);
@@ -62,8 +62,6 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 static int	sh_edit_free(t_coord *coord, int *success)
 {
 	free(coord);
-	if (g_signal == SIGINT)
-		return (-1);
 	if (success[0] & EOT || success[0] < 0)
 		return (success[0]);
 	return (success[1]);

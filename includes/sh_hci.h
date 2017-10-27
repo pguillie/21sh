@@ -17,16 +17,6 @@ int		sh_del_able(char *esc, t_line *line);
 t_line	*sh_hist_able(char *esc, t_line *line, int *hist_search);
 
 /*
-**	COMPLETION
-*/
-
-int		sh_tab(t_line *line, t_coord **coord, t_tc tc);
-int		sh_tab_comp(t_line *line, t_coord **coord, t_tc tc, char *buf);
-char	**sh_tab_find(char *array[], char *dir, int cat);
-int		sh_tab_init(char *str, size_t cur, char **lexeme, int *status);
-int		sh_tab_multi(t_line *line, t_coord **coord, t_tc tc, char *array[]);
-
-/*
 **	CONVERTIONS
 */
 
@@ -65,7 +55,7 @@ int		sh_edit_line(t_line **line, char *save, t_tc *tc);
 int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_clear(t_line *line, t_coord **coord, t_tc tc);
-int		sh_display(t_line *line, t_coord **coord, t_tc tc);
+int		sh_display(t_line *line, t_coord **coord, t_tc tc, char *save);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
 int		sh_del_r(t_line *line);
 int		sh_hist(t_line **line, t_coord **coord, t_tc tc, t_line *target);

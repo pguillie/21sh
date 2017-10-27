@@ -40,8 +40,8 @@ static int	sh_pipe(t_tree *root, int ret)
 	}
 	else
 	{
-		close(fildes[1]);
 		waitpid(child, &ret, 0);
+		close(fildes[1]);
 		ret = sh_pipe_right(root, fildes[0], ret);
 	}
 	return (ret);
@@ -52,7 +52,7 @@ static int	sh_tree_cmd(t_tree *root, int ret)
 	extern char	**environ;
 	int			fd[10];
 	int			std[3];
-	int			red_ret;
+	int			red_ret = 0;
 
 	memset(fd, -1, sizeof(int) * 10);
 	sh_redir_backup(std);
@@ -60,6 +60,7 @@ static int	sh_tree_cmd(t_tree *root, int ret)
 		ret = sh_execution(root->cmd->av, environ, ret);
 	sh_redir_restore(fd, std);
 	return (red_ret ? red_ret : ret);
+	return (ret);
 }
 
 int			sh_tree_browse(t_tree *root, int ret)
@@ -68,7 +69,7 @@ int			sh_tree_browse(t_tree *root, int ret)
 	{
 		if (root->cmd)
 			ret = sh_tree_cmd(root, ret);
-		else if (root->op)
+		if (root->op)
 		{
 			if (ft_strequ(root->op, "|"))
 				ret = sh_pipe(root, ret);
