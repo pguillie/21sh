@@ -18,11 +18,12 @@ static int	sh_remove_var(char *var)
 	{
 		if (!ft_strequ(environ[i], var))
 			new[j++] = environ[i];
-		else
-			free(environ[i]);
 		i++;
 	}
+	if (ft_strnequ(var, "PATH", 4))
+		sh_hash_free();
 	free(environ);
+	free(var);
 	environ = new;
 	return (0);
 }

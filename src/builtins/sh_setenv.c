@@ -59,5 +59,7 @@ int			sh_setenv(char *av[])
 	while (av[i] && (ret = sh_setenv_var(av[0], av[i++])) >= 0)
 		if (ret)
 			stat = 1;
+	if (ret == 0 && ft_strequ(av[0], "setenv") && ft_strnequ(av[1], "PATH", 4))
+		sh_hash_free();
 	return (ret < 0 ? ret : stat);
 }

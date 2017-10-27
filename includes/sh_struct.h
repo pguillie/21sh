@@ -70,4 +70,11 @@ typedef struct	s_tree
 	struct s_tree	*right;
 }				t_tree;
 
+typedef struct	s_htable
+{
+	char			*cmd;
+	char			*path;
+	struct s_htable	*next;
+}				t_htable;
+
 #endif
