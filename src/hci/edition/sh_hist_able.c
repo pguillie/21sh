@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_convert_hist(char *esc)
+static int		sh_convert_hist(char *esc)
 {
 	if (esc[1] == '[' && (esc[2] == 'A' || esc[2] == 'B'))
 		return ((esc[2] ^ 64) | 4);
@@ -9,7 +9,7 @@ static int	sh_convert_hist(char *esc)
 	return (0);
 }
 
-static int	sh_hist_search(t_line *line, int id)
+static int		sh_hist_search(t_line *line, int id)
 {
 	if (id & HIST_SEARCH)
 	{
@@ -24,7 +24,30 @@ static int	sh_hist_search(t_line *line, int id)
 		return (0);
 }
 
-t_line		*sh_hist_able(char *esc, t_line *line, int *hist_search)
+static t_line	*sh_get_target(t_line *line, t_line *target, int id)
+{
+	if (id & UP)
+	{
+		target = line;
+		if (line->h_smd)
+			while (target && (!ft_strnequ(line->str, target->str, 
+							line->h_pos) || !ft_strcmp(line->str, target->str)))
+				target = target->up;
+	}
+	else if (id & DOWN)
+	{
+		target = line;
+		if (line->h_smd)
+			while (target && (!ft_strnequ(line->str, target->str,
+							line->h_pos) || !ft_strcmp(line->str, target->str)))
+				target = target->down;
+	}
+	if (!target)
+		return (line);
+	return (target);
+}
+
+t_line			*sh_hist_able(char *esc, t_line *line, int *hist_search)
 {
 	t_line	*target;
 	int		id;
@@ -32,23 +55,6 @@ t_line		*sh_hist_able(char *esc, t_line *line, int *hist_search)
 	target = NULL;
 	id = sh_convert_hist(esc);
 	*hist_search = sh_hist_search(line, id);
-	if (id & UP)
-	{
-		target = line->up;
-		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str, line->h_pos)
-						|| !ft_strcmp(line->str, target->str)))
-				target = target->up;
-	}
-	else if (id & DOWN)
-	{
-		target = line->down;
-		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str, line->h_pos)
-						|| !ft_strcmp(line->str, target->str)))
-				target = target->down;
-	}
-	if (!target)
-		*hist_search = 0;
+	target = sh_get_target(line, target, id);
 	return (target);
 }

@@ -5,20 +5,24 @@ static int	sh_last_token(t_token **list)
 	t_token *l;
 	t_token	*tmp;
 
-	l = *list;
-	while (l->next)
+	if (*list)
 	{
-		tmp = l;
-		l = l->next;
-		if (l && l->category == NEWLINE && (tmp->category == ANDOR || tmp->category == PIPE))
+		l = *list;
+		while (l->next)
 		{
-			tmp->next = l->next ? l->next : NULL;
-			free(l->lexeme);
-			free(l);
-			l = tmp;
+			tmp = l;
+			l = l->next;
+			if (l && l->category == NEWLINE && (tmp->category == ANDOR || tmp->category == PIPE))
+			{
+				tmp->next = l->next ? l->next : NULL;
+				free(l->lexeme);
+				free(l);
+				l = tmp;
+			}
 		}
+		return (l->category);
 	}
-	return (l->category);
+	return (NEWLINE);
 }
 
 static int	sh_lex_loop(t_token **list, char *str, int *i_stat, char *fifo[32])
