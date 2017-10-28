@@ -62,6 +62,7 @@ int		sh_paste(t_line *line, t_coord **coord, t_tc *tc);
 
 int		sh_ctrl_d(t_line *line, char *save);
 int		sh_edit_line(t_line **line, char *save, t_tc *tc);
+int		sh_nl(t_line *line, t_coord **coord, t_tc tc);
 int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_clear(t_line *line, t_coord **coord, t_tc tc);
@@ -80,6 +81,17 @@ t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
 int		sh_hist_write(char *line, char *last);
 void	sh_hist_del(t_line **hist);
+
+int		sh_i_search(t_line *line, t_tc *tc, int mode);
+int		sh_i_line_modif(char *byte, t_line *line, t_line **list, int *i);
+void	sh_i_comp(t_line *line, t_line **list, t_tc *tc, int *t);
+int		sh_i_strstr(char *file, char *line, int r);
+int		sh_i_line_replace(char *byte, t_line **list, t_line **line, t_tc *tc);
+void	minedit_raz(t_line *line, t_tc *tc);
+void	sh_i_begin(t_line **list, t_line *line, int *i, t_tc *tc);
+void	sh_i_end(t_line *line, t_tc *tc, t_line **beg);
+void	sh_print_file(t_line **file, t_line *line, t_tc *tc, int *j);
+int		sh_i_high(t_line **list, t_line *line);
 
 /*
 **	LEXER

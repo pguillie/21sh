@@ -2,6 +2,8 @@
 
 /!\ SANS TERMCAPS /!\
 
+historique bloqué lorsque trop haut
+
 ##BONUS:
 
 table de hash

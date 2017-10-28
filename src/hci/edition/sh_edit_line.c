@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	sh_nl(t_line *line, t_coord **coord, t_tc tc)
+int			sh_nl(t_line *line, t_coord **coord, t_tc tc)
 {
 	line->cur = sh_move_cur(line->cur, line->used, *coord, tc);
 	if (sh_ins(line, '\n') < 0)
@@ -26,7 +26,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte == '\n')
 		ret[0] = sh_nl(*line, &tc->coord, *tc);
 	else if (byte == '\t' && !save)
-		ret[0] = sh_tab(*line, &(tc->coord), *tc);
+		ret[0] = sh_tab(*line, &tc->coord, *tc);
 	else if (byte == 127)
 		ret[0] = sh_del_l(*line, &tc->coord, *tc);
 	else if (byte >= 32 && byte < 127)
@@ -34,6 +34,8 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	(*line)->h_smd = ret[1];
 	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
 		tc->cut = 0;
+	if (byte == 18 || byte == 19)
+		ret[0] = sh_i_search(*line, tc, byte == 19 ? 0 : 1);
 	return (ret[0]);
 }
 

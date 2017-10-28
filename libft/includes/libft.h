@@ -106,6 +106,7 @@ char				*ft_strjoin3(char const *s1, char const *s2,
 char				*ft_strchrapp(char const *s1, char c);
 char				*ft_strpaste(char *dest, const char *src);
 char				*ft_strstr(const char *big, const char *little);
+char				*ft_strrstr(const char *big, const char *little);
 char				*ft_strnstr(const char *big, const char *little, size_t n);
 char				*ft_strsub(char const *str, unsigned int start, size_t len);
 char				*ft_strtrim(char const *str);
