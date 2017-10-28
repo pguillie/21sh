@@ -13,36 +13,53 @@ static int	sh_display_line(t_line *line, size_t i, t_coord *coord, t_tc tc)
 	return (i);
 }
 
-static int	sh_display_color(t_line *line, t_token *lexer, size_t i, char *c)
+char	*sh_color_theme(int category)
 {
-	size_t	j;
-
-	j = 0;
-	ft_putstr_fd(c, 0);
-	while (lexer->lexeme[j++])
-		ft_putchar_fd(line->str[i++], 0);
-	ft_putstr_fd(EOC, 0);
-	return (i);
+	// couleurs chaudes
+	static char	*theme1[10] = {
+		"\e[36m",
+		"\e[36m",
+		"\e[33m",
+		"\e[35m",
+		"\e[31;1m",
+		"\e[34;1m",
+		"\e[30;1m",
+		"",
+		"\e[37;1m",
+		"\e[37;1m"
+	};
+	// couleurs froides
+	static char	*theme2[10] = {
+		"\e[35m",
+		"\e[35m",
+		"\e[36m",
+		"\e[33m",
+		"\e[32;1m",
+		"\e[34;1m",
+		"\e[30;1m",
+		"",
+		"\e[37;1m",
+		"\e[37;1m"
+	};
+	(void)theme2;
+	return (theme1[category + 5]);
 }
 
 static int	sh_display_category(t_line *line, t_token *lexer, size_t i, t_tc tc)
 {
+	size_t	j;
+
 	while (line->str[i])
 	{
 		if (lexer)
 		{
 			while (line->str[i] != lexer->lexeme[0] && i < line->used - 1)
 				ft_putchar_fd(line->str[i++], 0);
-			if (lexer->category == CMD)
-				i = sh_display_color(line, lexer, i, RED);
-			else if (lexer->category == ARG || lexer->category == OPT)
-				i = sh_display_color(line, lexer, i, WHITE);
-			else if (lexer->category <= FILDES)
-				i = sh_display_color(line, lexer, i, BLUE);
-			else if (lexer->category >= PIPE)
-				i = sh_display_color(line, lexer, i, GREEN);
-			else
-				i = sh_display_color(line, lexer, i, CYAN);
+			ft_putstr_fd(sh_color_theme(lexer->category), 0);
+			j = 0;
+			while (lexer->lexeme[j++])
+				ft_putchar_fd(line->str[i++], 0);
+			ft_putstr_fd(EOC, 0);
 		}
 		else
 			i = sh_display_line(line, i, tc.coord, tc);
