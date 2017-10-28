@@ -3,6 +3,7 @@
 
 # include "shell.h"
 
+int		sh_parser(t_token *lexer, t_cmd ****list, int **op);
 t_cmd	*sh_cmd_new(t_token *lexer);
 void	sh_cmd_del(t_cmd **cmd);
 

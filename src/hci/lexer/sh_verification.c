@@ -21,13 +21,8 @@ int			sh_verification(t_token *lex)
 							"newline" : lex->next->lexeme));
 		}
 		if (lex->category == NEWLINE)
-		{
 			if (lex->next->category > NEWLINE || lex->next->category == PIPE)
 				return (sh_syn_err(lex->next->lexeme));
-			if (!ft_strequ(lex->lexeme, ";")
-					&& lex->next->category == NEWLINE && !lex->next->next)
-				return (LEX_LOOP);
-		}
 		lex = lex->next;
 	}
 	return (LEX_OK);

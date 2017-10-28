@@ -1,30 +1,40 @@
 #include "shell.h"
 
-static int		sh_sep_list(int category)
+static int		sh_count_pipeline(t_token *l, int **op)
 {
-	if (category == ESPERCOLON || category == NEWLINE
-			|| category == ANDOR)
-		return (1);
-	return (0);
-}
-
-static int		sh_count_lists(t_token *l)
-{
-	size_t	i;
+	t_token	*a;
+	int		i;
+	int		j;
 
 	i = 0;
+	a = l;
 	while (l->next)
 	{
-		if (sh_sep_list(l->category))
+		if (l->category > PIPE && l->next->category != NEWLINE
+				&& l->next->next)
 			i++;
 		l = l->next;
+	}
+	if (!(*op = (int*)ft_memalloc(sizeof(int) * (i + 1))))
+		return (-1);
+	j = 0;
+	while (a->next)
+	{
+		if (a->category == ANDOR)
+			(*op)[j++] = ft_strequ(a->lexeme, "&&") ? 1 : -1;
+		else if (a->category > 1)
+			(*op)[j++] = 0;
+		a = a->next;
 	}
 	return (i + 1);
 }
 
-static int		sh_count_pipe(t_token *l)
+static int		sh_count_cmd(t_token *l)
 {
-	while (l->next && !sh_sep_list(l->category))
+	int		i;
+
+	i = 0;
+	while (l->next && l->category <= PIPE)
 	{
 		if (l->category == PIPE)
 			i++;
@@ -33,70 +43,43 @@ static int		sh_count_pipe(t_token *l)
 	return (i + 1);
 }
 
-static t_token	*sh_get_cmd(t_cmd ***list, t_token *l)
+static t_cmd	**sh_get_pipeline(t_token *lexer)
 {
-	t_token	*tmp;
+	t_cmd	**pipeline;
+	int		count;
 	int		i;
-	int		n;
 
-	n = 0;
-	while (l->next && !sh_sep_list(l->category))
+	count = sh_count_cmd(lexer);
+	if (!(pipeline = (t_cmd**)ft_memalloc(sizeof(t_cmd*) * (count + 1))))
+		return (NULL);
+	i = 0;
+	while (i < count)
 	{
-		i = 0;
-		tmp = l;
-		while (tmp->next && tmp->category != PIPE)
-		{
-			i++;
-			tmp = tmp->next;
-		}
-		if (!(**list[n++] = sh_cmd_new(l, i)))
-			return (NULL);
-		l = tmp->next;
+		while (i && lexer->category < PIPE)
+			lexer = lexer->next;
+		lexer = i ? lexer->next : lexer;
+		pipeline[i++] = sh_cmd_new(lexer);//
 	}
-	**list[n] = NULL;
-	return (l);
-}
-
-static int		sh_get_list(t_cmd ****list, t_token *l, int **op)
-{
-	int		count_pipe;
-	size_t	n;
-
-	n = 0;
-	while (l->next)
-	{
-		count_pipe = sh_count_pipe(l);	
-		if (!(**list = (t_cmd**)ft_memalloc(sizeof(t_cmd*) * count_pipe)))
-			return (-1);
-		if (!(l = sh_get_cmd(*list, l, count_pipe)))
-			return (-1);
-		if (l->category == ANDOR)
-		{
-			*op[n++] = ft_strequ(l->lexeme, "&&") ? 1 : -1;
-			l = l->next;
-		}
-		else
-		{
-			*op[n++] = 0;
-			l = l->next;
-		}
-	}
-	*list[n] = NULL;
-	return (0);
+	return (pipeline);
 }
 
 int				sh_parser(t_token *lexer, t_cmd ****list, int **op)
 {
 	int		count;
+	int		i;
 
-	count = sh_count_lists(lexer);
-	left = NULL;
-	right = NULL;
-	if (!*list && !(*list = (t_cmd***)ft_memalloc(sizeof(t_cmd**) * count)))
+	if (!lexer)
+		return (0);
+	count = sh_count_pipeline(lexer, op);
+	if (!(*list = (t_cmd***)ft_memalloc(sizeof(t_cmd**) * (count + 1))))
 		return (-1);
-	if (!*op && !(*op = (int*)ft_memalloc(sizeof(int) * (count - 1))))
-		return (-1);
-	if (ft_get_list(list, lexer, op) < 0)
-		return (-1);
+	i = 0;
+	while (i < count)
+	{
+		while (i && lexer->category < 2)
+			lexer = lexer->next;
+		lexer = i ? lexer->next : lexer;
+		(*list)[i++] = sh_get_pipeline(lexer);//
+	}
 	return (0);
 }

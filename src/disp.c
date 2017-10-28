@@ -34,36 +34,45 @@ void	dispcoord(t_coord *coord, t_line *line)
 	}
 }
 
-void	disptree(t_tree *root)
+void	disparser(t_cmd ***p, int *op)
 {
-	size_t	i;
+	int i;
+	int j;
+	int	l;
 
-	if (root)
+	i = 0;
+	ft_printf("$ $ $ DISPARSER $ $ $\n");
+	if (p)
 	{
-		if (root->left)
-			disptree(root->left);
-		if (root->op)
-			ft_printf("OP: %s\n", root->op);
-		else if (root->cmd)
+		while (p[i])
 		{
-			i = 0;
-			while (root->cmd->redir[i].type)
+			j = 0;
+			while (p[i][j])
 			{
-				ft_printf("\tREDIR: %d/%s/%s/%d\n",
-						root->cmd->redir[i].left,
-						root->cmd->redir[i].type,
-						root->cmd->redir[i].right,
-						root->cmd->redir[i].file);
-				i++;
+				l = 0;
+				printf("NEW\n");
+				while (p[i][j]->redir[l].type)
+				{
+					printf("\tREDIR: %d/%s/%s/%d\n",
+							p[i][j]->redir[l].left,
+							p[i][j]->redir[l].type,
+							p[i][j]->redir[l].right,
+							p[i][j]->redir[l].file);
+					l++;
+				}
+				l = 0;
+				while (p[i][j]->av[l])
+				{
+					printf("cmd: %s\n", p[i][j]->av[l]);
+					l++;
+				}
+				j++;
 			}
-			i = 0;
-			while (root->cmd->av[i])
-				ft_printf("\t\tAV: %s\n", root->cmd->av[i++]);
-
+			p[i + 1] ? printf("--%d--\n", op[i]) : 0;
+			i++;
 		}
-		if (root->right)
-			disptree(root->right);
 	}
+	ft_printf("  $   ENDPARSER   $\n");
 }
 
 void	dispeof(char *fifo[32])
