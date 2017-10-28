@@ -20,7 +20,6 @@ static int	sh_print_i_suite(t_line **list, t_line *line, t_tc *tc, int *j)
 		return (-1);
 	pos = -1;
 	i = j[2] ? 0 : (list[0]->used - 1);
-	dprintf(4, "j:%d\n", j[1]);
 	while ((--j[1] + 1) > 0)
 		tputs(tc->up, 0, termput);
 	ft_putchar('\r');
