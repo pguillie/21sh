@@ -1,15 +1,19 @@
 #include "shell.h"
 
-static int	sh_display_line(t_line *line, size_t i, t_coord *coord, t_tc tc)
+static void	sh_nl_correct(t_line *line, size_t i, t_coord *coord, t_tc tc)
 {
-	while (line->str[i])
-		ft_putchar_fd(line->str[i++], 0);
 	if (line->str[i - 1] != '\n' && line->cur != i
 			&& coord[i - 1].x == coord[line->used + 1].x - 1)
 	{
 		ft_putchar_fd(' ', 0);
 		tputs(tc.le, 0, termput);
 	}
+}
+
+static int	sh_display_line(t_line *line, size_t i, t_coord *coord, t_tc tc)
+{
+	while (line->str[i])
+		ft_putchar_fd(line->str[i++], 0);
 	return (i);
 }
 
@@ -86,6 +90,7 @@ int			sh_display(t_line *line, t_coord **coord, t_tc tc, char *save)
 		i = sh_display_category(line, lexer, i, tc);
 	else
 		i = sh_display_line(line, i, *coord, tc);
+	sh_nl_correct(line, i, *coord, tc);
 	lexer ? sh_token_del(&lexer) : 0;
 	line->cur = sh_move_cur(i, line->pos, *coord, tc);
 	return (ret == -1 ? -1 : 0);
