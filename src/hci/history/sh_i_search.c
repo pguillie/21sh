@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	minedit_raz(t_line *line, t_tc *tc)
+void		minedit_raz(t_line *line, t_tc *tc)
 {
 	ft_bzero(line->str, line->used);
 	line->used = 0;
@@ -10,7 +10,7 @@ void	minedit_raz(t_line *line, t_tc *tc)
 	tc->esc = NULL;
 }
 
-int		sh_i_strstr(char *file, char *line, int r)
+int			sh_i_strstr(char *file, char *line, int r)
 {
 	if (r && ft_strrstr(file, line))
 		return (1);
@@ -19,7 +19,7 @@ int		sh_i_strstr(char *file, char *line, int r)
 	return (0);
 }
 
-int		sh_i_high(t_line **list, t_line *line)
+int			sh_i_high(t_line **list, t_line *line)
 {
 	t_coord *test;
 
@@ -28,7 +28,35 @@ int		sh_i_high(t_line **list, t_line *line)
 	return (test->y);
 }
 
-int		sh_i_search(t_line *line, t_tc *tc, int mode)
+static int	sh_i_line_modif(char *byte, t_line *line, t_line **list, int *i)
+{
+	if (byte[0] != '\n' && (!line->str ||
+				sh_i_strstr(list[0]->str, line->str, i[2]) || byte[0] == 127))
+	{
+		if (byte[0] >= 32 && byte[0] <= 127)
+		{
+			if (byte[0] == 127)
+			{
+				if (line->cur)
+				{
+					line->cur -= 1;
+					ft_memmove(line->str + line->cur, line->str + line->cur + 1,
+							ft_strlen(line->str + line->cur + 1) + 1);
+					line->used -= 1;
+				}
+			}
+			else
+			{
+				sh_ins(line, byte[0]);
+				line->cur += 1;
+			}
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int			sh_i_search(t_line *line, t_tc *tc, int mode)
 {
 	t_line	*list[3];
 	int		i[3];

@@ -83,7 +83,6 @@ int		sh_hist_write(char *line, char *last);
 void	sh_hist_del(t_line **hist);
 
 int		sh_i_search(t_line *line, t_tc *tc, int mode);
-int		sh_i_line_modif(char *byte, t_line *line, t_line **list, int *i);
 void	sh_i_comp(t_line *line, t_line **list, t_tc *tc, int *t);
 int		sh_i_strstr(char *file, char *line, int r);
 int		sh_i_line_replace(char *byte, t_line **list, t_line **line, t_tc *tc);
