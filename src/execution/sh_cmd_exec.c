@@ -88,25 +88,22 @@ static int	sh_father_child(pid_t child, char *path, char *av[], char *env[])
 	return (WEXITSTATUS(ret));
 }
 
-int			sh_cmd_exec(char *av[], char *env[])
+int			sh_cmd_exec(char *av[], char *env[], char **path)
 {
 	pid_t		child;
 	extern char	**environ;
-	char		*path;
 	int			no_file;
 	int			ret;
 
-	path = NULL;
 	ret = 0;
 	if ((no_file = ft_strchr(av[0], '/') ?
-				sh_exec_file(av[0], &path) : sh_exec_bin(av[0], &path)) < 0)
+				sh_exec_file(av[0], path) : sh_exec_bin(av[0], path)) < 0)
 		return (-1);
 	if (no_file)
 		return (1);
 	if ((child = fork()) < 0)
 		return (-1);
-	ret = sh_father_child(child, path, av, env);
+	ret = sh_father_child(child, *path, av, env);
 	sh_catch_signals();
-	ft_strdel(&path);
 	return (ret);
 }
