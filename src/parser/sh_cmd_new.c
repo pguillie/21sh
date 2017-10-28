@@ -75,7 +75,7 @@ static t_redir	*sh_redir_new(t_token *lexer, size_t size)
 	return (new);
 }
 
-t_cmd			*sh_cmd_new(t_token *lexer)
+t_cmd			*sh_cmd_new(t_token *lexer, int i)
 {
 	t_token	*l;
 	t_cmd	*new;
@@ -85,7 +85,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 		return (NULL);
 	ft_bzero(size, sizeof(int) * 2);
 	l = lexer;
-	while (l)
+	while (l && i--)
 	{
 		if (l->category == REDIRECTION)
 			size[1] += 1;
