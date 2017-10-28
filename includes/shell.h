@@ -28,6 +28,7 @@
 
 # define PRT_SIZE 256
 # define PATH_SIZE 2048
+# define HASH_SIZE 10000
 # define PROMPT_DIRTRIM 3
 # define PS1B "\\s-\\v\\$ "
 # define PS1 "\\e[36m[\\@] \\e[34;1m\\w \\$\\e[0m " //prompt alternatif pour une meilleure lisibilité
@@ -81,6 +82,7 @@
 # include "sh_environment.h"
 # include "sh_execution.h"
 # include "sh_expansion.h"
+# include "sh_hash.h"
 # include "sh_hci.h"
 # include "sh_initialization.h"
 # include "sh_parser.h"

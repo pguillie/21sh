@@ -18,5 +18,6 @@ int		sh_init(t_tc *init)
 	}
 	else
 		init->on = 1;
+	sh_hash_init();//
 	return (0);
 }
