@@ -10,12 +10,11 @@ static int		sh_count_pipeline(t_token *l, int **op)
 	a = l;
 	while (l->next)
 	{
-		if (l->category > PIPE && l->next->category != NEWLINE
-				&& l->next->next)
+		if (l->category > PIPE)
 			i++;
 		l = l->next;
 	}
-	if (!(*op = (int*)ft_memalloc(sizeof(int) * (i + 1))))
+	if (!(*op = (int*)ft_memalloc(sizeof(int) * i)))
 		return (-1);
 	j = 0;
 	while (a->next)
