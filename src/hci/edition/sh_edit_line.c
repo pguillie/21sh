@@ -59,30 +59,28 @@ static int	sh_norme2(t_line *line, char *save, t_tc *tc, int success)
 	return (0);
 }
 
-static int	sh_edit_free(t_coord *coord, int *success)
+static int	sh_edit_free(t_coord *coord, int success)
 {
 	free(coord);
 	if (g_signal == SIGINT)
 		return (-1);
-	if (success[0] & EOT || success[0] < 0)
-		return (success[0]);
-	return (success[1]);
+	return (success);
 }
 
 int			sh_edit_line(t_line **line, char *save, t_tc *tc)
 {
-	int		success[2];
+	int		success;
 
-	success[0] = 0;
+	success = 0;
 	if (!(tc->coord = sh_create_coord(*line, tc->prompt)))
 		return (-1);
-	while (g_signal != SIGINT && !(success[0] & EOT) && !(success[0] & EOL)
-			&& !(success[0] < 0))
+	while (g_signal != SIGINT && !(success & EOT) && !(success & EOL)
+			&& !(success < 0))
 	{
-		success[0] = sh_norme1(line, save, tc);
+		success = sh_norme1(line, save, tc);
 		if (g_signal == SIGINT)
 			sh_move_cur((*line)->cur, (*line)->used, tc->coord, *tc);
-		else if (sh_norme2(*line, save, tc, success[0]) < 0)
+		else if (sh_norme2(*line, save, tc, success) < 0)
 			return (-1);
 	}
 	return (sh_edit_free(tc->coord, success));

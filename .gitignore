@@ -1,6 +1,7 @@
 # Project files
 21sh
 .21sh_history
+*.swp
 
 # Prerequisites
 *.d

@@ -20,7 +20,7 @@ int			sh_verification(t_token *lex)
 				return (sh_syn_err(lex->next->category == NEWLINE ?
 							"newline" : lex->next->lexeme));
 		}
-		if (lex->category == NEWLINE)
+		if (lex->category >= PIPE)
 			if (lex->next->category > NEWLINE || lex->next->category == PIPE)
 				return (sh_syn_err(lex->next->lexeme));
 		lex = lex->next;
