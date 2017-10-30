@@ -1,57 +1,105 @@
 #include "shell.h"
 
-void	minedit_raz(t_line *line, t_tc *tc)
+static void	sh_i_print(t_line *line, char *str, t_tc *tc, int mode)
 {
-	ft_bzero(line->str, line->used);
-	line->used = 0;
-	line->cur = 0;
-	line->h_smd = 0;
-	line->h_pos = 0;
-	tc->esc = NULL;
+	int			y;
+
+	tputs(tc->cd, 0, termput);
+	sh_i_prompt(str, tc, mode);
+	ft_putstr(line->str);
+	tc->coord = sh_create_coord(line, 21 + ft_strlen(str));
+	y = tc->coord[line->used].y;
+	while (y--)
+		tputs(tc->up, 0, termput);
+	ft_putstr("\r");
 }
 
-int		sh_i_strstr(char *file, char *line, int r)
+static int	sh_i_strstr(char *line, char *str, int mode)
 {
-	if (r && ft_strrstr(file, line))
-		return (1);
-	else if (ft_strstr(file, line))
-		return (1);
+	if (mode == 0)
+	{
+		if (ft_strrstr(line, str) != NULL)
+			return (1);
+	}
+	else if (line)
+	{
+		if (ft_strstr(line, str) != NULL)
+			return (1);
+	}
 	return (0);
 }
 
-int		sh_i_high(t_line **list, t_line *line)
+static void	sh_i_find(t_line **glob, t_tc *tc, char *tmp, int mode)
 {
-	t_coord *test;
+	int		ret;
 
-	test = sh_create_coord(line, (list ?
-		ft_strlen(list[0]->str) : 0) + 21 + ft_strlen(line->str));
-	return (test->y);
+	while (glob[0])
+	{
+		ret = 0;
+		if ((ret = sh_i_strstr(glob[0]->str, tmp, mode)))
+		{
+			sh_i_print(glob[0], tmp, tc, mode);
+			break ;
+		}
+		glob[0] = (mode == 0 ? glob[0]->up : glob[0]->down);
+	}
+	if (ret == 1)
+		glob[1] = glob[0];
+	else if (sh_i_strstr(glob[1]->str, tmp, mode))
+		sh_i_print(glob[1], tmp, tc, mode);
 }
 
-int		sh_i_search(t_line *line, t_tc *tc, int mode)
+static int	sh_i_read(t_line **glob, t_tc *tc, int mode)
 {
-	t_line	*list[3];
-	int		i[3];
+	char	*tmp;
 	char	byte[8];
 
-	i[2] = mode;
-	sh_i_begin(list, line, i, tc);
+	tmp = NULL;
 	ft_bzero(byte, 8);
-	while (byte[0] != '\n' && byte[0] != 27 && g_signal != SIGINT
-			&& !(i[0] & EOT) && !(i[0] & EOL) && !(i[0] < 0))
+	if (!glob[0]->str[0])
+		glob[0] = glob[0]->up;
+	while (read(0, &byte, 8) >= 0 && byte[0] != '\n' && g_signal != SIGINT)
 	{
-		sh_print_file(list, line, tc, i);
-		ft_bzero(byte, 8);
-		if (read(0, &byte, 8) < 0 && g_signal != SIGWINCH)
-			i[0] = -1;
-		if (sh_i_line_modif(byte, line, list, i))
-			sh_i_comp(line, list, tc, i);
+		if (byte[0] == 27 || g_signal == SIGWINCH)
+			return (1);
+		else if (byte[0] == 127)
+		{
+			tmp = sh_del_char(tmp);
+			glob[0] = glob[1];
+		}
+		else
+			tmp = sh_ins_char(tmp, byte[0]);
+		sh_i_find(glob, tc, tmp, mode);
 	}
-	if (byte[0] == 27 || (sh_i_strstr(list[0]->str, line->str, i[2])
-		&& byte[0] == '\n'))
-		i[0] = sh_i_line_replace(byte, list, &line, tc);
-	else
-		minedit_raz(line, tc);
-	sh_i_end(line, tc, &list[2]);
-	return (i[0]);
+	ft_bzero(byte, 8);
+	return (glob[0] ? 0 : 1);
+}
+
+int			sh_i_search(t_line **line, t_tc *tc, int mode)
+{
+	t_line	*glob[2];
+	int		ret;
+
+	(*line)->pos = sh_move_cur((*line)->pos, 0, tc->coord, *tc);
+	glob[0] = *line;
+	glob[1] = *line;
+	sh_i_print(glob[0], NULL, tc, mode);
+	if (mode == 1)
+		while (glob[0]->up)
+			glob[0] = glob[0]->up;
+	ret = sh_i_read(glob, tc, mode);
+	*line = glob[1];
+	while (tc->coord[(*line)->used].y--)
+		tputs(tc->up, 0, termput);
+	ft_putstr("\r");
+	tputs(tc->cd, 0, termput);
+	tc->coord = sh_create_coord(*line, sh_prompt(1));
+	g_signal = 0;
+	if (ret == 0)
+	{
+		*line ? ft_putstr((*line)->str) : 1;
+		*line ? tc->coord[(*line)->used].y = 0 : 1;
+		return (sh_nl(*line, &tc->coord, *tc));
+	}
+	return (*line ? DISP : 0);
 }
