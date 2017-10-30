@@ -58,7 +58,8 @@ static t_cmd	**sh_get_pipeline(t_token *lexer)
 		while (i && lexer->category < PIPE)
 			lexer = lexer->next;
 		lexer = i ? lexer->next : lexer;
-		pipeline[i++] = sh_cmd_new(lexer);//
+		if (!(pipeline[i++] = sh_cmd_new(lexer)))
+			return (NULL);
 	}
 	return (pipeline);
 }
@@ -79,7 +80,8 @@ int				sh_parser(t_token *lexer, t_cmd ****list, int **op)
 		while (i && lexer->category < 2)
 			lexer = lexer->next;
 		lexer = i ? lexer->next : lexer;
-		(*list)[i++] = sh_get_pipeline(lexer);//
+		if (!((*list)[i++] = sh_get_pipeline(lexer)))
+			return (sh_list_del(list, op));
 	}
 	return (0);
 }

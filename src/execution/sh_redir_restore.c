@@ -10,17 +10,22 @@ int			sh_redir_backup(int std[3])
 
 int			sh_redir_restore(int fd[10], int std[3])
 {
-	int				i;
+	int		i;
+	int		ret;
 
 	i = 0;
-	while (fd[i])
+	while (i < 10)
 	{
 		if (fd[i] > -1)
 			close(fd[i]);
 		i++;
 	}
-	dup2(std[0], 0);
-	dup2(std[1], 1);
-	dup2(std[2], 2);
-	return (0);
+	ret = 0;
+	if (dup2(std[0], 0) < 0)
+		ret = 1;
+	if (dup2(std[1], 1) < 0)
+		ret = 1;
+	if (dup2(std[2], 2) < 0)
+		ret = 1;
+	return (ret);
 }

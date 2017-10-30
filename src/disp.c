@@ -1,5 +1,7 @@
 #include "shell.h"
 
+ // FONCTIONS DE DEBUGAGE //
+
 void	displex(t_token *lex)
 {
 	ft_putendl("=== DISPLEX ===");

@@ -13,11 +13,10 @@ static int	sh_display_line(t_line *line, size_t i, t_coord *coord, t_tc tc)
 	return (i);
 }
 
-char	*sh_color_theme(int category)
+static char	*sh_color_theme(int category)
 {
-	// couleurs chaudes
-	static char	*theme1[10] = {
-		"\e[36m",
+	static char	*theme[10] = {
+		"\e[32m",
 		"\e[36m",
 		"\e[33m",
 		"\e[35m",
@@ -28,21 +27,8 @@ char	*sh_color_theme(int category)
 		"\e[37;1m",
 		"\e[37;1m"
 	};
-	// couleurs froides
-	static char	*theme2[10] = {
-		"\e[35m",
-		"\e[35m",
-		"\e[36m",
-		"\e[33m",
-		"\e[32;1m",
-		"\e[34;1m",
-		"\e[30;1m",
-		"",
-		"\e[37;1m",
-		"\e[37;1m"
-	};
-	(void)theme2;
-	return (theme1[category + 5]);
+
+	return (theme[category + 5]);
 }
 
 static int	sh_display_category(t_line *line, t_token *lexer, size_t i, t_tc tc)
@@ -82,7 +68,7 @@ int			sh_display(t_line *line, t_coord **coord, t_tc tc, char *save)
 	lexer = NULL;
 	i = 0;
 	ret = sh_lexer(&lexer, line->str);
-	if (!save)
+	if (0 || !save)
 		i = sh_display_category(line, lexer, i, tc);
 	else
 		i = sh_display_line(line, i, *coord, tc);
