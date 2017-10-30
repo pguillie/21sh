@@ -44,7 +44,7 @@ int			sh_hash(char *av[])
 			if (!sh_hash_get(av[i]) && !sh_exec_bin(av[i], &path))
 			{
 				sh_hash_set(av[i], path);
-				free (path);
+				free(path);
 			}
 		i++;
 	}
