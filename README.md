@@ -6,6 +6,7 @@
 
 ls nofile 2>&- : ne ferme pas
 jump cvx
+si PATH='/' probleme avec is_directory();
 
 ##BONUS:
 

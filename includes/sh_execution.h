@@ -7,5 +7,6 @@ int		sh_list_browse(t_cmd ***list, int *op, int ret);
 int		sh_redir_backup(int std[3]);
 int		sh_redir_set(t_redir *redir, int fd[10]);
 int		sh_redir_restore(int fd[10], int std[3]);
+int		sh_exec_bin(char *cmd, char **path);
 
 #endif
