@@ -24,7 +24,7 @@ static int	sh_redir_fd(t_redir red, int *fd)
 		if ((*fd = dup(ft_atoi(red.right))) < 0)
 			return (RDR_BADFD + (*fd = 0));
 		if (red.right[i - 1] == '-')
-			close(ft_atoi(red.right));
+			close(red.left);
 	}
 	return (0);
 }

@@ -19,6 +19,7 @@ int			main(void)
 	if (sh_init(&termcaps))
 		return (1);
 	ret[1] = ERROR_MAX;
+	ret[0] = 0;
 	sh_catch_signals();
 	while (ret[1])
 	{
