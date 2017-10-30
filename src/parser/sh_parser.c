@@ -77,11 +77,12 @@ int				sh_parser(t_token *lexer, t_cmd ****list, int **op)
 	i = 0;
 	while (i < count)
 	{
-		while (i && lexer->category < 2)
+		while (lexer->next && lexer->category > 1)
 			lexer = lexer->next;
-		lexer = i ? lexer->next : lexer;
 		if (!((*list)[i++] = sh_get_pipeline(lexer)))
 			return (sh_list_del(list, op));
+		while (lexer->next && lexer->category < 2)
+			lexer = lexer->next;
 	}
 	return (0);
 }

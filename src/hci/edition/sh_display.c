@@ -10,7 +10,7 @@ static void	sh_nl_correct(t_line *line, size_t i, t_coord *coord, t_tc tc)
 	}
 }
 
-static int	sh_display_line(t_line *line, size_t i)//, t_coord *coord, t_tc tc)
+static int	sh_display_line(t_line *line, size_t i)
 {
 	while (line->str[i])
 		ft_putchar_fd(line->str[i++], 0);
@@ -35,7 +35,7 @@ static char	*sh_color_theme(int category)
 	return (theme[category + 5]);
 }
 
-static int	sh_display_category(t_line *line, t_token *lexer, size_t i)//, t_tc tc)
+static int	sh_display_category(t_line *line, t_token *lexer, size_t i)
 {
 	size_t	j;
 
@@ -52,7 +52,7 @@ static int	sh_display_category(t_line *line, t_token *lexer, size_t i)//, t_tc t
 			ft_putstr_fd(EOC, 0);
 		}
 		else
-			i = sh_display_line(line, i);//, tc.coord, tc);
+			i = sh_display_line(line, i);
 		lexer = (lexer ? lexer->next : NULL);
 	}
 	return (i);
@@ -73,9 +73,9 @@ int			sh_display(t_line *line, t_coord **coord, t_tc tc, char *save)
 	i = 0;
 	ret = sh_lexer(&lexer, line->str);
 	if (!save)
-		i = sh_display_category(line, lexer, i);//, tc);
+		i = sh_display_category(line, lexer, i);
 	else
-		i = sh_display_line(line, i);//, *coord, tc);
+		i = sh_display_line(line, i);
 	sh_nl_correct(line, i, *coord, tc);
 	lexer ? sh_token_del(&lexer) : 0;
 	line->cur = sh_move_cur(i, line->pos, *coord, tc);
