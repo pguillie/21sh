@@ -8,7 +8,7 @@ static int	sh_syn_err(char *lexeme)
 	return (SYN_ERR);
 }
 
-int			sh_verification(t_token *lex)
+int			sh_verification(t_token *lex, int ret)
 {
 	if (lex->category > NEWLINE || lex->category == PIPE)
 		return (sh_syn_err(lex->lexeme));
@@ -25,5 +25,5 @@ int			sh_verification(t_token *lex)
 				return (sh_syn_err(lex->next->lexeme));
 		lex = lex->next;
 	}
-	return (LEX_OK);
+	return (ret);
 }

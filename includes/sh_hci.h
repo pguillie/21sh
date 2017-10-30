@@ -95,7 +95,7 @@ int		sh_ctrl_op(char *str);
 int		sh_rdir_op(char *str);
 int		sh_token_new(t_token **list, char *lexeme, int category);
 int		sh_token_del(t_token **begin);
-int		sh_verification(t_token *lex);
+int		sh_verification(t_token *lex, int ret);
 
 /*
 **	PROMPT
