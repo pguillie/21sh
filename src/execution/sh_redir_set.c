@@ -29,9 +29,23 @@ static int	sh_redir_fd(t_redir red, int *fd)
 	return (0);
 }
 
-static int	sh_redir_open(t_redir red, int *fd)
+static int	sh_redir_here(t_redir red, int *fd)
 {
 	int		pfd[2];
+
+	if (pipe(pfd) < 0)
+		return (RDR_PIPE);
+	if (ft_strequ(red.type, "<<"))
+		ft_putstr_fd(red.right, pfd[1]);
+	else
+		ft_putendl_fd(red.right, pfd[1]);
+	*fd = pfd[0];
+	close(pfd[1]);
+	return (0);
+}
+
+static int	sh_redir_open(t_redir red, int *fd)
+{
 	int		ret;
 
 	ret = 0;
@@ -44,18 +58,14 @@ static int	sh_redir_open(t_redir red, int *fd)
 		*fd = open(red.right, O_CREAT | O_WRONLY | O_APPEND,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	else if (ft_strequ(red.type, "<<") || ft_strequ(red.type, "<<<"))
-	{
-		if (pipe(pfd) < 0)
-			return (RDR_PIPE);
-		ft_putendl_fd(red.right, pfd[1]);
-		*fd = pfd[0];
-		close(pfd[1]);
-	}
+		ret = sh_redir_here(red, fd);
 	else
 		*fd = open(red.right, O_RDONLY);
+	if (ret)
+		return (ret);
 	if (*fd < 0)
 		return (access(red.right, F_OK) ? RDR_NOENT : RDR_NORGHT);
-	return (ret);
+	return (0);
 }
 
 static int	sh_redir_msg(int msg, char *file)

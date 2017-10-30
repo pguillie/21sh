@@ -85,7 +85,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 		return (NULL);
 	ft_bzero(size, sizeof(int) * 2);
 	l = lexer;
-	while (l)
+	while (l->category < PIPE)
 	{
 		if (l->category == REDIRECTION)
 			size[1] += 1;

@@ -12,7 +12,8 @@ static int	sh_last_token(t_token **list)
 		{
 			tmp = l;
 			l = l->next;
-			if (l && l->category == NEWLINE && (tmp->category == ANDOR || tmp->category == PIPE))
+			if (l && l->category == NEWLINE
+					&& (tmp->category == ANDOR || tmp->category == PIPE))
 			{
 				tmp->next = l->next ? l->next : NULL;
 				free(l->lexeme);

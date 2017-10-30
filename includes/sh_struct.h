@@ -62,14 +62,6 @@ typedef struct	s_cmd
 	struct s_redir	*redir;
 }				t_cmd;
 
-typedef struct	s_tree
-{
-	char			*op;
-	t_cmd			*cmd;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}				t_tree;
-
 typedef struct	s_htable
 {
 	char			*cmd;

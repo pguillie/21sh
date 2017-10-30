@@ -30,7 +30,7 @@ static t_line	*sh_get_target(t_line *line, t_line *target, int id)
 	{
 		target = line;
 		if (line->h_smd)
-			while (target && (!ft_strnequ(line->str, target->str, 
+			while (target && (!ft_strnequ(line->str, target->str,
 							line->h_pos) || !ft_strcmp(line->str, target->str)))
 				target = target->up;
 	}

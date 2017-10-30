@@ -1,84 +1,87 @@
 #include "shell.h"
 
-static int		sh_get_highest(t_token *lexer)
+static int		sh_count_pipeline(t_token *l, int **op)
 {
-	t_token	*b;
-	int		high;
+	t_token	*a;
+	int		i;
+	int		j;
 
-	high = 1;
-	b = lexer;
-	while (b)
+	i = 0;
+	a = l;
+	while (l->next)
 	{
-		if (b->category > high)
-			high = b->category;
-		b = b->next;
+		if (l->category > PIPE && l->next->category != NEWLINE
+				&& l->next->next)
+			i++;
+		l = l->next;
 	}
-	return (high);
-}
-
-static int		sh_split(char **op, t_token *lexer,
-				t_token **left, t_token **right)
-{
-	int		high;
-
-	if ((high = sh_get_highest(lexer)) == 1)
-		return (0);
-	*right = lexer;
-	while (*right && (*right)->category != high)
-	{
-		*left = *right;
-		*right = (*right)->next;
-	}
-	if (!(*op = ft_strdup((*right)->lexeme)))
+	if (!(*op = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		return (-1);
-	*right = (*right)->next;
-	if (*left)
+	j = 0;
+	while (a->next)
 	{
-		ft_strdel(&((*left)->next->lexeme));
-		ft_memdel((void**)&((*left)->next));
-		*left = lexer;
+		if (a->category == ANDOR)
+			(*op)[j++] = ft_strequ(a->lexeme, "&&") ? 1 : -1;
+		else if (a->category > 1)
+			(*op)[j++] = 0;
+		a = a->next;
 	}
-	return (1);
+	return (i + 1);
 }
 
-static t_token	*sh_join_token(t_token *l, t_token *r)
+static int		sh_count_cmd(t_token *l)
 {
-	t_token *f;
+	int		i;
 
-	if (l)
+	i = 0;
+	while (l->next && l->category <= PIPE)
 	{
-		f = l;
-		while (f->next)
-			f = f->next;
-		f->next = r;
-		return (l);
+		if (l->category == PIPE)
+			i++;
+		l = l->next;
 	}
-	return (r);
+	return (i + 1);
 }
 
-int				sh_parser(t_token *lexer, t_tree **root)
+static t_cmd	**sh_get_pipeline(t_token *lexer)
 {
-	t_token	*left;
-	t_token	*right;
+	t_cmd	**pipeline;
+	int		count;
+	int		i;
 
-	left = NULL;
-	right = NULL;
+	count = sh_count_cmd(lexer);
+	if (!(pipeline = (t_cmd**)ft_memalloc(sizeof(t_cmd*) * (count + 1))))
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		while (i && lexer->category < PIPE)
+			lexer = lexer->next;
+		lexer = i ? lexer->next : lexer;
+		if (!(pipeline[i++] = sh_cmd_new(lexer)))
+			return (NULL);
+	}
+	return (pipeline);
+}
+
+int				sh_parser(t_token *lexer, t_cmd ****list, int **op)
+{
+	int		count;
+	int		i;
+
 	if (!lexer)
-	{
-		*root = NULL;
 		return (0);
-	}
-	if (!(*root = (t_tree*)ft_memalloc(sizeof(t_tree))))
+	count = sh_count_pipeline(lexer, op);
+	if (!(*list = (t_cmd***)ft_memalloc(sizeof(t_cmd**) * (count + 1))))
 		return (-1);
-	(*root)->cmd = NULL;
-	(*root)->op = NULL;
-	if (sh_split(&((*root)->op), lexer, &left, &right) < 0)
-		return (sh_tree_del(root));
-	if (!(*root)->op && !((*root)->cmd = sh_cmd_new(lexer)))
-		return (sh_tree_del(root));
-	if (sh_parser(left, &((*root)->left)) < 0
-			|| sh_parser(right, &((*root)->right)) < 0)
-		return (sh_tree_del(root));
-	lexer = sh_join_token(left, right);
+	i = 0;
+	while (i < count)
+	{
+		while (i && lexer->category < 2)
+			lexer = lexer->next;
+		lexer = i ? lexer->next : lexer;
+		if (!((*list)[i++] = sh_get_pipeline(lexer)))
+			return (sh_list_del(list, op));
+	}
 	return (0);
 }
