@@ -35,49 +35,50 @@ static char	*sh_color_theme(int category)
 	return (theme[category + 5]);
 }
 
-static int	sh_display_category(t_line *line, t_token *lexer, size_t i)
+static int	sh_display_category(t_line *line, int i)
 {
-	size_t	j;
+	int		j;
+	t_token	*lexer;
 
-	while (line->str[i])
+	lexer = NULL;
+	if (sh_lexer(&lexer, line->str) < 0)
+		return (sh_token_del(&lexer));
+	while (lexer)
 	{
-		if (lexer)
-		{
-			while (line->str[i] != lexer->lexeme[0] && i < line->used - 1)
-				ft_putchar_fd(line->str[i++], 0);
-			ft_putstr_fd(sh_color_theme(lexer->category), 0);
-			j = 0;
-			while (lexer->lexeme[j++])
-				ft_putchar_fd(line->str[i++], 0);
-			ft_putstr_fd(EOC, 0);
-		}
-		else
-			i = sh_display_line(line, i);
-		lexer = (lexer ? lexer->next : NULL);
+		j = 0;
+		if (lexer->category == HEREDOC)
+			lexer = lexer->next;
+		ft_putstr_fd(sh_color_theme(HEREDOC), 0);
+		while (!(ft_strnequ(line->str + i, lexer->lexeme,
+						ft_strlen(lexer->lexeme))))
+			ft_putchar_fd(line->str[i++], 0);
+		ft_putstr_fd(sh_color_theme(lexer->category), 0);
+		while (lexer->lexeme[j++])
+			ft_putchar_fd(line->str[i++], 0);
+		ft_putstr_fd(EOC, 0);
+		lexer = lexer->next;
 	}
+	lexer ? sh_token_del(&lexer) : 0;
 	return (i);
 }
 
 int			sh_display(t_line *line, t_coord **coord, t_tc tc, char *save)
 {
-	size_t	i;
-	t_token	*lexer;
-	int		ret;
+	int		i;
 
 	line->cur = sh_move_cur(line->cur, 0, *coord, tc);
 	if (sh_clear(line, coord, tc) < 0)
 		return (-1);
 	if (!line->used)
 		return (0);
-	lexer = NULL;
 	i = 0;
-	ret = sh_lexer(&lexer, line->str);
 	if (!save)
-		i = sh_display_category(line, lexer, i);
+		i = sh_display_category(line, i);
 	else
 		i = sh_display_line(line, i);
+	if (i < 0)
+		return (-1);
 	sh_nl_correct(line, i, *coord, tc);
-	lexer ? sh_token_del(&lexer) : 0;
 	line->cur = sh_move_cur(i, line->pos, *coord, tc);
-	return (ret == -1 ? -1 : 0);
+	return (0);
 }
