@@ -42,7 +42,10 @@ int			sh_hash(char *av[])
 	{
 		if (!ft_strchr(av[i], '/'))
 			if (!sh_hash_get(av[i]) && !sh_exec_bin(av[i], &path))
+			{
 				sh_hash_set(av[i], path);
+				free (path);
+			}
 		i++;
 	}
 	return (0);
