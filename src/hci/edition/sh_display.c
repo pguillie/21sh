@@ -39,10 +39,12 @@ static int	sh_display_category(t_line *line, int i)
 {
 	int		j;
 	t_token	*lexer;
+	t_token	*tmp;
 
 	lexer = NULL;
 	if (sh_lexer(&lexer, line->str) < 0)
 		return (sh_token_del(&lexer));
+	tmp = lexer;
 	while (lexer)
 	{
 		j = 0;
@@ -58,7 +60,7 @@ static int	sh_display_category(t_line *line, int i)
 		ft_putstr_fd(EOC, 0);
 		lexer = lexer->next;
 	}
-	lexer ? sh_token_del(&lexer) : 0;
+	sh_token_del(&tmp);
 	return (i);
 }
 
