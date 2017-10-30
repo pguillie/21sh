@@ -20,8 +20,6 @@ static int	sh_remove_var(char *var)
 			new[j++] = environ[i];
 		i++;
 	}
-	if (ft_strnequ(var, "PATH", 4))
-		sh_hash_free();
 	free(environ);
 	free(var);
 	environ = new;
