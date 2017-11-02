@@ -34,7 +34,7 @@ static int	sh_exec_dir(char *cmd, char *dir)
 	return (ret);
 }
 
-int	sh_exec_bin(char *cmd, char **path)
+int			sh_exec_bin(char *cmd, char **path)
 {
 	char	**env_path;
 	char	*path_value;

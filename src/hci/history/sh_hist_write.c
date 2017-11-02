@@ -19,7 +19,7 @@ int			sh_hist_write(char *line, char *last)
 	int		fd;
 	int		i;
 
-	hist = ft_strcjoin(getenv("HOME"), HIST_FILE, '/');
+	hist = ft_strcjoin(sh_hist_path(), HIST_FILE, '/');
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
 		i++;

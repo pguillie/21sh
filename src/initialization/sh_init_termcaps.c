@@ -30,5 +30,7 @@ int			sh_init_termcaps(t_tc *init)
 	init->vi = tgetstr("vi", (char**)&(init->buff));
 	init->ve = tgetstr("ve", (char**)&(init->buff));
 	init->coord = NULL;
+	init->clipboard = NULL;
+	init->cut = 0;
 	return (0);
 }

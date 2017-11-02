@@ -2,14 +2,14 @@
 
 static int	sh_move_word(t_line *line)
 {
-	size_t	pos;
+	int		pos;
 
 	pos = line->cur - 1;
 	while (line->str[pos] == ' ')
 		pos -= 1;
-	while (line->str[pos] && line->str[pos] != ' ')
+	while (pos && line->str[pos] && line->str[pos] != ' ')
 		pos -= 1;
-	return (pos + 1);
+	return (pos);
 }
 
 int			sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
@@ -17,6 +17,7 @@ int			sh_cut_w(t_line *line, t_coord **coord, t_tc *tc)
 	size_t	i;
 	char	*cpy;
 
+	i = 0;
 	if (!line->str || line->cur == 0)
 		return (0);
 	i = sh_move_word(line);

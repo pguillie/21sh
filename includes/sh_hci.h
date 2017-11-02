@@ -76,6 +76,7 @@ int		termput(int c);
 **	HISTORY
 */
 
+char	*sh_hist_path(void);
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
 int		sh_hist_write(char *line, char *last);
