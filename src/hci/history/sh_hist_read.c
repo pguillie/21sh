@@ -1,5 +1,15 @@
 #include "shell.h"
 
+char	*sh_hist_path(void)
+{
+	uid_t			uid;
+	struct passwd	*home;
+
+	uid = getuid();
+	home = getpwuid(uid);
+	return (home->pw_dir);
+}
+
 char	*sh_hist_line(char *line, char *gnl)
 {
 	char	*tmp;
@@ -64,7 +74,7 @@ t_line	*sh_hist_read(void)
 	char	*path;
 	int		fd;
 
-	path = ft_strcjoin(getenv("HOME"), HIST_FILE, '/');
+	path = ft_strcjoin(sh_hist_path(), HIST_FILE, '/');
 	fd = open(path ? path : HIST_FILE, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	ft_strdel(&path);
 	if (fd < 0)

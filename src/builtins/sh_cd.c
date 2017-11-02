@@ -118,6 +118,7 @@ int			sh_cd(char *av[])
 	int			i;
 
 	i = 0;
+	opt = 'L';
 	if ((i = sh_cd_opt(&opt, av[1])) < 0)
 		return (1);
 	if (!(dir = ft_strdup(getenv("HOME"))) && !av[i + 1])
