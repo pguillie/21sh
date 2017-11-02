@@ -14,7 +14,7 @@ static int	sh_cmd(t_cmd *cmd, int ret)
 	if (sh_redir_set(cmd->redir, fd))
 	{
 		sh_redir_restore(fd, std);
-		return (-1);
+		return (1);
 	}
 	if (cmd->av[0])
 		ret = sh_execution(cmd->av, environ, ret);

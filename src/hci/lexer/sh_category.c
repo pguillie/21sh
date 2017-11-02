@@ -4,7 +4,7 @@ static int	sh_cat_op(char *str, int status[3])
 {
 	if (ft_strnequ(str, "||", 2) || ft_strnequ(str, "&&", 2))
 		return (ANDOR);
-	if (ft_strnequ(str, ";", 1) || ft_strnequ(str, "&", 1))
+	if (ft_strnequ(str, ";", 1))
 		return (ESPERCOLON);
 	if (ft_strnequ(str, "|", 1))
 		return (PIPE);
@@ -14,6 +14,13 @@ static int	sh_cat_op(char *str, int status[3])
 		return (NEWLINE);
 	}
 	return (0);
+}
+
+static int	sh_cat_rdir(char *str)
+{
+	if (!sh_rdir_op(str) || str[0] == '&')
+		return (0);
+	return (1);
 }
 
 static int	sh_cat_coa(char *str, int i[2], int status[3])
@@ -42,7 +49,7 @@ int			sh_category(char *str, int i[2], int status[3])
 	}
 	status[2] = 0;
 	if ((i[1] == 1 && str[i[0]] >= '0' && str[i[0]] <= '9'
-				&& sh_rdir_op(str + i[0] + i[1]))
+				&& sh_cat_rdir(str + i[0] + i[1]))
 			|| status[1])
 		return ((status[1] == 2 ? HEREDOC : FILDES) + (status[1] = 0));
 	if (sh_rdir_op(str + i[0]))

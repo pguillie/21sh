@@ -17,10 +17,10 @@ static t_redir	*sh_redir_del(t_redir **redir)
 
 static int		sh_redir_left(char *s)
 {
-	if (ft_strchr(s, '>'))
-		return (1);
 	if (ft_strchr(s, '<'))
 		return (0);
+	if (ft_strchr(s, '>'))
+		return (1);
 	return (-1);
 }
 
