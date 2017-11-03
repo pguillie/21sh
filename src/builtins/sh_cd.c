@@ -1,32 +1,28 @@
 #include "shell.h"
 
-static void	sh_epur2(char **dir, int *i)
+static void	sh_epur2(char **d, int *i)
 {
-	char	*d;
-
-	d = ft_strdup(*dir);//pas secur: SEGV
-	while (d[i[0]])
+	while ((*d)[i[0]])
 	{
-		if (ft_strnequ(d + i[0], "/./", 3) || ft_strequ(d + i[0], "/."))
-			ft_memmove(d + i[0] + 1, d + i[0] + 2, ft_strlen(d + i[0] + 1));
-		else if (ft_strnequ(d + i[0], "/../", 4) || ft_strequ(d + i[0], "/.."))
+		if (ft_strnequ(*d + i[0], "/./", 3) || ft_strequ(*d + i[0], "/."))
+			ft_memmove(*d + i[0] + 1, *d + i[0] + 2, ft_strlen(*d + i[0] + 1));
+		else if (ft_strnequ(*d + i[0], "/../", 4)
+				|| ft_strequ(*d + i[0], "/.."))
 		{
 			i[1] = i[0] > 0 ? i[0] - 1 : 0;
-			while (i[1] && d[i[1]] != '/')
+			while (i[1] && (*d)[i[1]] != '/')
 				i[1]--;
-			ft_memmove(d + (i[1] ? i[1] : 1), d + i[0] + 3,
-					ft_strlen(d + (i[1] ? i[1] : 1)) - (i[0] - i[1] - 2));//invalid write
+			ft_memmove(*d + (i[1] ? i[1] : 1), *d + i[0] + 3,
+					ft_strlen(*d + i[0] + 2));
 			i[0] = i[1];
 		}
-		else if (ft_strnequ(d + i[0], "//", 2))
-			ft_memmove(d + i[0] + 1, d + i[0] + 2, ft_strlen(d + i[0] + 1));
-		else if (ft_strequ(d + i[0], "/") && i[0])
-			d[i[0]] = '\0';
+		else if (ft_strnequ(*d + i[0], "//", 2))
+			ft_memmove(*d + i[0] + 1, *d + i[0] + 2, ft_strlen(*d + i[0] + 1));
+		else if (ft_strequ(*d + i[0], "/") && i[0])
+			(*d)[i[0]] = '\0';
 		else
 			i[0]++;
 	}
-	free(*dir);
-	*dir = d;
 }
 
 static int	sh_epur(char **curdir, char *av)
@@ -34,7 +30,8 @@ static int	sh_epur(char **curdir, char *av)
 	int		i[2];
 	char	*d;
 
-	d = ft_strdup(*curdir);//pas secur: SEGV
+	if (!(d = ft_strdup(*curdir)))
+		return (-1);
 	i[0] = 0;
 	if (ft_access(d, 1, av) != 0 &&
 			!ft_strequ(av, av[1] && av[2] ? "../" : ".."))
@@ -71,7 +68,8 @@ static int	sh_cd_exec(char opt, char *dir, int epu, char *av)
 		return (-1);
 	sh_setenv(tab + 1);
 	free(tab[2]);
-	tab[0] = ft_strdup(dir);//pas secur
+	if (!(tab[0] = ft_strdup(dir)))
+		return (-1);
 	if ((ret = sh_cd_exec2(opt, &dir, tab, av)) < 0)
 		return (-1);
 	sh_setenv(tab + 1);
@@ -85,9 +83,9 @@ static int	sh_cd_exec(char opt, char *dir, int epu, char *av)
 
 static int	sh_cd2(char *dir, char opt, char *av)
 {
-	int ret;
+	int i[2];
 
-	ret = 0;
+	ft_bzero(i, 2);
 	if (ft_strequ(dir, "-"))
 	{
 		free(dir);
@@ -99,15 +97,15 @@ static int	sh_cd2(char *dir, char opt, char *av)
 		}
 	}
 	if (getenv("CDPATH") && dir[0] != '.' && dir[0] != '/'
-			&& sh_search_path(&dir, av) < 0)
+			&& sh_search_path(&dir, av, i[1]) < 0)
 		return (-1);
 	if (opt != 'P' && dir[0] != '/' && sh_concat_pwd(&dir) < 0)
 		return (-1);
-	if (opt != 'P' && (ret = sh_epur(&dir, av)) < 0)
+	if (opt != 'P' && (i[0] = sh_epur(&dir, av)) < 0)
 		return (1);
-	if ((ret = sh_cd_exec(opt, dir, ret, av)) < 0)
+	if ((i[0] = sh_cd_exec(opt, dir, i[0], av)) < 0)
 		return (-1);
-	ret == 1 ? free(dir) : 0;
+	i[0] == 1 ? free(dir) : 0;
 	return (0);
 }
 

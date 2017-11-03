@@ -14,7 +14,7 @@ int		sh_hash(char *av[]);
 int		sh_cd_opt(char *opt, char *str);
 int		sh_concat_pwd(char **dir);
 int		ft_access(char *dir, int mode, char *av);
-int		sh_search_path(char **dir, char *av);
+int		sh_search_path(char **dir, char *av, int i);
 int		sh_cd_exec2(char opt, char **dir, char **tab, char *av);
 
 #endif
