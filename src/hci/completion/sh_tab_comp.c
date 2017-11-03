@@ -20,7 +20,7 @@ static int	sh_tab_ins(t_line *line, t_coord **coord, t_tc tc, char *s)
 			return (-1);
 	}
 	ft_memmove(line->str + line->cur + len, line->str + line->cur,
-			ft_strlen(line->str + line->cur) + len);
+			ft_strlen(line->str + line->cur));
 	ft_strncpy(line->str + line->cur, s, len);
 	line->used += len;
 	free(*coord);

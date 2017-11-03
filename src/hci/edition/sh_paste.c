@@ -2,24 +2,22 @@
 
 int		sh_paste(t_line *line, t_coord **coord, t_tc *tc)
 {
-	size_t	i;
+	size_t	len;
 
 	if (!tc->clipboard)
 		return (0);
-	i = ft_strlen(tc->clipboard) + 1;
+	len = ft_strlen(tc->clipboard);
 	if (line->used + ft_strlen(tc->clipboard) >= line->capacity)
 	{
-		line->capacity += ((line->used + i)
-				/ BUFF_SIZE + 1) * BUFF_SIZE;
+		line->capacity += BUFF_SIZE * ((len / BUFF_SIZE) + 1);
 		if (!(line->str = ft_realloc(line->str, line->used,
 						line->capacity, sizeof(char))))
 			return (-1);
 	}
-	ft_memmove(line->str + line->cur + i - 1,
-			line->str + line->cur,
+	ft_memmove(line->str + line->cur + len, line->str + line->cur,
 			ft_strlen(line->str + line->cur));
-	ft_strncpy(line->str + line->cur, tc->clipboard, i - 1);
-	line->used += i - 1;
+	ft_strncpy(line->str + line->cur, tc->clipboard, len);
+	line->used += len;
 	free(*coord);
 	if (!(*coord = sh_create_coord(line, tc->prompt)))
 		return (-1);

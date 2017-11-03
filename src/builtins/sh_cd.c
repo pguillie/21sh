@@ -4,7 +4,7 @@ static void	sh_epur2(char **dir, int *i)
 {
 	char	*d;
 
-	d = ft_strdup(*dir);
+	d = ft_strdup(*dir);//pas secur: SEGV
 	while (d[i[0]])
 	{
 		if (ft_strnequ(d + i[0], "/./", 3) || ft_strequ(d + i[0], "/."))
@@ -15,7 +15,7 @@ static void	sh_epur2(char **dir, int *i)
 			while (i[1] && d[i[1]] != '/')
 				i[1]--;
 			ft_memmove(d + (i[1] ? i[1] : 1), d + i[0] + 3,
-					ft_strlen(d + (i[1] ? i[1] : 1)) - (i[0] - i[1] - 2));
+					ft_strlen(d + (i[1] ? i[1] : 1)) - (i[0] - i[1] - 2));//invalid write
 			i[0] = i[1];
 		}
 		else if (ft_strnequ(d + i[0], "//", 2))
@@ -34,7 +34,7 @@ static int	sh_epur(char **curdir, char *av)
 	int		i[2];
 	char	*d;
 
-	d = ft_strdup(*curdir);
+	d = ft_strdup(*curdir);//pas secur: SEGV
 	i[0] = 0;
 	if (ft_access(d, 1, av) != 0 &&
 			!ft_strequ(av, av[1] && av[2] ? "../" : ".."))
@@ -71,7 +71,7 @@ static int	sh_cd_exec(char opt, char *dir, int epu, char *av)
 		return (-1);
 	sh_setenv(tab + 1);
 	free(tab[2]);
-	tab[0] = ft_strdup(dir);
+	tab[0] = ft_strdup(dir);//pas secur
 	if ((ret = sh_cd_exec2(opt, &dir, tab, av)) < 0)
 		return (-1);
 	sh_setenv(tab + 1);

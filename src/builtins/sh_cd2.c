@@ -10,10 +10,12 @@ int		sh_cd_opt(char *opt, char *str)
 		*opt = str[1];
 		return (1);
 	}
-	ft_putstr_fd("21sh: cd: -", 2);
+	ft_putstr_fd(SHELL, 2);
+	ft_putstr_fd(": cd: -", 2);
 	ft_putchar_fd(str[1], 2);
 	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("cd: usage: cd [-L|-P] [dir]", 2);
+	ft_putendl_fd("cd: usage: cd [-L|-P] [directory]\n"
+			"           cd -", 2);
 	return (-1);
 }
 

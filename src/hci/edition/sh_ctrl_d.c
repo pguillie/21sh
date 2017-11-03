@@ -1,5 +1,7 @@
 #include "shell.h"
 
+//gerer EOT en multi-prompt
+
 int		sh_ctrl_d(t_line *line, char *save)
 {
 	if (line->str[line->cur])
