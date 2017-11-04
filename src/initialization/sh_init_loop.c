@@ -15,7 +15,7 @@ static char		*sh_get_ptr_path(void)
 	return (NULL);
 }
 
-int				sh_init_loop(t_token **lexer, t_cmd ****list, int **op)
+void			sh_init_loop(t_token **lexer, t_cmd ****list, int **op)
 {
 	static char	*old_path = NULL;
 	char		*new_path;
@@ -30,5 +30,4 @@ int				sh_init_loop(t_token **lexer, t_cmd ****list, int **op)
 	*lexer = NULL;
 	*list = NULL;
 	*op = NULL;
-	return (0);
 }

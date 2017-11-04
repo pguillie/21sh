@@ -6,8 +6,6 @@
 **	or 128+n if the command was terminated by signal n.
 */
 
-//ret est pas init
-
 int			main(void)
 {
 	t_tc	termcaps;
@@ -18,8 +16,8 @@ int			main(void)
 
 	if (sh_init(&termcaps))
 		return (1);
-	ret[1] = ERROR_MAX;
 	ret[0] = 0;
+	ret[1] = ERROR_MAX;
 	sh_catch_signals();
 	while (ret[1])
 	{
