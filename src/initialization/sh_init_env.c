@@ -2,9 +2,12 @@
 
 static int	sh_init_env_free(char *a, char *b, char *c)
 {
+	extern char	**environ;
+
 	a ? free(a) : 0;
 	b ? free(b) : 0;
 	c ? free(c) : 0;
+	ft_envdel(environ);
 	return (-1);
 }
 
@@ -22,11 +25,15 @@ int			sh_init_env(void)
 	str = ft_strjoin("SHLVL=", shlvl);
 	if (!shlvl || !pwd || !str)
 		return (sh_init_env_free(pwd, shlvl, str));
-	sh_setenv_var("setenv", str);
+	if (sh_setenv_var("setenv", str) < 0)
+		return (sh_init_env_free(str, pwd, shlvl));
 	free(str);
 	if (!(str = ft_strjoin("PWD=", pwd)))
 		return (sh_init_env_free(pwd, shlvl, str));
-	sh_setenv_var("setenv", str);
-	sh_init_env_free(str, shlvl, pwd);
+	if (sh_setenv_var("setenv", str) < 0)
+		return (sh_init_env_free(shlvl, str, pwd));
+	free(str);
+	free(pwd);
+	free(shlvl);
 	return (1);
 }
