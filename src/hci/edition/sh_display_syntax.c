@@ -27,7 +27,7 @@ static int	sh_disp_word(char *str, int *status, int *hd)
 	return (len);
 }
 
-static void	sh_disp_geteof(char *str, int *hd, int eof[2], int pos)
+static void	sh_disp_geteof(char *str, int *hd, size_t eof[2], int pos)
 {
 	int		i[2];
 	int		c;
@@ -55,55 +55,57 @@ static void	sh_disp_geteof(char *str, int *hd, int eof[2], int pos)
 	*hd = (c > *hd) ? *hd + 1 : -(*hd);
 }
 
-static int	sh_disp_hd(char *str, int i, int *hd)
+static int	sh_disp_hd(t_line *line, size_t i, int *hd, t_tc tc)
 {
 	int		j;
-	int		eof[2];
-	int		line[2];
+	size_t	eof[2];
+	size_t	lim[2];
 
 	ft_memset(eof, 0, sizeof(int) * 2);
-	sh_disp_geteof(str, hd, eof, i);
+	sh_disp_geteof(line->str, hd, eof, i);
 	j = 0;
-	line[0] = i;
-	line[1] = 0;
+	lim[0] = i;
+	lim[1] = 0;
 	ft_putstr_fd(C_HEREDOC, 0);
-	while (str[i + j])
+	while (line->str[i + j])
 	{
-		if (str[line[0] + line[1]] == '\n')
+		if (line->str[lim[0] + lim[1]] == '\n')
 		{
-			if (line[1] == eof[1]
-					&& ft_strnequ(str + line[0], str + eof[0], eof[1]))
+			if (lim[1] == eof[1]
+					&& ft_strnequ(line->str + lim[0], line->str + eof[0], eof[1]))
 				return (j);
-			line[0] += line[1] + 1;
-			line[1] = 0;
+			lim[0] += lim[1] + 1;
+			lim[1] = 0;
 		}
 		else
-			line[1] += 1;
-		ft_putchar_fd(str[i + j++], 0);
+			lim[1] += 1;
+		sh_disp_part(line, tc, i + j++, 1);		/*
+		old: 	ft_putchar_fd(str[i + j++], 0);	*/
 	}
 	return (j + 1);
 }
 
-static void	sh_disp_norme(char *str, int i[2], int status[2], int *hd)
+static void	sh_disp_norme(t_line *line, size_t i[2], int status[2], int *hd, t_tc tc)
 {
-	if ((i[1] = sh_ctrl_op(str + i[0])))
+	if ((i[1] = sh_ctrl_op(line->str + i[0])))
 	{
 		status[0] = CMD;
-		ft_putstr_fd(i[1] == 1 && str[i[0]] == '|' ? C_PIPE : C_SEPAR, 0);
-		write(0, str + i[0], i[1]);
-		if (i[1] == 1 && str[i[0]] == '\n' && *hd > 0)
+		ft_putstr_fd(i[1] == 1 && line->str[i[0]] == '|' ? C_PIPE : C_SEPAR, 0);
+		write(0, line->str + i[0], i[1]);
+		if (i[1] == 1 && line->str[i[0]] == '\n' && *hd > 0)
 		{
 			ft_putstr_fd(C_EOC, 0);
-			i[1] += sh_disp_hd(str, i[0] + i[1], hd);
+			i[1] += sh_disp_hd(line, i[0] + i[1], hd, tc);
 		}
 	}
 	else
-		write(0, str + i[0], (i[1] = 1));
+		sh_disp_part(line, tc, i[0], i[1]);			/*
+		old:	write(0, str + i[0], (i[1] = 1));	*/
 }
 
-void		sh_display_syntax(char *str)
+void		sh_display_syntax(t_line *line, t_tc tc)
 {
-	int		i[2];
+	size_t	i[2];
 	int		status[2];
 	int		hd;
 
@@ -111,19 +113,20 @@ void		sh_display_syntax(char *str)
 	status[0] = CMD;
 	status[1] = 0;
 	hd = 0;
-	while (str[i[0]])
+	while (line->str[i[0]])
 	{
 		i[1] = 0;
-		if (!sh_metachar(str[i[0]]))
-			i[1] = sh_disp_word(str + i[0], status, &hd);
-		else if ((i[1] = sh_rdir_op(str + i[0])))
+		if (!sh_metachar(line->str[i[0]]))
+			i[1] = sh_disp_word(line->str + i[0], status, &hd);
+		else if ((i[1] = sh_rdir_op(line->str + i[0])))
 		{
-			status[1] = (i[1] == 2 && ft_strnequ(str + i[0], "<<", 2)) ? 2 : 1;
+			status[1] = (i[1] == 2 && ft_strnequ(line->str + i[0], "<<", 2)) ? 2 : 1;
 			ft_putstr_fd(C_REDIR, 0);
-			write(0, str + i[0], i[1]);
+			sh_disp_part(line, tc, i[0], i[1]);	/*
+			old:	write(0, str + i[0], i[1]);	*/
 		}
 		else
-			sh_disp_norme(str, i, status, &hd);
+			sh_disp_norme(line, i, status, &hd, tc);
 		ft_putstr_fd(C_EOC, 0);
 		i[0] += i[1];
 	}

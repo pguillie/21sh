@@ -1,6 +1,6 @@
 #include "shell.h"
 
-// FONCTIONS DE DEBUGAGE //
+ // FONCTIONS DE DEBUGAGE //
 
 void	displex(t_token *lex)
 {
