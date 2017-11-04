@@ -85,7 +85,7 @@ static int	sh_cd2(char *dir, char opt, char *av)
 {
 	int i[2];
 
-	ft_bzero(i, 2);
+	ft_bzero(i, sizeof(int) * 2);
 	if (ft_strequ(dir, "-"))
 	{
 		free(dir);

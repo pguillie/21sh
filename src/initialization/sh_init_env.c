@@ -7,7 +7,7 @@ static int	sh_init_env_free(char *a, char *b, char *c)
 	a ? free(a) : 0;
 	b ? free(b) : 0;
 	c ? free(c) : 0;
-	ft_envdel(environ);
+	ft_strtabdel(environ);
 	return (-1);
 }
 

@@ -10,7 +10,6 @@ typedef struct	s_coord
 typedef struct	s_tc
 {
 	t_coord	*coord;
-	int		on;
 	int		cut;
 	int		prompt;
 	char	*clipboard;
