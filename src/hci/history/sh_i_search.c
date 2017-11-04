@@ -81,6 +81,7 @@ int			sh_i_search(t_line **line, t_tc *tc, int mode)
 	int		ret;
 
 	(*line)->pos = sh_move_cur((*line)->pos, 0, tc->coord, *tc);
+	(*line)->cur = 0;
 	glob[0] = *line;
 	glob[1] = *line;
 	sh_i_print(glob[0], NULL, tc, mode);
@@ -89,17 +90,16 @@ int			sh_i_search(t_line **line, t_tc *tc, int mode)
 			glob[0] = glob[0]->up;
 	ret = sh_i_read(glob, tc, mode);
 	*line = glob[1];
-	while (tc->coord[(*line)->used].y--)
-		tputs(tc->up, 0, termput);
 	ft_putstr("\r");
 	tputs(tc->cd, 0, termput);
 	tc->coord = sh_create_coord(*line, sh_prompt(1));
 	g_signal = 0;
+	*line ? tc->coord[(*line)->used].y = 0 : 1;
 	if (ret == 0)
 	{
 		*line ? ft_putstr((*line)->str) : 1;
-		*line ? tc->coord[(*line)->used].y = 0 : 1;
+		(*line)->cur = (*line)->used;
 		return (sh_nl(*line, &tc->coord, *tc));
 	}
-	return (*line ? DISP : 0);
+	return (DISP);
 }
