@@ -1,11 +1,12 @@
 #include "shell.h"
 
-int			sh_nl(t_line *line, t_coord **coord, t_tc tc)
+static int	sh_norme1_suite(t_line **line, t_tc *tc, char byte, int ret)
 {
-	line->cur = sh_move_cur(line->cur, line->used, *coord, tc);
-	if (sh_ins(line, '\n') < 0)
-		return (-1);
-	return (EOL | LEXER | DISP);
+	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
+		tc->cut = 0;
+	if (byte == 18 || byte == 19)
+		ret = sh_i_search(line, tc, byte == 18 ? 0 : 1);
+	return (ret);
 }
 
 static int	sh_norme1(t_line **line, char *save, t_tc *tc)
@@ -32,10 +33,7 @@ static int	sh_norme1(t_line **line, char *save, t_tc *tc)
 	else if (byte >= 32 && byte < 127)
 		ret[0] = sh_ins(*line, byte);
 	(*line)->h_smd = ret[1];
-	if (((byte != 11 && byte != 21 && byte != 23 && byte != 25)))
-		tc->cut = 0;
-	if (byte == 18 || byte == 19)
-		ret[0] = sh_i_search(line, tc, byte == 18 ? 0 : 1);
+	ret[0] = sh_norme1_suite(line, tc, byte, ret[0]);
 	return (ret[0]);
 }
 

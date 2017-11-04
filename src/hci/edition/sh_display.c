@@ -1,37 +1,41 @@
 #include "shell.h"
 
-static void	sh_disp_nl(t_line *line, t_coord *coord, t_tc tc)
+static void	sh_disp_nl(t_line *line, t_coord *coord, t_tc tc, size_t i)
 {
-	if (line->used && line->str[line->used - 1] != '\n'
-			&& line->cur != line->used
-			&& coord[line->used - 1].x == coord[line->used + 1].x - 1)
+	if (i && line->str[i - 1] != '\n'
+			&& line->cur != i
+			&& coord[i - 1].x == coord[line->used + 1].x - 1)
 	{
 		ft_putchar_fd(' ', 0);
 		tputs(tc.le, 0, termput);
 	}
 }
 
-int			sh_display(t_line *line, t_coord **coord, t_tc tc, char *save)
+int			sh_display(t_line *l, t_coord **coord, t_tc tc, char *save)
 {
-	t_token	*lexer;
 	char	*syntax;
+	size_t	i;
 
+	i = l->cur;
 	syntax = getenv("SYNTAX");
-	lexer = NULL;
 	if (!syntax || !ft_strequ(syntax, "ON") || save)
 	{
-		if (sh_clear(line, coord, tc) < 0)
+		if (sh_clear(l, coord, tc) < 0)
 			return (-1);
-		ft_putstr_fd(line->str + line->cur, 0);
+		while (l->str[i])
+		{
+			ft_putchar_fd(l->str[i++], 0);
+			sh_disp_nl(l, *coord, tc, i);
+		}
 	}
 	else
 	{
-		line->cur = sh_move_cur(line->cur, 0, *coord, tc);
-		if (sh_clear(line, coord, tc) < 0)
+		l->cur = sh_move_cur(l->cur, 0, *coord, tc);
+		if (sh_clear(l, coord, tc) < 0)
 			return (-1);
-		sh_display_syntax(line->str);
+		i = sh_display_syntax(l->str);
+		sh_disp_nl(l, *coord, tc, l->used);
 	}
-	sh_disp_nl(line, *coord, tc);
-	line->cur = sh_move_cur(line->used, line->pos, *coord, tc);
+	l->cur = sh_move_cur(i > l->used ? l->used : i, l->pos, *coord, tc);
 	return (0);
 }

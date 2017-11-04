@@ -101,7 +101,7 @@ static void	sh_disp_norme(char *str, int i[2], int status[2], int *hd)
 		write(0, str + i[0], (i[1] = 1));
 }
 
-void		sh_display_syntax(char *str)
+int			sh_display_syntax(char *str)
 {
 	int		i[2];
 	int		status[2];
@@ -127,4 +127,5 @@ void		sh_display_syntax(char *str)
 		ft_putstr_fd(C_EOC, 0);
 		i[0] += i[1];
 	}
+	return (i[0]);
 }

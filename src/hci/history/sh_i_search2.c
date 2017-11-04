@@ -28,6 +28,7 @@ char	*sh_ins_char(char *str, char c)
 		new[i] = str[i];
 	new[i] = c;
 	new[++i] = '\0';
+	free(str);
 	return (new);
 }
 

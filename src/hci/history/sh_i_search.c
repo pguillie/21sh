@@ -7,6 +7,7 @@ static void	sh_i_print(t_line *line, char *str, t_tc *tc, int mode)
 	tputs(tc->cd, 0, termput);
 	sh_i_prompt(str, tc, mode);
 	ft_putstr(line->str);
+	free(tc->coord);
 	tc->coord = sh_create_coord(line, 21 + ft_strlen(str));
 	y = tc->coord[line->used].y;
 	while (y--)
@@ -61,7 +62,10 @@ static int	sh_i_read(t_line **glob, t_tc *tc, int mode)
 	while (read(0, &byte, 8) >= 0 && byte[0] != '\n' && g_signal != SIGINT)
 	{
 		if (byte[0] == 27 || g_signal == SIGWINCH)
+		{
+			free(tmp);
 			return (1);
+		}
 		else if (byte[0] == 127)
 		{
 			tmp = sh_del_char(tmp);
@@ -71,8 +75,8 @@ static int	sh_i_read(t_line **glob, t_tc *tc, int mode)
 			tmp = sh_ins_char(tmp, byte[0]);
 		sh_i_find(glob, tc, tmp, mode);
 	}
-	ft_bzero(byte, 8);
-	return (glob[0] ? 0 : 1);
+	free(tmp);
+	return (glob[1] ? 0 : 1);
 }
 
 int			sh_i_search(t_line **line, t_tc *tc, int mode)
@@ -90,8 +94,8 @@ int			sh_i_search(t_line **line, t_tc *tc, int mode)
 			glob[0] = glob[0]->up;
 	ret = sh_i_read(glob, tc, mode);
 	*line = glob[1];
-	ft_putstr("\r");
 	tputs(tc->cd, 0, termput);
+	free(tc->coord);
 	tc->coord = sh_create_coord(*line, sh_prompt(1));
 	g_signal = 0;
 	*line ? tc->coord[(*line)->used].y = 0 : 1;

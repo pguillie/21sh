@@ -35,8 +35,6 @@ int			sh_execution(char *av[], char *env[], int ret)
 		return (sh_printenv(env, av[1]));
 	else if (ft_strequ(av[0], "hash"))
 		return (sh_hash(av));
-//	else if (ft_strequ(av[0], "export"))
-//		return (sh_export(av));
 	else if (ft_strequ(av[0], "exit"))
 		return (sh_exit(av, ret));
 	else
