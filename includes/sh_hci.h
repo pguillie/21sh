@@ -67,7 +67,7 @@ int		sh_esc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_putesc(t_line **line, t_coord **coord, t_tc *tc, int *h_smd);
 int		sh_clear(t_line *line, t_coord **coord, t_tc tc);
 int		sh_display(t_line *line, t_coord **coord, t_tc tc, char *save);
-int		sh_display_syntax(char *str);
+void	sh_display_syntax(char *str);
 int		sh_del_l(t_line *line, t_coord **coord, t_tc tc);
 int		sh_del_r(t_line *line);
 int		sh_hist(t_line **line, t_coord **coord, t_tc tc, t_line *target);
@@ -78,7 +78,6 @@ int		termput(int c);
 **	HISTORY
 */
 
-char	*sh_hist_path(void);
 t_line	*sh_hist_read(void);
 t_line	*sh_hline_new(char *str, t_line *prev);
 int		sh_hist_write(char *line, char *last);

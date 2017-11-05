@@ -33,9 +33,9 @@ int			sh_display(t_line *l, t_coord **coord, t_tc tc, char *save)
 		l->cur = sh_move_cur(l->cur, 0, *coord, tc);
 		if (sh_clear(l, coord, tc) < 0)
 			return (-1);
-		i = sh_display_syntax(l->str);
+		sh_display_syntax(l->str);
 		sh_disp_nl(l, *coord, tc, l->used);
 	}
-	l->cur = sh_move_cur(i > l->used ? l->used : i, l->pos, *coord, tc);
+	l->cur = sh_move_cur(l->used, l->pos, *coord, tc);
 	return (0);
 }

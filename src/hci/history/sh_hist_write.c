@@ -15,11 +15,14 @@ static void	sh_hwrite(char *line, int fd)
 
 int			sh_hist_write(char *line, char *last)
 {
-	char	*hist;
-	int		fd;
-	int		i;
+	struct passwd	*pw;
+	char			*hist;
+	int				fd;
+	int				i;
 
-	hist = ft_strcjoin(sh_hist_path(), HIST_FILE, '/');
+	if (!(pw = getpwuid(getuid())))
+		return (1);
+	hist = ft_strcjoin(pw->pw_dir, HIST_FILE, '/');
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
 		i++;
