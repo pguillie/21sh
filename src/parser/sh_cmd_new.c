@@ -89,7 +89,7 @@ t_cmd			*sh_cmd_new(t_token *lexer)
 	{
 		if (l->category == REDIRECTION)
 			size[1] += 1;
-		else if (l->category > FILDES)
+		else if (l->category > FILDES && l->lexeme[0])
 			size[0] += 1;
 		l = l->next;
 	}

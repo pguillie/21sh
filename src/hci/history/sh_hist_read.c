@@ -6,12 +6,11 @@ char	*sh_hist_line(char *line, char *gnl)
 
 	tmp = line;
 	line = ft_strjoin(line, gnl);
-	ft_strdel(&gnl);
 	if (tmp)
 		ft_strdel(&tmp);
 	if (!line)
 		ft_error("Warning", "History not totally recoverded", NULL);
-	if (line[ft_strlen(line) - (ft_strlen(line) ? 1 : 0)] == '\\')
+	if (line[0] && line[ft_strlen(line) - 1] == '\\')
 		line[ft_strlen(line) - 1] = '\n';
 	return (line);
 }
@@ -47,11 +46,12 @@ t_line	*sh_hist_gnl(int fd)
 	{
 		if (!(line = sh_hist_line(line, gnl)))
 			return (hist);
-		if (line[ft_strlen(line) - (ft_strlen(line) ? 1 : 0)] != '\n')
+		if (!gnl[0] || !line[0] || line[ft_strlen(line) - 1] != '\n')
 		{
 			if (!(hist = sh_hist_create(hist, &line)))
 				return (hist);
 		}
+		free(gnl);
 	}
 	if (ret < 0)
 		ft_error("Warning", "History not totally recovered", NULL);
