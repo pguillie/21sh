@@ -33,7 +33,7 @@ static char	*sh_tab_split(char *lexeme, char *dir)
 	return (lexeme);
 }
 
-static void	sh_tab_space(char *word, char ret[], size_t i)
+static void	sh_tab_space(char *word, char ret[], size_t i, t_line *line)
 {
 	char	last;
 	size_t	j;
@@ -44,7 +44,7 @@ static void	sh_tab_space(char *word, char ret[], size_t i)
 		last = word[i];
 		ret[j++] = word[i++];
 	}
-	if (last != '/')
+	if (!line->str[line->cur] && last != '/')
 		ret[j++] = ' ';
 	while (j < PATH_SIZE)
 		ret[j++] = '\0';
@@ -74,7 +74,7 @@ int			sh_tab(t_line *line, t_coord **coord, t_tc tc)
 
 	lexeme = NULL;
 	category = CMD;
-	if (sh_tab_init(line->str, line->cur, &lexeme, &category))
+	if (sh_tab_init(line->str, line->cur, &lexeme, &category) < 0)
 		return (0);
 	if (!(array = (char**)ft_memalloc(sizeof(char*) * 2))
 			|| !(array[0] = sh_tab_split(lexeme, dir)))
@@ -84,8 +84,8 @@ int			sh_tab(t_line *line, t_coord **coord, t_tc tc)
 	ret = 0;
 	if (array[1] && !array[2])
 	{
-		sh_tab_space(array[1], dir, ft_strlen(array[0]));
-		ret = sh_tab_comp(line, coord, tc, dir);
+		sh_tab_space(array[1], dir, ft_strlen(array[0]), line);
+		ret = sh_tab_ins(line, coord, tc, dir);
 	}
 	else if (array[1])
 		ret = sh_tab_multi(line, coord, tc, array);

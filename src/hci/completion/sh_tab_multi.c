@@ -46,7 +46,7 @@ int			sh_tab_multi(t_line *line, t_coord **coord, t_tc tc, char *array[])
 		i += 1;
 	}
 	if (ft_strlen(occ) > ft_strlen(array[0]))
-		return (sh_tab_comp(line, coord, tc, occ + ft_strlen(array[0])));
+		return (sh_tab_ins(line, coord, tc, occ + ft_strlen(array[0])));
 	else
 		return (sh_norminette(line, coord, tc, array + 1));
 }

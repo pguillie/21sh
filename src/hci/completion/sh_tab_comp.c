@@ -1,13 +1,6 @@
 #include "shell.h"
 
-static void	sh_tab_eow(t_line *line)
-{
-	line->pos = line->cur;
-	while (line->str[line->pos] && !sh_metachar(line->str[line->pos]))
-		line->pos += 1;
-}
-
-static int	sh_tab_ins(t_line *line, t_coord **coord, t_tc tc, char *s)
+int		sh_tab_ins(t_line *line, t_coord **coord, t_tc tc, char *s)
 {
 	size_t	len;
 
@@ -28,11 +21,4 @@ static int	sh_tab_ins(t_line *line, t_coord **coord, t_tc tc, char *s)
 		return (-1);
 	line->pos = line->cur + len;
 	return (LEXER | DISP);
-}
-
-int			sh_tab_comp(t_line *line, t_coord **coord, t_tc tc, char *buf)
-{
-	sh_tab_eow(line);
-	line->cur = sh_move_cur(line->cur, line->pos, *coord, tc);
-	return (sh_tab_ins(line, coord, tc, buf));
 }
