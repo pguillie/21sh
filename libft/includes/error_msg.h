@@ -25,5 +25,6 @@
 # define E_SYNERR "Syntax error near unexpected token"
 # define E_TCBASE "Could not access the termcap data base"
 # define E_TERMIOS "Could not restore previous structure"
+# define E_NOVAR(var) var" not set"
 
 #endif
