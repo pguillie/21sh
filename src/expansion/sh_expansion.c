@@ -34,7 +34,7 @@ static char		*sh_rm_quote(char *lex)
 	quote = 0;
 	while (lex[i])
 	{
-		if (lex[i] == '\\' && !quote)
+		if (lex[i] == '\\' && quote != '\'')
 		{
 			if (lex[++i] != '\n')
 				lex[j++] = lex[i];
@@ -49,16 +49,16 @@ static char		*sh_rm_quote(char *lex)
 
 t_token			*sh_expansion(t_token *lexer)
 {
-	t_token	*exp;
+	t_token	*expa;
 
 	if (lexer)
 	{
-		exp = lexer;
-		while (exp)
+		expa = lexer;
+		while (expa)
 		{
-			exp->lexeme = sh_exp_tilde(exp->lexeme);
-			sh_rm_quote(exp->lexeme);
-			exp = exp->next;
+			expa->lexeme = sh_exp_tilde(expa->lexeme);
+			sh_rm_quote(expa->lexeme);
+			expa = expa->next;
 		}
 	}
 	return (lexer);

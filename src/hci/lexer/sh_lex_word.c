@@ -9,7 +9,7 @@ int		sh_lex_word(char *str)
 	quote = 0;
 	while (str[i] && (quote || !sh_metachar(str[i])))
 	{
-		if (str[i] == '\\' && str[i + 1])
+		if (str[i] == '\\' && str[i + 1] && str[i + 1] != '\'')
 			i++;
 		else
 		{

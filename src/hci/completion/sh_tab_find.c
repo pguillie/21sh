@@ -43,10 +43,10 @@ static void	sh_tab_open(char **array[], char *dir, int cat)
 
 	if ((dirp = opendir(dir)))
 	{
-		len = ft_strlen(*array[0]);
+		len = ft_strlen(sh_rm_quote(*array[0]));
 		while ((de = readdir(dirp)))
 		{
-			if (ft_strnequ(*array[0], de->d_name, len)
+			if (ft_strnequ(sh_rm_quote(*array[0]), de->d_name, len)
 					&& !ft_strequ(de->d_name, "..")
 					&& !ft_strequ(de->d_name, "."))
 			{
