@@ -23,7 +23,7 @@ static size_t	sh_norminette(char **lex, size_t i, size_t j, char *quote)
 	return (j);
 }
 
-static char		*sh_rm_quote(char *lex)
+char			*sh_rm_quote(char *lex)
 {
 	size_t	i;
 	size_t	j;
